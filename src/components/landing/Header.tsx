@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, ChevronDown, X, Menu } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import barclaysLogo from '@/assets/barclays-logo.png';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 interface SubMenuItem {
   title: string;
@@ -99,7 +100,7 @@ const Header = () => {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm"
+        className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-slate-900 shadow-sm"
       >
         {/* Top Row - Logo and Actions */}
         <div className="border-b border-border">
@@ -146,7 +147,7 @@ const Header = () => {
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 10 }}
-                        className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-border py-2 z-50"
+                        className="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-border py-2 z-50"
                       >
                         <a
                           href="https://live.barcap.com/"
@@ -168,6 +169,9 @@ const Header = () => {
                     )}
                   </AnimatePresence>
                 </div>
+
+                {/* Theme Toggle */}
+                <ThemeToggle />
 
                 {/* Search Button */}
                 <button
@@ -235,7 +239,7 @@ const Header = () => {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="hidden lg:block bg-white border-b border-border shadow-xl"
+              className="hidden lg:block bg-white dark:bg-slate-800 border-b border-border shadow-xl"
             >
               <div className="container mx-auto px-6 py-8">
                 {/* Solutions Header */}
@@ -298,7 +302,7 @@ const Header = () => {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="lg:hidden bg-white border-t border-border"
+              className="lg:hidden bg-white dark:bg-slate-900 border-t border-border"
             >
               <nav className="container mx-auto px-6 py-4">
                 {/* Solutions Accordion */}
