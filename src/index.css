@@ -2,8 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Barclays Expert Sans Font Family */
+@font-face {
+  font-family: 'Expert Sans';
+  src: url('/fonts/expert-sans-light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Expert Sans';
+  src: url('/fonts/expert-sans-regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Expert Sans';
+  src: url('/fonts/expert-sans-bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Barclays Design System - Institutional Fixed Income */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @layer base {
   :root {
@@ -64,7 +88,7 @@
     --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.08);
     
     /* Typography Scale */
-    --font-sans: 'Inter', system-ui, sans-serif;
+    --font-sans: 'Expert Sans', system-ui, sans-serif;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
