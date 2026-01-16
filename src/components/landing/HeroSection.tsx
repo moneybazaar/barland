@@ -60,7 +60,12 @@ const HeroSection = () => {
       {/* Right Image Side */}
       <div 
         className="hero-image"
-        style={{ backgroundImage: `url(${heroBackground})` }}
+        style={{ 
+          backgroundImage: `url(${heroBackground})`,
+          backgroundPosition: 'center 0px',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover'
+        }}
       />
     </section>
   );
