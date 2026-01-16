@@ -1,7 +1,9 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, ChevronDown, X, Menu } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
+import { useTheme } from 'next-themes';
 import barclaysLogo from '@/assets/barclays-logo.png';
+import barclaysLogoDark from '@/assets/barclays-logo-dark.svg';
 import { ThemeToggle } from '@/components/theme-toggle';
 
 interface SubMenuItem {
@@ -77,8 +79,14 @@ const Header = () => {
   const [isClientLoginOpen, setIsClientLoginOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [activeMobileSection, setActiveMobileSection] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
   const solutionsRef = useRef<HTMLDivElement>(null);
   const clientLoginRef = useRef<HTMLDivElement>(null);
+  const { resolvedTheme } = useTheme();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -93,6 +101,8 @@ const Header = () => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  const currentLogo = mounted && resolvedTheme === 'dark' ? barclaysLogoDark : barclaysLogo;
 
   return (
     <>
@@ -109,7 +119,7 @@ const Header = () => {
               {/* Logo */}
               <a href="https://www.ib.barclays/" className="flex items-center gap-3" target="_blank" rel="noopener noreferrer">
                 <img 
-                  src={barclaysLogo} 
+                  src={currentLogo} 
                   alt="Barclays" 
                   className="h-7 w-auto" 
                 />
