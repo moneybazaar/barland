@@ -33,19 +33,19 @@ const FAQSection = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="py-20 md:py-28 bg-muted">
+    <section id="faq" className="py-24 md:py-32 section-gray">
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-12"
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-4 section-title">
+          <h2 className="text-3xl md:text-4xl section-title">
             Frequently Asked Questions
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto mt-8">
+          <p className="section-description">
             Find answers to common questions about our FDIC-insured fixed income solutions.
           </p>
         </motion.div>
@@ -57,19 +57,19 @@ const FAQSection = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.3, delay: index * 0.05 }}
+              transition={{ duration: 0.4, delay: index * 0.06 }}
               className="faq-item"
             >
               <button
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="w-full p-5 flex items-center justify-between text-left"
+                className="w-full p-6 flex items-center justify-between text-left"
               >
-                <span className="font-semibold text-secondary pr-4">{faq.question}</span>
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary transition-transform">
+                <span className="faq-question pr-6">{faq.question}</span>
+                <div className="faq-toggle flex-shrink-0">
                   {openIndex === index ? (
-                    <Minus className="w-4 h-4" />
+                    <Minus strokeWidth={2} />
                   ) : (
-                    <Plus className="w-4 h-4" />
+                    <Plus strokeWidth={2} />
                   )}
                 </div>
               </button>
@@ -80,10 +80,10 @@ const FAQSection = () => {
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
+                    transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                     className="overflow-hidden"
                   >
-                    <div className="px-5 pb-5 text-muted-foreground leading-relaxed">
+                    <div className="px-6 pb-6 text-muted-foreground leading-relaxed">
                       {faq.answer}
                     </div>
                   </motion.div>

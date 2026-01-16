@@ -51,30 +51,30 @@ const StatsSection = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative z-20 -mt-16 px-6">
+    <section ref={sectionRef} className="relative z-20 -mt-20 px-6">
       <motion.div
-        initial={{ opacity: 0, y: 40 }}
+        initial={{ opacity: 0, y: 50 }}
         animate={isVisible ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         className="container mx-auto"
       >
-        <div className="stats-card p-8 md:p-10">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="stats-card p-10 md:p-14">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
             {stats.map((stat, index) => (
               <motion.div
                 key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={isVisible ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ duration: 0.6, delay: 0.15 + index * 0.1, ease: [0.22, 1, 0.36, 1] }}
                 className="text-center"
               >
-                <div className="feature-icon mx-auto mb-4">
-                  <stat.icon className="w-6 h-6" />
+                <div className="stat-icon mx-auto">
+                  <stat.icon strokeWidth={1.5} />
                 </div>
-                <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
+                <div className="stat-value">
                   {stat.value}{stat.suffix}
                 </div>
-                <div className="text-sm text-muted-foreground font-medium">
+                <div className="stat-label">
                   {stat.label}
                 </div>
               </motion.div>

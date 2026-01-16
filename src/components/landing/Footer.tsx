@@ -55,21 +55,22 @@ const Footer = () => {
   return (
     <footer>
       {/* Social Media Bar */}
-      <div className="bg-barclays-navy">
+      <div style={{ background: 'hsl(200 100% 18%)' }}>
         <div className="container mx-auto px-6 py-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <span className="text-white font-medium">Follow us</span>
-            <div className="flex items-center gap-4">
+            <span className="text-white font-bold text-sm tracking-wide">FOLLOW US</span>
+            <div className="flex items-center gap-3">
               {socialLinks.map((social) => (
                 <a
                   key={social.label}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors"
+                  className="w-11 h-11 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
+                  style={{ background: 'rgba(255,255,255,0.1)' }}
                   aria-label={social.label}
                 >
-                  <social.icon className="w-5 h-5 text-white" />
+                  <social.icon className="w-5 h-5 text-white" strokeWidth={1.5} />
                 </a>
               ))}
             </div>
@@ -78,12 +79,12 @@ const Footer = () => {
       </div>
 
       {/* Main Footer Links */}
-      <div className="bg-barclays-navy border-t border-white/10">
-        <div className="container mx-auto px-6 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+      <div style={{ background: 'hsl(200 100% 18%)' }} className="border-t border-white/10">
+        <div className="container mx-auto px-6 py-14">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {/* About Us */}
             <div>
-              <h3 className="text-white font-semibold mb-6">About Us</h3>
+              <h3 className="text-white font-bold mb-6 text-sm tracking-wide">ABOUT US</h3>
               <ul className="space-y-3">
                 {footerLinks.aboutUs.map((link) => (
                   <li key={link.label}>
@@ -102,7 +103,7 @@ const Footer = () => {
 
             {/* Other IB Websites */}
             <div>
-              <h3 className="text-white font-semibold mb-6">Other IB websites</h3>
+              <h3 className="text-white font-bold mb-6 text-sm tracking-wide">OTHER IB WEBSITES</h3>
               <ul className="space-y-3">
                 {footerLinks.otherIBWebsites.map((link) => (
                   <li key={link.label}>
@@ -121,7 +122,7 @@ const Footer = () => {
 
             {/* Other Barclays Websites */}
             <div>
-              <h3 className="text-white font-semibold mb-6">Other Barclays Websites</h3>
+              <h3 className="text-white font-bold mb-6 text-sm tracking-wide">OTHER BARCLAYS WEBSITES</h3>
               <ul className="space-y-3">
                 {footerLinks.otherBarclaysWebsites.map((link) => (
                   <li key={link.label}>
@@ -142,30 +143,30 @@ const Footer = () => {
       </div>
 
       {/* Legal Strip */}
-      <div className="bg-barclays-dark">
+      <div style={{ background: 'hsl(200 100% 11%)' }}>
         <div className="container mx-auto px-6 py-5">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             {/* Legal Links */}
-            <div className="flex flex-wrap items-center justify-center md:justify-start gap-x-4 gap-y-2">
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-x-5 gap-y-2">
               {footerLinks.legal.map((link, index) => (
                 <span key={link.label} className="flex items-center">
                   <a
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-white/70 hover:text-white transition-colors text-xs"
+                    className="text-white/60 hover:text-white transition-colors text-xs"
                   >
                     {link.label}
                   </a>
                   {index < footerLinks.legal.length - 1 && (
-                    <span className="text-white/30 ml-4">|</span>
+                    <span className="text-white/30 ml-5">|</span>
                   )}
                 </span>
               ))}
             </div>
 
             {/* Copyright */}
-            <span className="text-white/70 text-xs">
+            <span className="text-white/60 text-xs">
               © Barclays {new Date().getFullYear()}
             </span>
           </div>

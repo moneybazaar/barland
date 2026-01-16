@@ -67,19 +67,19 @@ const ProductsSection = () => {
   const activeProduct = products.find(p => p.id === activeTab)!;
 
   return (
-    <section id="products" className="py-20 md:py-28 bg-card">
+    <section id="products" className="py-24 md:py-32 section-gray">
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-12"
+          transition={{ duration: 0.6 }}
+          className="text-center mb-14"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-4 section-title">
+          <h2 className="text-3xl md:text-4xl section-title">
             FDIC-Insured Investment Solutions
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto mt-8">
+          <p className="section-description">
             A comprehensive suite of fixed income solutions designed to preserve capital
             and generate predictable income streams.
           </p>
@@ -91,7 +91,7 @@ const ProductsSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="flex flex-wrap justify-center gap-2 mb-10"
+          className="flex flex-wrap justify-center gap-3 mb-12"
         >
           {products.map((product) => (
             <button
@@ -110,33 +110,34 @@ const ProductsSection = () => {
         {/* Product Card */}
         <motion.div
           key={activeTab}
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.4 }}
-          className="product-card p-8 md:p-10 max-w-5xl mx-auto"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="bg-white rounded-2xl p-10 md:p-12 max-w-5xl mx-auto"
+          style={{ boxShadow: '0 8px 40px rgba(0, 0, 0, 0.06)' }}
         >
           <h3 className="text-2xl md:text-3xl font-bold text-secondary mb-4">
             {activeProduct.title}
           </h3>
-          <p className="text-muted-foreground text-lg mb-8">
+          <p className="text-muted-foreground text-lg mb-10 leading-relaxed">
             {activeProduct.description}
           </p>
 
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 gap-8">
             {activeProduct.features.map((feature, index) => (
               <motion.div
                 key={feature.title}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                className="flex items-start gap-4"
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="flex items-start gap-5"
               >
                 <div className="feature-icon flex-shrink-0">
-                  <feature.icon className="w-6 h-6" />
+                  <feature.icon strokeWidth={1.5} />
                 </div>
                 <div>
-                  <h4 className="font-semibold text-secondary mb-1">{feature.title}</h4>
-                  <p className="text-muted-foreground text-sm">{feature.desc}</p>
+                  <h4 className="font-bold text-secondary mb-1.5">{feature.title}</h4>
+                  <p className="text-muted-foreground leading-relaxed">{feature.desc}</p>
                 </div>
               </motion.div>
             ))}
