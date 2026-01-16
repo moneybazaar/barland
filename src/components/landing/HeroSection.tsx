@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import heroBackground from '@/assets/hero-background.jpg';
+import heroBackground from '@/assets/hero-ib.jpg';
 
 const HeroSection = () => {
   return (
