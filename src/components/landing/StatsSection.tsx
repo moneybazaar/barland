@@ -71,7 +71,7 @@ const StatsSection = () => {
                 <div className="feature-icon mx-auto mb-4">
                   <stat.icon className="w-6 h-6" />
                 </div>
-                <div className="text-3xl md:text-4xl font-bold text-primary mb-2 font-serif">
+                <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
                   {stat.value}{stat.suffix}
                 </div>
                 <div className="text-sm text-muted-foreground font-medium">
