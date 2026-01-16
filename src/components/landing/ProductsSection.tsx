@@ -115,7 +115,7 @@ const ProductsSection = () => {
           transition={{ duration: 0.4 }}
           className="product-card p-8 md:p-10 max-w-5xl mx-auto"
         >
-          <h3 className="text-2xl md:text-3xl font-bold text-secondary mb-4 font-serif">
+          <h3 className="text-2xl md:text-3xl font-bold text-secondary mb-4">
             {activeProduct.title}
           </h3>
           <p className="text-muted-foreground text-lg mb-8">

@@ -15,7 +15,7 @@ const CTASection = () => {
           transition={{ duration: 0.5 }}
           className="text-center max-w-3xl mx-auto"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-6 font-serif">
+          <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-6">
             Ready to Secure Your Financial Future?
           </h2>
           <p className="text-primary-foreground/80 text-lg mb-10">
