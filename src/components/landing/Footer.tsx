@@ -1,107 +1,174 @@
-import { Shield, Facebook, Twitter, Linkedin, Youtube } from 'lucide-react';
+import { Linkedin, Instagram, Youtube } from 'lucide-react';
+
+const footerLinks = {
+  aboutUs: [
+    { label: 'Careers', href: 'https://search.jobs.barclays/investment-bank' },
+    { label: 'Citizenship', href: 'https://home.barclays/citizenship/' },
+    { label: 'Investor Relations', href: 'https://home.barclays/investor-relations/' },
+    { label: 'News', href: 'https://home.barclays/news/' },
+    { label: 'Sponsorship', href: 'https://home.barclays/sponsorships/' },
+    { label: 'Barclays Live', href: 'https://live.barcap.com/' },
+    { label: 'BARX', href: 'https://www.barxis.com/' },
+  ],
+  otherIBWebsites: [
+    { label: 'Barclays Indices', href: 'https://indices.cib.barclays/' },
+    { label: 'Barclays Investment Managers', href: 'https://www.barclaysinvestmentmanagers.com/' },
+    { label: 'Barclays Japan', href: 'https://japan.cib.barclays/' },
+    { label: 'BARX Investor Solutions', href: 'https://www.barxis.com/' },
+  ],
+  otherBarclaysWebsites: [
+    { label: 'Barclaycard', href: 'https://www.barclaycard.co.uk/' },
+    { label: 'Barclays Group', href: 'https://home.barclays/' },
+    { label: 'Corporate Banking', href: 'https://www.barclayscorporate.com/' },
+    { label: 'Personal, Premier and Business Banking', href: 'https://www.barclays.co.uk/' },
+    { label: 'Private Bank', href: 'https://privatebank.barclays.com/' },
+    { label: 'Wealth Management', href: 'https://www.barclays.co.uk/wealth-management/' },
+  ],
+  legal: [
+    { label: 'Important information', href: 'https://www.ib.barclays/important-information.html' },
+    { label: 'Privacy Notice', href: 'https://www.ib.barclays/privacy-and-cookie-policy.html' },
+    { label: 'Disclosures', href: 'https://www.ib.barclays/disclosures.html' },
+    { label: 'Accessibility', href: 'https://www.ib.barclays/accessibility.html' },
+    { label: 'Cookies policy', href: 'https://www.ib.barclays/privacy-and-cookie-policy.html' },
+  ],
+};
+
+const socialLinks = [
+  { 
+    icon: Linkedin, 
+    href: 'https://www.linkedin.com/showcase/barclays-investment-bank',
+    label: 'LinkedIn'
+  },
+  { 
+    icon: Instagram, 
+    href: 'https://www.instagram.com/barclaysib/',
+    label: 'Instagram'
+  },
+  { 
+    icon: Youtube, 
+    href: 'https://www.youtube.com/@barclaysib',
+    label: 'YouTube'
+  },
+];
 
 const Footer = () => {
   return (
-    <footer className="footer-gradient text-primary-foreground">
-      {/* Disclaimer Section */}
-      <div className="border-b border-primary-foreground/10">
-        <div className="container mx-auto px-6 py-10">
-          <h3 className="text-lg font-semibold mb-4">Important Disclosures</h3>
-          <p className="text-sm text-primary-foreground/70 leading-relaxed">
-            All investments carry risk. FDIC insurance is subject to limits and applies only to deposit products 
-            at insured banks. Past performance is not a guarantee of future results. Fixed income securities 
-            are subject to interest rate, credit, and inflation risk. The value of securities may fluctuate, 
-            and you may receive more or less than your original investment when sold prior to maturity. 
-            Annuities are long-term insurance products. Guarantees are subject to the claims-paying ability 
-            of the issuing insurance company. FDIC and SIPC insurance do not apply to annuity contracts. 
-            Barclays acts as a marketing agent and/or investment advisor for these products. This material 
-            is provided for informational purposes only and does not constitute an offer, solicitation, or 
-            recommendation to buy or sell any securities. Please consult with a qualified professional 
-            regarding your specific situation.
-          </p>
+    <footer>
+      {/* Social Media Bar */}
+      <div className="bg-barclays-navy">
+        <div className="container mx-auto px-6 py-6">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <span className="text-white font-medium">Follow us</span>
+            <div className="flex items-center gap-4">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors"
+                  aria-label={social.label}
+                >
+                  <social.icon className="w-5 h-5 text-white" />
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Main Footer */}
-      <div className="container mx-auto px-6 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-10">
-          {/* Logo Column */}
-          <div className="col-span-2 md:col-span-1 lg:col-span-1">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                <Shield className="w-5 h-5 text-primary-foreground" />
-              </div>
-              <span className="text-xl font-bold font-serif">BARCLAYS</span>
+      {/* Main Footer Links */}
+      <div className="bg-barclays-navy border-t border-white/10">
+        <div className="container mx-auto px-6 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {/* About Us */}
+            <div>
+              <h3 className="text-white font-semibold mb-6">About Us</h3>
+              <ul className="space-y-3">
+                {footerLinks.aboutUs.map((link) => (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-white/70 hover:text-white transition-colors text-sm"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <p className="text-sm text-primary-foreground/60 mb-6">
-              Trusted wealth management solutions for sophisticated investors.
-            </p>
-            <div className="flex items-center gap-4">
-              <a href="#" className="text-primary-foreground/60 hover:text-primary transition-colors">
-                <Facebook className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-primary-foreground/60 hover:text-primary transition-colors">
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-primary-foreground/60 hover:text-primary transition-colors">
-                <Linkedin className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-primary-foreground/60 hover:text-primary transition-colors">
-                <Youtube className="w-5 h-5" />
-              </a>
+
+            {/* Other IB Websites */}
+            <div>
+              <h3 className="text-white font-semibold mb-6">Other IB websites</h3>
+              <ul className="space-y-3">
+                {footerLinks.otherIBWebsites.map((link) => (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-white/70 hover:text-white transition-colors text-sm"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </div>
 
-          {/* Solutions */}
-          <div>
-            <h4 className="font-semibold mb-4">Solutions</h4>
-            <ul className="space-y-2.5 text-sm">
-              <li><a href="#" className="text-primary-foreground/70 hover:text-primary transition-colors">Brokered CDs</a></li>
-              <li><a href="#" className="text-primary-foreground/70 hover:text-primary transition-colors">Treasuries</a></li>
-              <li><a href="#" className="text-primary-foreground/70 hover:text-primary transition-colors">Agency Bonds</a></li>
-              <li><a href="#" className="text-primary-foreground/70 hover:text-primary transition-colors">Fixed Annuities</a></li>
-            </ul>
-          </div>
-
-          {/* Resources */}
-          <div>
-            <h4 className="font-semibold mb-4">Resources</h4>
-            <ul className="space-y-2.5 text-sm">
-              <li><a href="#" className="text-primary-foreground/70 hover:text-primary transition-colors">Market Insights</a></li>
-              <li><a href="#" className="text-primary-foreground/70 hover:text-primary transition-colors">Education Center</a></li>
-              <li><a href="#" className="text-primary-foreground/70 hover:text-primary transition-colors">Yield Calculator</a></li>
-              <li><a href="#" className="text-primary-foreground/70 hover:text-primary transition-colors">Webinars</a></li>
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div>
-            <h4 className="font-semibold mb-4">Company</h4>
-            <ul className="space-y-2.5 text-sm">
-              <li><a href="#" className="text-primary-foreground/70 hover:text-primary transition-colors">About Us</a></li>
-              <li><a href="#" className="text-primary-foreground/70 hover:text-primary transition-colors">Our Team</a></li>
-              <li><a href="#" className="text-primary-foreground/70 hover:text-primary transition-colors">Careers</a></li>
-              <li><a href="#" className="text-primary-foreground/70 hover:text-primary transition-colors">Contact</a></li>
-            </ul>
-          </div>
-
-          {/* Legal */}
-          <div>
-            <h4 className="font-semibold mb-4">Legal</h4>
-            <ul className="space-y-2.5 text-sm">
-              <li><a href="#" className="text-primary-foreground/70 hover:text-primary transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="text-primary-foreground/70 hover:text-primary transition-colors">Terms of Service</a></li>
-              <li><a href="#" className="text-primary-foreground/70 hover:text-primary transition-colors">Cookie Preferences</a></li>
-              <li><a href="#" className="text-primary-foreground/70 hover:text-primary transition-colors">Form CRS</a></li>
-              <li><a href="#" className="text-primary-foreground/70 hover:text-primary transition-colors">FINRA BrokerCheck</a></li>
-            </ul>
+            {/* Other Barclays Websites */}
+            <div>
+              <h3 className="text-white font-semibold mb-6">Other Barclays Websites</h3>
+              <ul className="space-y-3">
+                {footerLinks.otherBarclaysWebsites.map((link) => (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-white/70 hover:text-white transition-colors text-sm"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
+      </div>
 
-        {/* Bottom Bar */}
-        <div className="pt-8 border-t border-primary-foreground/10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-primary-foreground/50">
-          <p>© {new Date().getFullYear()} Barclays Investment Solutions. All rights reserved.</p>
-          <p>Member FINRA/SIPC | NMLS #123456</p>
+      {/* Legal Strip */}
+      <div className="bg-barclays-dark">
+        <div className="container mx-auto px-6 py-5">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            {/* Legal Links */}
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-x-4 gap-y-2">
+              {footerLinks.legal.map((link, index) => (
+                <span key={link.label} className="flex items-center">
+                  <a
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white/70 hover:text-white transition-colors text-xs"
+                  >
+                    {link.label}
+                  </a>
+                  {index < footerLinks.legal.length - 1 && (
+                    <span className="text-white/30 ml-4">|</span>
+                  )}
+                </span>
+              ))}
+            </div>
+
+            {/* Copyright */}
+            <span className="text-white/70 text-xs">
+              © Barclays {new Date().getFullYear()}
+            </span>
+          </div>
         </div>
       </div>
     </footer>

@@ -7,10 +7,10 @@
 
 @layer base {
   :root {
-    /* Barclays Brand Colors */
-    --barclays-blue: 195 100% 47%;
-    --barclays-dark: 201 100% 18%;
-    --barclays-navy: 213 50% 12%;
+    /* Barclays Brand Colors - IB Website Palette */
+    --barclays-blue: 195 100% 47%; /* #00aeef - Primary CTA blue */
+    --barclays-dark: 200 100% 11%; /* #002138 - Darker navy for legal strip */
+    --barclays-navy: 200 100% 18%; /* #00395d - Main header/footer navy */
     --barclays-light-blue: 199 100% 95%;
     
     /* Semantic Colors */
@@ -117,7 +117,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-serif);
+    font-family: var(--font-sans);
     @apply font-semibold tracking-tight;
   }
 }
