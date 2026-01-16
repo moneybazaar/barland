@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, ChevronDown, X, Menu } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
+import barclaysLogo from '@/assets/barclays-logo.png';
 
 interface SubMenuItem {
   title: string;
@@ -98,24 +99,108 @@ const Header = () => {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="fixed top-0 left-0 right-0 z-50 bg-barclays-navy"
+        className="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm"
       >
-        <div className="container mx-auto px-6">
-          <div className="flex items-center justify-between h-16">
-            {/* Logo */}
-            <a href="https://www.ib.barclays/" className="flex items-center gap-2" target="_blank" rel="noopener noreferrer">
-              <span className="text-white text-lg font-semibold tracking-wide">
-                Investment Bank
-              </span>
-            </a>
+        {/* Top Row - Logo and Actions */}
+        <div className="border-b border-border">
+          <div className="container mx-auto px-6">
+            <div className="flex items-center justify-between h-16">
+              {/* Logo */}
+              <a href="https://www.ib.barclays/" className="flex items-center gap-3" target="_blank" rel="noopener noreferrer">
+                <img 
+                  src={barclaysLogo} 
+                  alt="Barclays" 
+                  className="h-7 w-auto" 
+                />
+                <span className="text-muted-foreground/50 text-xl font-light">|</span>
+                <span className="text-foreground text-lg font-medium tracking-wide">
+                  Investment Bank
+                </span>
+              </a>
 
-            {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-1">
+              {/* Right Side Actions - Desktop */}
+              <div className="hidden lg:flex items-center gap-3">
+                {/* Contact Us Button */}
+                <a
+                  href="https://www.ib.barclays/contact-us.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-5 py-2 bg-primary text-primary-foreground rounded-full font-medium text-sm hover:bg-primary/90 transition-colors"
+                >
+                  Contact Us
+                </a>
+
+                {/* Client Login Dropdown */}
+                <div ref={clientLoginRef} className="relative">
+                  <button
+                    onClick={() => setIsClientLoginOpen(!isClientLoginOpen)}
+                    className="flex items-center gap-1.5 px-5 py-2 bg-primary text-primary-foreground rounded-full font-medium text-sm hover:bg-primary/90 transition-colors"
+                  >
+                    Client Login
+                    <ChevronDown className={`w-4 h-4 transition-transform ${isClientLoginOpen ? 'rotate-180' : ''}`} />
+                  </button>
+
+                  <AnimatePresence>
+                    {isClientLoginOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-border py-2 z-50"
+                      >
+                        <a
+                          href="https://live.barcap.com/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block px-4 py-2.5 text-foreground hover:bg-muted transition-colors text-sm"
+                        >
+                          Barclays Live
+                        </a>
+                        <a
+                          href="https://www.barxis.com/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block px-4 py-2.5 text-foreground hover:bg-muted transition-colors text-sm"
+                        >
+                          BARX
+                        </a>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                {/* Search Button */}
+                <button
+                  onClick={() => setIsSearchOpen(true)}
+                  className="flex items-center gap-2 px-3 py-2 text-foreground hover:text-primary transition-colors"
+                  aria-label="Search"
+                >
+                  <Search className="w-5 h-5" />
+                  <span className="text-sm">Search</span>
+                </button>
+              </div>
+
+              {/* Mobile Menu Button */}
+              <button 
+                className="lg:hidden p-2 text-foreground"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                aria-label="Toggle menu"
+              >
+                {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Row - Navigation */}
+        <div className="hidden lg:block border-b border-border">
+          <div className="container mx-auto px-6">
+            <nav className="flex items-center gap-1 h-12">
               {/* Solutions Dropdown */}
               <div ref={solutionsRef} className="relative">
                 <button
                   onClick={() => setIsSolutionsOpen(!isSolutionsOpen)}
-                  className="flex items-center gap-1.5 px-4 py-2 text-white/90 hover:text-white transition-colors font-medium text-sm"
+                  className="flex items-center gap-1.5 px-4 py-2 text-foreground hover:text-primary transition-colors font-semibold text-sm"
                 >
                   Solutions
                   <ChevronDown className={`w-4 h-4 transition-transform ${isSolutionsOpen ? 'rotate-180' : ''}`} />
@@ -126,7 +211,7 @@ const Header = () => {
                 href="https://www.ib.barclays/insights.html" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="px-4 py-2 text-white/90 hover:text-white transition-colors font-medium text-sm"
+                className="px-4 py-2 text-foreground hover:text-primary transition-colors font-semibold text-sm"
               >
                 Insights
               </a>
@@ -135,81 +220,11 @@ const Header = () => {
                 href="https://www.ib.barclays/news-and-events.html" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="px-4 py-2 text-white/90 hover:text-white transition-colors font-medium text-sm"
+                className="px-4 py-2 text-foreground hover:text-primary transition-colors font-semibold text-sm"
               >
                 News and Events
               </a>
             </nav>
-
-            {/* Right Side Actions */}
-            <div className="hidden lg:flex items-center gap-3">
-              {/* Contact Us Button */}
-              <a
-                href="https://www.ib.barclays/contact-us.html"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-5 py-2 bg-primary text-white rounded-full font-medium text-sm hover:bg-primary/90 transition-colors"
-              >
-                Contact Us
-              </a>
-
-              {/* Client Login Dropdown */}
-              <div ref={clientLoginRef} className="relative">
-                <button
-                  onClick={() => setIsClientLoginOpen(!isClientLoginOpen)}
-                  className="flex items-center gap-1.5 px-5 py-2 bg-primary text-white rounded-full font-medium text-sm hover:bg-primary/90 transition-colors"
-                >
-                  Client Login
-                  <ChevronDown className={`w-4 h-4 transition-transform ${isClientLoginOpen ? 'rotate-180' : ''}`} />
-                </button>
-
-                <AnimatePresence>
-                  {isClientLoginOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 10 }}
-                      className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-2 z-50"
-                    >
-                      <a
-                        href="https://live.barcap.com/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block px-4 py-2.5 text-foreground hover:bg-muted transition-colors text-sm"
-                      >
-                        Barclays Live
-                      </a>
-                      <a
-                        href="https://www.barxis.com/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block px-4 py-2.5 text-foreground hover:bg-muted transition-colors text-sm"
-                      >
-                        BARX
-                      </a>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              {/* Search Button */}
-              <button
-                onClick={() => setIsSearchOpen(true)}
-                className="p-2 text-white/90 hover:text-white transition-colors"
-                aria-label="Search"
-              >
-                <Search className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button 
-              className="lg:hidden p-2 text-white"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label="Toggle menu"
-            >
-              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
           </div>
         </div>
 
@@ -220,7 +235,7 @@ const Header = () => {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="hidden lg:block bg-white border-t border-border shadow-xl"
+              className="hidden lg:block bg-white border-b border-border shadow-xl"
             >
               <div className="container mx-auto px-6 py-8">
                 {/* Solutions Header */}
@@ -283,14 +298,14 @@ const Header = () => {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="lg:hidden bg-barclays-navy border-t border-white/10"
+              className="lg:hidden bg-white border-t border-border"
             >
               <nav className="container mx-auto px-6 py-4">
                 {/* Solutions Accordion */}
-                <div className="border-b border-white/10 pb-2">
+                <div className="border-b border-border pb-2">
                   <button
                     onClick={() => setActiveMobileSection(activeMobileSection === 'solutions' ? null : 'solutions')}
-                    className="w-full flex items-center justify-between py-3 text-white font-medium"
+                    className="w-full flex items-center justify-between py-3 text-foreground font-semibold"
                   >
                     Solutions
                     <ChevronDown className={`w-5 h-5 transition-transform ${activeMobileSection === 'solutions' ? 'rotate-180' : ''}`} />
@@ -306,7 +321,7 @@ const Header = () => {
                       >
                         {solutionsMenu.map((section) => (
                           <div key={section.title} className="mb-4">
-                            <h4 className="text-white/60 text-xs uppercase tracking-wider mb-2">{section.title}</h4>
+                            <h4 className="text-muted-foreground text-xs uppercase tracking-wider mb-2">{section.title}</h4>
                             <ul className="space-y-2">
                               {section.items.slice(0, 4).map((item) => (
                                 <li key={item.title}>
@@ -314,7 +329,7 @@ const Header = () => {
                                     href={item.href}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-white/80 hover:text-white text-sm transition-colors"
+                                    className="text-foreground hover:text-primary text-sm transition-colors"
                                   >
                                     {item.title}
                                   </a>
@@ -332,7 +347,7 @@ const Header = () => {
                   href="https://www.ib.barclays/insights.html" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="block py-3 text-white/90 hover:text-white border-b border-white/10"
+                  className="block py-3 text-foreground hover:text-primary border-b border-border font-semibold"
                 >
                   Insights
                 </a>
@@ -340,7 +355,7 @@ const Header = () => {
                   href="https://www.ib.barclays/news-and-events.html" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="block py-3 text-white/90 hover:text-white border-b border-white/10"
+                  className="block py-3 text-foreground hover:text-primary border-b border-border font-semibold"
                 >
                   News and Events
                 </a>
@@ -350,7 +365,7 @@ const Header = () => {
                     href="https://www.ib.barclays/contact-us.html"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block w-full px-5 py-2.5 bg-primary text-white rounded-full font-medium text-sm text-center"
+                    className="block w-full px-5 py-2.5 bg-primary text-primary-foreground rounded-full font-medium text-sm text-center"
                   >
                     Contact Us
                   </a>
@@ -358,7 +373,7 @@ const Header = () => {
                     href="https://live.barcap.com/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block w-full px-5 py-2.5 border border-white/20 text-white rounded-full font-medium text-sm text-center"
+                    className="block w-full px-5 py-2.5 border border-border text-foreground rounded-full font-medium text-sm text-center"
                   >
                     Barclays Live
                   </a>
@@ -366,7 +381,7 @@ const Header = () => {
                     href="https://www.barxis.com/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block w-full px-5 py-2.5 border border-white/20 text-white rounded-full font-medium text-sm text-center"
+                    className="block w-full px-5 py-2.5 border border-border text-foreground rounded-full font-medium text-sm text-center"
                   >
                     BARX
                   </a>
