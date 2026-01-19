@@ -500,14 +500,20 @@
 }
 
 .form-label {
-  @apply block text-sm font-medium text-secondary;
+  @apply block text-sm font-medium text-secondary dark:text-foreground;
 }
 
 .form-input,
 .form-select {
-  @apply w-full px-4 py-3 rounded-md border border-border bg-white text-secondary;
+  @apply w-full px-4 py-3 rounded-md border border-border bg-white dark:bg-slate-800 text-secondary dark:text-foreground;
   @apply focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary;
   @apply transition-all duration-200;
+  @apply placeholder:text-muted-foreground;
+}
+
+.form-input:hover:not(:focus),
+.form-select:hover:not(:focus) {
+  @apply border-muted-foreground/40;
 }
 
 .form-select {
@@ -520,8 +526,15 @@
 }
 
 .form-checkbox {
-  @apply w-5 h-5 rounded border-border text-primary;
+  @apply w-5 h-5 rounded border-border text-primary cursor-pointer;
   @apply focus:ring-2 focus:ring-primary/20 focus:ring-offset-0;
+  accent-color: hsl(195 100% 47%);
+}
+
+.form-radio {
+  @apply w-4 h-4 border-border text-primary cursor-pointer;
+  @apply focus:ring-2 focus:ring-primary/20 focus:ring-offset-0;
+  accent-color: hsl(195 100% 47%);
 }
 
 .form-error {
@@ -532,6 +545,71 @@
   @apply w-full py-3.5 px-6 bg-primary text-white font-semibold rounded-md;
   @apply hover:bg-primary/90 transition-all duration-200;
   @apply disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+/* Form Section Card */
+.form-section {
+  @apply bg-white dark:bg-card rounded-xl border border-border overflow-hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.dark .form-section {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.form-section-header {
+  @apply px-6 py-4 border-b border-border bg-muted/30 dark:bg-muted/10;
+  border-left: 4px solid hsl(195 100% 47%);
+}
+
+.form-section-title {
+  @apply text-lg font-bold text-secondary dark:text-foreground;
+}
+
+.form-section-content {
+  @apply p-6;
+}
+
+/* Risk Tolerance Card */
+.risk-card {
+  @apply w-full p-4 rounded-lg border-2 border-border cursor-pointer text-left;
+  @apply transition-all duration-200;
+  @apply bg-white dark:bg-card;
+}
+
+.risk-card:hover {
+  @apply border-primary/40 bg-primary/5;
+}
+
+.risk-card.selected {
+  @apply border-primary bg-primary/10;
+}
+
+.risk-card-title {
+  @apply font-bold text-secondary dark:text-foreground;
+}
+
+.risk-card-description {
+  @apply text-sm text-muted-foreground mt-1 leading-relaxed;
+}
+
+/* Enhanced Submit Button */
+.submit-button-enhanced {
+  @apply w-full py-4 px-8 rounded-lg font-bold text-white;
+  @apply flex items-center justify-center gap-3;
+  background: linear-gradient(135deg, hsl(195 100% 47%) 0%, hsl(195 100% 42%) 100%);
+  box-shadow: 0 4px 14px rgba(0, 174, 239, 0.4);
+  @apply transition-all duration-300;
+}
+
+.submit-button-enhanced:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 174, 239, 0.5);
+}
+
+.submit-button-enhanced:disabled {
+  @apply opacity-60 cursor-not-allowed;
+  transform: none;
 }
 
 /* Custom Animations */
