@@ -1,13 +1,14 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { motion } from 'framer-motion';
-import { ArrowLeft, CheckCircle, Rocket, Loader2, CalendarIcon } from 'lucide-react';
+import { ArrowLeft, CheckCircle, Rocket, Loader2, CalendarIcon, Shield, Clock, Lock } from 'lucide-react';
 import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
-import Header from '@/components/landing/Header';
+import RegistrationHeader from '@/components/registration/RegistrationHeader';
+import FormProgress from '@/components/registration/FormProgress';
 import Footer from '@/components/landing/Footer';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
@@ -297,6 +298,53 @@ const RegisterInterest = () => {
   });
 
   const accountType = watch('accountType');
+  const watchedFields = watch();
+
+  // Calculate form progress based on required fields
+  const { percentage, currentSection } = useMemo(() => {
+    const requiredFields = [
+      { field: 'accountType', section: 1 },
+      { field: 'firstName', section: 2 },
+      { field: 'lastName', section: 2 },
+      { field: 'dateOfBirth', section: 2 },
+      { field: 'nationality', section: 2 },
+      { field: 'countryOfResidence', section: 2 },
+      { field: 'addressLine1', section: 3 },
+      { field: 'city', section: 3 },
+      { field: 'zipCode', section: 3 },
+      { field: 'country', section: 3 },
+      { field: 'phoneMobile', section: 5 },
+      { field: 'username', section: 6 },
+      { field: 'password', section: 6 },
+      { field: 'confirmPassword', section: 6 },
+      { field: 'email', section: 6 },
+      { field: 'riskTolerance', section: 10 },
+      { field: 'annualIncome', section: 11 },
+      { field: 'investmentHoldingsValue', section: 11 },
+      { field: 'currentSavingsValue', section: 11 },
+      { field: 'liquidNetWorth', section: 11 },
+      { field: 'earningsOver200k', section: 12 },
+      { field: 'assetsOver1m', section: 12 },
+      { field: 'termsAccepted', section: 13 },
+    ];
+
+    let filledCount = 0;
+    let highestFilledSection = 1;
+
+    requiredFields.forEach(({ field, section }) => {
+      const value = watchedFields[field as keyof typeof watchedFields];
+      const isFilled = value !== '' && value !== undefined && value !== false && value !== null;
+      if (isFilled) {
+        filledCount++;
+        if (section > highestFilledSection) {
+          highestFilledSection = section;
+        }
+      }
+    });
+
+    const pct = Math.round((filledCount / requiredFields.length) * 100);
+    return { percentage: pct, currentSection: highestFilledSection };
+  }, [watchedFields]);
 
   const onSubmit = async (data: ApplicationFormData) => {
     // Simulate API call - don't log sensitive data
@@ -316,8 +364,8 @@ const RegisterInterest = () => {
   if (isSubmitted) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
-        <Header />
-        <main className="flex-1 flex items-center justify-center px-4 py-32">
+        <RegistrationHeader />
+        <main className="flex-1 flex items-center justify-center px-4 pt-40 pb-16">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -351,23 +399,38 @@ const RegisterInterest = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-muted dark:bg-background">
-      <Header />
+      <RegistrationHeader />
+      <FormProgress percentage={percentage} currentSection={currentSection} totalSections={13} />
       
-      <main className="flex-1 pt-32 pb-16">
+      <main className="flex-1 pt-8 pb-16">
         <div className="container mx-auto px-4 max-w-4xl">
           {/* Page Header */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-10"
+            className="text-center mb-8"
           >
             <h1 className="text-3xl md:text-4xl font-bold text-secondary dark:text-foreground mb-4">
-              Client Application Form
+              Bond Investment Client Application
             </h1>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Complete your application to get started. Fields marked with <span className="text-destructive">*</span> are required.
-              Providing additional information helps us deliver the best possible service.
+            <p className="text-muted-foreground max-w-2xl mx-auto mb-6">
+              You've been invited to apply for our exclusive bond investment program. Complete the form below to get started.
             </p>
+            {/* Security badges */}
+            <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground">
+              <div className="flex items-center gap-2">
+                <Shield className="w-4 h-4 text-accent" />
+                <span>Secure</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Clock className="w-4 h-4 text-accent" />
+                <span>~10 min</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Lock className="w-4 h-4 text-accent" />
+                <span>Bank-grade encryption</span>
+              </div>
+            </div>
           </motion.div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
