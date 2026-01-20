@@ -636,3 +636,31 @@
 .animate-pulse-glow {
   animation: pulse-glow 3s ease-in-out infinite;
 }
+
+/* Progress Bar Styles */
+.progress-container {
+  @apply sticky z-40 bg-white dark:bg-slate-900 border-b border-border py-3;
+  top: 7rem;
+}
+
+.progress-bar {
+  @apply h-2 bg-muted rounded-full overflow-hidden;
+}
+
+.progress-fill {
+  @apply h-full rounded-full;
+  background: linear-gradient(90deg, hsl(195 100% 47%) 0%, hsl(195 100% 55%) 100%);
+}
+
+/* Section dots */
+.section-dot {
+  @apply w-2 h-2 rounded-full bg-muted transition-all duration-300;
+}
+
+.section-dot.complete {
+  @apply bg-primary;
+}
+
+.section-dot.current {
+  @apply bg-accent ring-2 ring-accent/30 scale-125;
+}
