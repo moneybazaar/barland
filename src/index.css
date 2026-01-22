@@ -2,10 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Barclays Expert Sans Font Family - Primary Typeface */
+/* Barclays Expert Sans Font Family - Primary Typeface (WOFF2 with WOFF fallback) */
 @font-face {
   font-family: 'Expert Sans';
-  src: url('/fonts/expert-sans-light.woff') format('woff');
+  src: url('/fonts/expert-sans-light.woff2') format('woff2'),
+       url('/fonts/expert-sans-light.woff') format('woff');
   font-weight: 300;
   font-style: normal;
   font-display: swap;
@@ -13,7 +14,8 @@
 
 @font-face {
   font-family: 'Expert Sans';
-  src: url('/fonts/expert-sans-regular.woff') format('woff');
+  src: url('/fonts/expert-sans-regular.woff2') format('woff2'),
+       url('/fonts/expert-sans-regular.woff') format('woff');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -21,25 +23,28 @@
 
 @font-face {
   font-family: 'Expert Sans';
-  src: url('/fonts/expert-sans-bold.woff') format('woff');
+  src: url('/fonts/expert-sans-bold.woff2') format('woff2'),
+       url('/fonts/expert-sans-bold.woff') format('woff');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 
-/* Fallback: Also try loading with different weight mappings */
+/* Weight aliases using bold for 500/600 */
 @font-face {
   font-family: 'Expert Sans';
-  src: url('/fonts/expert-sans-bold.woff') format('woff');
-  font-weight: 600;
+  src: url('/fonts/expert-sans-bold.woff2') format('woff2'),
+       url('/fonts/expert-sans-bold.woff') format('woff');
+  font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
   font-family: 'Expert Sans';
-  src: url('/fonts/expert-sans-bold.woff') format('woff');
-  font-weight: 500;
+  src: url('/fonts/expert-sans-bold.woff2') format('woff2'),
+       url('/fonts/expert-sans-bold.woff') format('woff');
+  font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
