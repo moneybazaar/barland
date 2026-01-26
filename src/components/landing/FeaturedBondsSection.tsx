@@ -1,0 +1,223 @@
+import { motion } from 'framer-motion';
+import { ExternalLink, Shield, Award } from 'lucide-react';
+
+interface Bond {
+  id: string;
+  rate: string;
+  rateValue: number;
+  maturityYear: string;
+  maturityDate: string;
+  amount: string;
+  isin: string;
+  payment: string;
+  verifyLink: string;
+  highlight?: string;
+}
+
+const bonds: Bond[] = [
+  {
+    id: '1',
+    rate: '7.385%',
+    rateValue: 7.385,
+    maturityYear: '2028',
+    maturityDate: 'November 2028',
+    amount: '$1.5 Billion',
+    isin: 'US06738ECD58',
+    payment: 'Semi-Annual',
+    verifyLink: 'https://markets.businessinsider.com/bonds/barclays_plcdl-notes_202018-28-bond-2028-us06738ecd58',
+    highlight: 'Highest Rate',
+  },
+  {
+    id: '2',
+    rate: '6.036%',
+    rateValue: 6.036,
+    maturityYear: '2055',
+    maturityDate: 'March 2055',
+    amount: '$750 Million',
+    isin: 'US06738ECS28',
+    payment: 'Semi-Annual',
+    verifyLink: 'https://markets.businessinsider.com/bonds/barclays_plcdl-notes_202524-55-bond-2055-us06738ecs28',
+    highlight: 'Long Term',
+  },
+  {
+    id: '3',
+    rate: '5.86%',
+    rateValue: 5.86,
+    maturityYear: '2046',
+    maturityDate: 'August 2046',
+    amount: '$1.25 Billion',
+    isin: 'US06738EDE23',
+    payment: 'Semi-Annual',
+    verifyLink: 'https://markets.businessinsider.com/bonds/barclays_plcdl-notes_201616-46-bond-2046-us06738ede23',
+  },
+  {
+    id: '4',
+    rate: '4.47%',
+    rateValue: 4.47,
+    maturityYear: '2029',
+    maturityDate: 'November 2029',
+    amount: '$1.5 Billion',
+    isin: 'US06738EDD40',
+    payment: 'Semi-Annual',
+    verifyLink: 'https://markets.businessinsider.com/bonds/barclays_plcdl-notes_201919-29-bond-2029-us06738edd40',
+  },
+];
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: [0.4, 0, 0.2, 1] as const,
+    },
+  },
+};
+
+const FeaturedBondsSection = () => {
+  return (
+    <section className="py-16 md:py-24 bg-muted/30">
+      <div className="container mx-auto px-4 md:px-6 max-w-6xl">
+        {/* Section Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-12"
+        >
+          <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-4">
+            Featured Fixed Rate Bonds
+          </h2>
+          <p className="text-muted-foreground text-lg">
+            AAA-Rated • FDIC Insured • Barclays-Backed
+          </p>
+        </motion.div>
+
+        {/* Bond Cards Grid */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10"
+        >
+          {bonds.map((bond) => (
+            <motion.div
+              key={bond.id}
+              variants={cardVariants}
+              className="bond-card"
+            >
+              <div className="p-6">
+                {/* Card Header */}
+                <div className="flex items-start justify-between mb-6">
+                  <div className="flex flex-col gap-2">
+                    <span className="bond-maturity-badge">
+                      Matures {bond.maturityYear}
+                    </span>
+                    {bond.highlight && (
+                      <span className="bond-highlight-badge">
+                        {bond.highlight}
+                      </span>
+                    )}
+                  </div>
+                  <span className="bond-rating-badge">
+                    <Award className="w-3.5 h-3.5 mr-1" />
+                    AAA
+                  </span>
+                </div>
+
+                {/* Rate Display */}
+                <div className="text-center mb-6">
+                  <div className="bond-rate">{bond.rate}</div>
+                  <div className="text-muted-foreground text-sm mt-1">
+                    per annum
+                  </div>
+                </div>
+
+                {/* Bond Details */}
+                <div className="space-y-0 border-t border-border pt-4">
+                  <div className="bond-detail-row">
+                    <span className="text-muted-foreground">ISIN</span>
+                    <span className="font-mono text-xs text-secondary">{bond.isin}</span>
+                  </div>
+                  <div className="bond-detail-row">
+                    <span className="text-muted-foreground">Total Amount</span>
+                    <span className="font-semibold text-secondary">{bond.amount}</span>
+                  </div>
+                  <div className="bond-detail-row">
+                    <span className="text-muted-foreground">Payment</span>
+                    <span className="text-secondary">{bond.payment}</span>
+                  </div>
+                </div>
+
+                {/* Verify Button */}
+                <a
+                  href={bond.verifyLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="verify-button mt-5"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  Verify on Business Insider
+                </a>
+
+                {/* FDIC Badge */}
+                <div className="flex items-center justify-center gap-2 mt-4 pt-4 border-t border-border">
+                  <Shield className="w-4 h-4 text-primary" />
+                  <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                    FDIC Insured
+                  </span>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* FDIC Banner */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="fdic-banner mb-6"
+        >
+          <Shield className="w-8 h-8 text-primary flex-shrink-0" />
+          <div>
+            <div className="font-semibold text-secondary">FDIC Insured Up to $250,000</div>
+            <div className="text-sm text-muted-foreground">
+              Your deposits are protected by the Federal Deposit Insurance Corporation
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Investment Disclaimer */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="text-xs text-muted-foreground text-center leading-relaxed max-w-3xl mx-auto"
+        >
+          Investment in bonds involves risk, including possible loss of principal. 
+          Past performance is not indicative of future results. The bonds featured 
+          are subject to availability and market conditions. Verify all details 
+          directly with issuing institutions before investing.
+        </motion.p>
+      </div>
+    </section>
+  );
+};
+
+export default FeaturedBondsSection;
