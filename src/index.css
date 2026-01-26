@@ -474,6 +474,77 @@
   }
 }
 
+/* Featured Bonds Section */
+.bond-card {
+  @apply bg-white rounded-xl border border-border transition-all duration-300 overflow-hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.dark .bond-card {
+  @apply bg-card;
+}
+
+.bond-card:hover {
+  @apply -translate-y-1;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+  border-color: hsl(195 100% 47% / 0.3);
+}
+
+.bond-rate {
+  @apply text-4xl md:text-5xl font-bold;
+  color: hsl(195 100% 47%);
+  letter-spacing: -0.03em;
+}
+
+.bond-maturity-badge {
+  @apply inline-block px-3 py-1.5 text-xs font-bold uppercase tracking-wider rounded;
+  background-color: hsl(200 100% 18%);
+  color: white;
+}
+
+.bond-highlight-badge {
+  @apply inline-block px-2.5 py-1 text-xs font-bold uppercase tracking-wide rounded;
+  background-color: hsl(195 100% 47%);
+  color: white;
+}
+
+.bond-rating-badge {
+  @apply inline-flex items-center px-2 py-1 text-xs font-bold rounded;
+  background: linear-gradient(135deg, #d4af37 0%, #c5a028 100%);
+  color: hsl(200 100% 12%);
+}
+
+.bond-detail-row {
+  @apply flex justify-between items-center py-2.5 border-b border-border/50 text-sm;
+}
+
+.bond-detail-row:last-child {
+  @apply border-b-0;
+}
+
+.verify-button {
+  @apply w-full py-3 px-4 rounded-lg font-semibold text-white flex items-center justify-center gap-2;
+  background: hsl(195 100% 47%);
+  transition: all 0.3s ease;
+}
+
+.verify-button:hover {
+  background: hsl(195 100% 42%);
+  box-shadow: 0 4px 14px rgba(0, 174, 239, 0.4);
+}
+
+.fdic-banner {
+  @apply flex items-center gap-4 p-5 rounded-lg;
+  background: hsl(195 100% 47% / 0.08);
+  border-left: 4px solid hsl(195 100% 47%);
+}
+
+/* Cookie Consent Banner */
+.cookie-banner {
+  @apply fixed bottom-0 left-0 right-0 z-50 py-5 px-4;
+  background-color: hsl(200 100% 18%);
+}
+
 /* Register Interest Page - Barclays Bank Style */
 .interest-page {
   @apply min-h-screen flex flex-col;
