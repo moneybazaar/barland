@@ -20,11 +20,11 @@ const bonds: Bond[] = [
     rate: '7.385%',
     rateValue: 7.385,
     maturityYear: '2028',
-    maturityDate: 'November 2028',
-    amount: '$1.5 Billion',
+    maturityDate: '11/02/2028',
+    amount: '$1,500,000,000',
     isin: 'US06738ECD58',
-    payment: 'Semi-Annual',
-    verifyLink: 'https://markets.businessinsider.com/bonds/barclays_plcdl-notes_202018-28-bond-2028-us06738ecd58',
+    payment: 'Semi-Annual (payable every 6 months)',
+    verifyLink: 'https://markets.businessinsider.com/bonds/barclays_plcdl-flr_notes_202222-28-bond-2028-us06738ecd58',
     highlight: 'Highest Rate',
   },
   {
@@ -32,11 +32,11 @@ const bonds: Bond[] = [
     rate: '6.036%',
     rateValue: 6.036,
     maturityYear: '2055',
-    maturityDate: 'March 2055',
-    amount: '$750 Million',
+    maturityDate: '03/12/2055',
+    amount: '$750,000,000',
     isin: 'US06738ECS28',
-    payment: 'Semi-Annual',
-    verifyLink: 'https://markets.businessinsider.com/bonds/barclays_plcdl-notes_202524-55-bond-2055-us06738ecs28',
+    payment: 'Semi-Annual (payable every 6 months)',
+    verifyLink: 'https://markets.businessinsider.com/bonds/barclays_plcdl-flr_notes_202424-55-bond-2055-us06738ecs28?miRedirects=2',
     highlight: 'Long Term',
   },
   {
@@ -44,22 +44,22 @@ const bonds: Bond[] = [
     rate: '5.86%',
     rateValue: 5.86,
     maturityYear: '2046',
-    maturityDate: 'August 2046',
-    amount: '$1.25 Billion',
+    maturityDate: '8/11/2046',
+    amount: '$1,250,000,000',
     isin: 'US06738EDE23',
-    payment: 'Semi-Annual',
-    verifyLink: 'https://markets.businessinsider.com/bonds/barclays_plcdl-notes_201616-46-bond-2046-us06738ede23',
+    payment: 'Semi-Annual (payable every 6 months)',
+    verifyLink: 'https://markets.businessinsider.com/bonds/barclays_plcdl-flr_notes_202525-46-bond-2046-us06738ede23?miRedirects=2',
   },
   {
     id: '4',
     rate: '4.47%',
     rateValue: 4.47,
     maturityYear: '2029',
-    maturityDate: 'November 2029',
-    amount: '$1.5 Billion',
+    maturityDate: '11/11/2029',
+    amount: '$1,500,000,000',
     isin: 'US06738EDD40',
-    payment: 'Semi-Annual',
-    verifyLink: 'https://markets.businessinsider.com/bonds/barclays_plcdl-notes_201919-29-bond-2029-us06738edd40',
+    payment: 'Semi-Annual (payable every 6 months)',
+    verifyLink: 'https://markets.businessinsider.com/bonds/barclays_plcdl-flr_notes_202525-29-bond-2029-us06738edd40?miRedirects=1',
   },
 ];
 
@@ -100,8 +100,8 @@ const FeaturedBondsSection = () => {
           <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-4">
             Featured Fixed Rate Bonds
           </h2>
-          <p className="text-muted-foreground text-lg">
-            AAA-Rated • FDIC Insured • Barclays-Backed
+          <p className="text-muted-foreground text-lg max-w-3xl mx-auto">
+            At Barclays, we take a bespoke approach to wealth management—aligning your investments with your goals, lifestyle, and long-term vision. Speak with our team to begin your personalized strategy.
           </p>
         </motion.div>
 
