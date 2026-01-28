@@ -52,7 +52,7 @@ const Footer = () => {
           </div>
           {/* FDIC Badge */}
           <div className="flex items-center gap-4">
-            <img src="/fdic-logo.svg" alt="FDIC" className="h-6 w-auto invert" />
+            <img src="/fdic-logo.svg" alt="FDIC" className="h-6 w-auto brightness-0 invert" />
           </div>
         </div>
       </div>
