@@ -222,7 +222,7 @@ const FeaturedBondsSection = () => {
                   className="verify-button mt-5"
                 >
                   <ExternalLink className="w-4 h-4" />
-                  Verify on Business Insider
+                  Verify
                 </a>
 
                 {/* FDIC Badge */}
