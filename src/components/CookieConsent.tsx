@@ -64,13 +64,13 @@ const CookieConsent = () => {
                 <Button
                   variant="outline"
                   onClick={handleDecline}
-                  className="flex-1 md:flex-none border-white/30 text-white hover:bg-white/10 hover:text-white"
+                  className="flex-1 md:flex-none border-white/30 text-white bg-transparent hover:bg-white/10 hover:text-white"
                 >
                   Decline
                 </Button>
                 <Button
                   onClick={handleAccept}
-                  className="flex-1 md:flex-none bg-primary hover:bg-primary/90 text-white"
+                  className="flex-1 md:flex-none bg-primary hover:bg-primary/90 text-primary-foreground"
                 >
                   Accept Cookies
                 </Button>
