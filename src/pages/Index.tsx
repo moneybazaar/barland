@@ -2,7 +2,7 @@ import Header from '@/components/landing/Header';
 import HeroSection from '@/components/landing/HeroSection';
 import StatsSection from '@/components/landing/StatsSection';
 import FeaturedBondsSection from '@/components/landing/FeaturedBondsSection';
-import LeadFormSection from '@/components/landing/LeadFormSection';
+// LeadFormSection is now integrated into FeaturedBondsSection
 import ProductsSection from '@/components/landing/ProductsSection';
 import ComparisonSection from '@/components/landing/ComparisonSection';
 import ProcessSection from '@/components/landing/ProcessSection';
@@ -18,7 +18,7 @@ const Index = () => {
         <HeroSection />
         <StatsSection />
         <FeaturedBondsSection />
-        <LeadFormSection />
+        {/* Lead form is now inside FeaturedBondsSection */}
         <ProductsSection />
         <ComparisonSection />
         <ProcessSection />
