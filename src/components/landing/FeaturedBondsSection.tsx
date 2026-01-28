@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { ExternalLink, Shield, Award } from 'lucide-react';
+import { ExternalLink, Award } from 'lucide-react';
+import fdicLogo from '@/assets/fdic-logo.png';
 
 interface Bond {
   id: string;
@@ -175,7 +176,7 @@ const FeaturedBondsSection = () => {
 
                 {/* FDIC Badge */}
                 <div className="flex items-center justify-center gap-2 mt-4 pt-4 border-t border-border">
-                  <Shield className="w-4 h-4 text-primary" />
+                  <img src={fdicLogo} alt="FDIC Insured" className="h-5 w-auto dark:invert" />
                   <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
                     FDIC Insured
                   </span>
@@ -193,7 +194,7 @@ const FeaturedBondsSection = () => {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="fdic-banner mb-6"
         >
-          <Shield className="w-8 h-8 text-primary flex-shrink-0" />
+          <img src={fdicLogo} alt="FDIC" className="h-10 w-auto flex-shrink-0 dark:invert" />
           <div>
             <div className="font-semibold text-secondary">FDIC Insured Up to $250,000</div>
             <div className="text-sm text-muted-foreground">
