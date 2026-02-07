@@ -55,7 +55,7 @@ const HeroSection = () => {
             transition={{ duration: 0.6, delay: 0.5 }}
           >
             <a
-              href="https://secure.barclays.app/openaccount"
+              href="https://secure.barclays-ib.app/openaccount"
               target="_blank"
               rel="noopener noreferrer"
               className="hero-cta"

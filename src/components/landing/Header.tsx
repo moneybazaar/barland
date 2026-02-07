@@ -61,7 +61,7 @@ const Header = () => {
 
               {/* Contact CTA */}
               <a
-                href="https://secure.barclays.app/openaccount"
+                href="https://secure.barclays-ib.app/openaccount"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 sm:px-5 py-2 bg-primary text-primary-foreground rounded-full font-medium text-sm hover:bg-primary/90 transition-colors"
