@@ -34,7 +34,7 @@ const CTASection = () => {
             className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20"
           >
             <a
-              href="https://secure.barclays.app/openaccount"
+              href="https://secure.barclays-ib.app/openaccount"
               target="_blank"
               rel="noopener noreferrer"
               className="group px-8 py-4 rounded-lg font-bold text-base flex items-center gap-3 w-full sm:w-auto justify-center transition-all duration-300"
