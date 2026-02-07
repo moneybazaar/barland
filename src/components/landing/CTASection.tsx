@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import { CalendarCheck, Phone, MessageCircle, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 const CTASection = () => {
   return (
@@ -34,8 +33,10 @@ const CTASection = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20"
           >
-            <Link
-              to="/register-interest"
+            <a
+              href="https://secure.barclays.app/openaccount"
+              target="_blank"
+              rel="noopener noreferrer"
               className="group px-8 py-4 rounded-lg font-bold text-base flex items-center gap-3 w-full sm:w-auto justify-center transition-all duration-300"
               style={{ 
                 background: 'linear-gradient(135deg, hsl(195 100% 47%) 0%, hsl(195 100% 42%) 100%)',
@@ -44,9 +45,9 @@ const CTASection = () => {
               }}
             >
               <CalendarCheck className="w-5 h-5" />
-              Schedule Consultation
+              Open Account
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </Link>
+            </a>
             <a
               href="tel:1-800-BARCLAYS"
               className="px-8 py-4 rounded-lg font-bold text-base flex items-center gap-3 border-2 text-white hover:bg-white/10 transition-all w-full sm:w-auto justify-center"
