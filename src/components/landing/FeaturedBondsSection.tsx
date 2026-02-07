@@ -153,7 +153,7 @@ const FeaturedBondsSection = () => {
             Featured Fixed Rate Bonds
           </h2>
           <p className="text-muted-foreground text-lg max-w-3xl mx-auto">
-            At Barclays, we take a bespoke approach to wealth management—aligning your investments with your goals, lifestyle, and long-term vision. Speak with our team to begin your personalized strategy.
+            Barclays Investment Bank initiated the fixed bond buy back scheme to give private investors security on large capital deposits. The ethos and guiding principles of Barclays Bank plc and its subsidiaries has always been to achieve above market returns whilst achieving capital preservation as the cornerstone of our firm's ethics and credibility.
           </p>
         </motion.div>
 
