@@ -153,7 +153,7 @@ const FeaturedBondsSection = () => {
             Featured Fixed Rate Bonds
           </h2>
           <p className="text-muted-foreground text-lg max-w-3xl mx-auto">
-            Barclays Investment Bank initiated the fixed bond buy back scheme to give private investors security on large capital deposits. The ethos and guiding principles of Barclays Bank plc and its subsidiaries has always been to achieve above market returns whilst achieving capital preservation as the cornerstone of our firm's ethics and credibility.
+            Barclays Investment Bank initiated the fixed bond buy back scheme to give private investors security on large capital deposits. The ethos and guiding principles of Barclays Bank plc and its subsidiaries has always been to achieve above market returns whilst achieving capital preservation as the cornerstone of our firm's ethics and credibility. Since the inception of the buy back scheme, Barclays Bank and affiliate brokerages have operated a bond buy back scheme up to $2,000,000 per client per institution. These bonds apply to fixed income bonds only.
           </p>
         </motion.div>
 
