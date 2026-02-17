@@ -27,7 +27,7 @@ const Header = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <a href="https://www.ib.barclays/" className="flex items-center gap-2 sm:gap-3" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.barclays-ib.com/" className="flex items-center gap-2 sm:gap-3" target="_blank" rel="noopener noreferrer">
               <img 
                 src={currentLogo} 
                 alt="Barclays" 
@@ -61,7 +61,7 @@ const Header = () => {
 
               {/* Contact CTA */}
               <a
-                href="https://secure.barclays-ib.app/openaccount"
+                href="https://secure.barclays-ib.com/openaccount"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 sm:px-5 py-2 bg-primary text-primary-foreground rounded-full font-medium text-sm hover:bg-primary/90 transition-colors"
