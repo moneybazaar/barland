@@ -149,7 +149,7 @@ const FeaturedBondsSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-secondary dark:text-foreground mb-4">
             Featured Fixed Rate Bonds
           </h2>
           <p className="text-muted-foreground text-lg max-w-3xl mx-auto">
@@ -202,15 +202,15 @@ const FeaturedBondsSection = () => {
                 <div className="space-y-0 border-t border-border pt-4">
                   <div className="bond-detail-row">
                     <span className="text-muted-foreground">ISIN</span>
-                    <span className="font-mono text-xs text-secondary">{bond.isin}</span>
+                    <span className="font-mono text-xs text-secondary dark:text-foreground">{bond.isin}</span>
                   </div>
                   <div className="bond-detail-row">
                     <span className="text-muted-foreground">Total Amount</span>
-                    <span className="font-semibold text-secondary">{bond.amount}</span>
+                    <span className="font-semibold text-secondary dark:text-foreground">{bond.amount}</span>
                   </div>
                   <div className="bond-detail-row">
                     <span className="text-muted-foreground">Payment</span>
-                    <span className="text-secondary">{bond.payment}</span>
+                    <span className="text-secondary dark:text-foreground">{bond.payment}</span>
                   </div>
                 </div>
 
@@ -249,7 +249,7 @@ const FeaturedBondsSection = () => {
           <div className="grid lg:grid-cols-2 gap-8 items-center">
             {/* Form Info */}
             <div>
-              <h3 className="text-2xl md:text-3xl font-bold text-secondary mb-3">
+              <h3 className="text-2xl md:text-3xl font-bold text-secondary dark:text-foreground mb-3">
                 Interested in These Bonds?
               </h3>
               <p className="text-muted-foreground mb-6">
@@ -369,7 +369,7 @@ const FeaturedBondsSection = () => {
         >
           <img src={fdicLogo} alt="FDIC" className="h-10 w-auto flex-shrink-0 dark:invert" />
           <div>
-            <div className="font-semibold text-secondary">FDIC Insured Up to $250,000</div>
+            <div className="font-semibold text-secondary dark:text-foreground">FDIC Insured Up to $250,000</div>
             <div className="text-sm text-muted-foreground">
               Your deposits are protected by the Federal Deposit Insurance Corporation
             </div>
