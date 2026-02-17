@@ -30,7 +30,7 @@ const steps = [
 
 const ProcessSection = () => {
   return (
-    <section id="process" className="py-24 md:py-32 bg-white">
+    <section id="process" className="py-24 md:py-32 bg-white dark:bg-background">
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -69,7 +69,7 @@ const ProcessSection = () => {
                 <step.icon strokeWidth={1.5} />
               </div>
               
-              <h3 className="text-xl font-bold text-secondary mb-4">
+              <h3 className="text-xl font-bold text-secondary dark:text-foreground mb-4">
                 {step.title}
               </h3>
               

@@ -258,7 +258,7 @@
   
   /* Stats Card */
   .stats-card {
-    @apply bg-white rounded-2xl;
+    @apply bg-white dark:bg-card rounded-2xl;
     box-shadow: 0 8px 40px rgba(0, 0, 0, 0.08);
     border: 1px solid rgba(0, 0, 0, 0.04);
   }
@@ -286,7 +286,7 @@
   
   /* Product Rate Cards */
   .rate-card {
-    @apply bg-white rounded-xl p-6 md:p-8 border border-border;
+    @apply bg-white dark:bg-card rounded-xl p-6 md:p-8 border border-border;
     @apply hover:shadow-lg transition-all duration-300;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   }
@@ -314,16 +314,20 @@
   }
 
   .section-light {
-    @apply bg-white;
+    @apply bg-white dark:bg-background;
   }
 
   .section-gray {
     background-color: #f5f5f5;
   }
+
+  .dark .section-gray {
+    background-color: hsl(var(--card));
+  }
   
   /* Product Card */
   .product-card {
-    @apply bg-white rounded-xl border border-border transition-all duration-300;
+    @apply bg-white dark:bg-card rounded-xl border border-border transition-all duration-300;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   }
   
@@ -350,7 +354,7 @@
   
   /* Section Title - Corporate Style */
   .section-title {
-    @apply text-secondary font-bold;
+    @apply text-secondary dark:text-foreground font-bold;
     letter-spacing: -0.02em;
   }
 
@@ -397,7 +401,7 @@
   }
   
   .tab-button:not(.active) {
-    @apply bg-white text-secondary border border-border;
+    @apply bg-white dark:bg-card text-secondary dark:text-foreground border border-border;
   }
 
   .tab-button:not(.active):hover {
@@ -415,7 +419,7 @@
   
   /* FAQ Item - Clean Corporate Style */
   .faq-item {
-    @apply bg-white rounded-xl overflow-hidden transition-all duration-300;
+    @apply bg-white dark:bg-card rounded-xl overflow-hidden transition-all duration-300;
     border: 1px solid hsl(var(--border));
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   }
@@ -426,7 +430,7 @@
   }
 
   .faq-question {
-    @apply font-semibold text-secondary;
+    @apply font-semibold text-secondary dark:text-foreground;
     font-size: 1.0625rem;
     letter-spacing: -0.01em;
   }
@@ -551,18 +555,22 @@
   background-color: #f5f5f5;
 }
 
+.dark .interest-page {
+  background-color: hsl(var(--background));
+}
+
 .interest-header {
   @apply px-6 py-4;
   background-color: hsl(200 100% 18%);
 }
 
 .interest-card {
-  @apply bg-white rounded-lg p-8 w-full max-w-md;
+  @apply bg-white dark:bg-card rounded-lg p-8 w-full max-w-md;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
 .interest-title {
-  @apply text-xl font-semibold text-secondary pb-4 mb-6;
+  @apply text-xl font-semibold text-secondary dark:text-foreground pb-4 mb-6;
   border-bottom: 1px solid hsl(var(--border));
 }
 

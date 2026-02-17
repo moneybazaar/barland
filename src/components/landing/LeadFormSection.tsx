@@ -71,7 +71,7 @@ const LeadFormSection = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-secondary dark:text-foreground mb-4">
               Start Your Investment Journey
             </h2>
             <p className="text-muted-foreground text-lg mb-8 leading-relaxed">

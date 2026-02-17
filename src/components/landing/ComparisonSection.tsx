@@ -14,7 +14,7 @@ const comparisonData = [
 
 const ComparisonSection = () => {
   return (
-    <section id="comparison" className="py-24 md:py-32 bg-white">
+    <section id="comparison" className="py-24 md:py-32 bg-white dark:bg-background">
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -37,7 +37,7 @@ const ComparisonSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="max-w-4xl mx-auto bg-white rounded-2xl overflow-hidden"
+          className="max-w-4xl mx-auto bg-white dark:bg-card rounded-2xl overflow-hidden"
           style={{ boxShadow: '0 16px 60px rgba(0, 0, 0, 0.1)' }}
         >
           {/* Header */}
@@ -60,10 +60,10 @@ const ComparisonSection = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: index * 0.05 }}
               className={`grid grid-cols-3 border-b border-border last:border-b-0 ${
-                index % 2 === 0 ? 'bg-muted/30' : 'bg-white'
+                index % 2 === 0 ? 'bg-muted/30' : 'bg-white dark:bg-card'
               }`}
             >
-              <div className="p-5 font-medium text-secondary">{row.feature}</div>
+              <div className="p-5 font-medium text-secondary dark:text-foreground">{row.feature}</div>
               <div className="p-5 flex justify-center items-center border-l border-border">
                 {row.barclays === true ? (
                   <div className="w-9 h-9 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, hsl(160 84% 39%) 0%, hsl(160 84% 35%) 100%)' }}>

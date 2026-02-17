@@ -113,10 +113,10 @@ const ProductsSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="bg-white rounded-2xl p-10 md:p-12 max-w-5xl mx-auto"
+          className="bg-white dark:bg-card rounded-2xl p-10 md:p-12 max-w-5xl mx-auto"
           style={{ boxShadow: '0 8px 40px rgba(0, 0, 0, 0.06)' }}
         >
-          <h3 className="text-2xl md:text-3xl font-bold text-secondary mb-4">
+          <h3 className="text-2xl md:text-3xl font-bold text-secondary dark:text-foreground mb-4">
             {activeProduct.title}
           </h3>
           <p className="text-muted-foreground text-lg mb-10 leading-relaxed">
@@ -136,7 +136,7 @@ const ProductsSection = () => {
                   <feature.icon strokeWidth={1.5} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-secondary mb-1.5">{feature.title}</h4>
+                  <h4 className="font-bold text-secondary dark:text-foreground mb-1.5">{feature.title}</h4>
                   <p className="text-muted-foreground leading-relaxed">{feature.desc}</p>
                 </div>
               </motion.div>

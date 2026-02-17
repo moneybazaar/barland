@@ -85,14 +85,14 @@ const Footer = () => {
                 Disclaimer
               </button>
             </DialogTrigger>
-            <DialogContent className="max-w-4xl max-h-[80vh] bg-white">
+            <DialogContent className="max-w-4xl max-h-[80vh] bg-white dark:bg-card">
               <DialogHeader>
-                <DialogTitle className="text-xl font-bold text-[#00395d]">
+                <DialogTitle className="text-xl font-bold text-[#00395d] dark:text-foreground">
                   FOR RESIDENTS OF THE UNITED STATES ONLY
                 </DialogTitle>
               </DialogHeader>
               <ScrollArea className="h-[60vh] pr-4">
-                <div className="space-y-4 text-sm text-gray-700 leading-relaxed">
+                <div className="space-y-4 text-sm text-gray-700 dark:text-foreground/80 leading-relaxed">
                   <p className="font-semibold">
                     THIS WEBSITE CONTAINS INDICATIVE SUMMARIES AND INFORMATION RELATING TO ONE OR MORE INDICES. INDICES ARE UNMANAGED AND CANNOT BE INVESTED IN DIRECTLY. THE DEVELOPMENT OR CREATION OF ANY PRODUCT OR TRANSACTION THAT USES, IS BASED ON, OR IS DEVELOPED IN CONNECTION WITH, ANY INDEX IS PROHIBITED WITHOUT THE PRIOR WRITTEN CONSENT OF BARCLAYS.
                   </p>
