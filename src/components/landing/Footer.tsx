@@ -53,6 +53,7 @@ const Footer = () => {
           {/* FDIC Badge */}
           <div className="flex items-center gap-4">
             <img src="/fdic-logo.svg" alt="FDIC" className="h-6 w-auto brightness-0 invert" />
+            <span className="text-white/70 text-xs">Each depositor insured to at least $250,000</span>
           </div>
         </div>
       </div>

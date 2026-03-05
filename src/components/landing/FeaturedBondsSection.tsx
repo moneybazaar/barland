@@ -1,14 +1,19 @@
 import { motion } from 'framer-motion';
-import { ExternalLink, Award, Send, Phone, Mail, User } from 'lucide-react';
+import { ExternalLink, Award, Send, Phone, Mail, User, CalendarIcon, Clock } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import fdicLogo from '@/assets/fdic-logo.png';
+import fdicLogo from '@/assets/fdic-logo.svg';
 
 interface Bond {
   id: string;
@@ -99,6 +104,8 @@ const formSchema = z.object({
   lastName: z.string().trim().min(1, 'Last name is required').max(50),
   email: z.string().trim().email('Please enter a valid email').max(255),
   phone: z.string().trim().min(10, 'Please enter a valid phone number').max(20),
+  date: z.date().optional(),
+  preferredTime: z.string().optional(),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -120,7 +127,6 @@ const FeaturedBondsSection = () => {
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     try {
-      // TODO: Send to database on barclays-ib.app when Cloud is enabled
       console.log('Lead form submission:', data);
       toast({
         title: "Thank you for your interest!",
@@ -152,9 +158,6 @@ const FeaturedBondsSection = () => {
           <h2 className="text-3xl md:text-4xl font-bold text-secondary dark:text-foreground mb-4">
             Featured Fixed Rate Bonds
           </h2>
-          <p className="text-muted-foreground text-lg max-w-3xl mx-auto">
-            Barclays Investment Bank initiated the fixed bond buy back scheme to give private investors security on large capital deposits. The ethos and guiding principles of Barclays Bank plc and its subsidiaries has always been to achieve above market returns whilst achieving capital preservation as the cornerstone of our firm's ethics and credibility. Since the inception of the buy back scheme, Barclays Bank and affiliate brokerages have operated a bond buy back scheme up to $2,000,000 per client per institution. These bonds apply to fixed income bonds only.
-          </p>
         </motion.div>
 
         {/* Bond Cards Grid */}
@@ -163,7 +166,7 @@ const FeaturedBondsSection = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10"
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6"
         >
           {bonds.map((bond) => (
             <motion.div
@@ -229,13 +232,24 @@ const FeaturedBondsSection = () => {
                 <div className="flex items-center justify-center gap-2 mt-4 pt-4 border-t border-border">
                   <img src={fdicLogo} alt="FDIC Insured" className="h-5 w-auto dark:invert" />
                   <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-                    FDIC Insured
+                    Each depositor insured to at least $250,000
                   </span>
                 </div>
               </div>
             </motion.div>
           ))}
         </motion.div>
+
+        {/* Buy-back paragraph - moved below bond cards with smaller font */}
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-muted-foreground text-sm max-w-3xl mx-auto text-center mb-10"
+        >
+          Barclays Investment Bank initiated the fixed bond buy back scheme to give private investors security on large capital deposits. The ethos and guiding principles of Barclays Bank plc and its subsidiaries has always been to achieve above market returns whilst achieving capital preservation as the cornerstone of our firm's ethics and credibility. Since the inception of the buy back scheme, Barclays Bank and affiliate brokerages have operated a bond buy back scheme up to $2,000,000 per client per institution. These bonds apply to fixed income bonds only.
+        </motion.p>
 
         {/* Lead Capture Form - CTA after bonds */}
         <motion.div
@@ -259,7 +273,7 @@ const FeaturedBondsSection = () => {
                 <img src={fdicLogo} alt="FDIC Insured" className="h-8 w-auto dark:invert" />
                 <div>
                   <p className="text-sm font-medium text-foreground">FDIC Insured</p>
-                  <p className="text-xs text-muted-foreground">Federal Deposit Insurance Corporation</p>
+                  <p className="text-xs text-muted-foreground">Each depositor insured to at least $250,000</p>
                 </div>
               </div>
             </div>
@@ -336,6 +350,72 @@ const FeaturedBondsSection = () => {
                   )}
                 />
 
+                {/* Date and Time Pickers */}
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="date"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        <FormLabel>Preferred Contact Date</FormLabel>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant="outline"
+                                className={cn(
+                                  "w-full pl-3 text-left font-normal",
+                                  !field.value && "text-muted-foreground"
+                                )}
+                              >
+                                {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
+                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                              mode="single"
+                              selected={field.value}
+                              onSelect={field.onChange}
+                              disabled={(date) => date < new Date()}
+                              initialFocus
+                              className={cn("p-3 pointer-events-auto")}
+                            />
+                          </PopoverContent>
+                        </Popover>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="preferredTime"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Preferred Time</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <div className="flex items-center gap-2">
+                                <Clock className="h-4 w-4 text-muted-foreground" />
+                                <SelectValue placeholder="Select time" />
+                              </div>
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="morning">Morning (9AM - 12PM)</SelectItem>
+                            <SelectItem value="afternoon">Afternoon (12PM - 5PM)</SelectItem>
+                            <SelectItem value="evening">Evening (5PM - 8PM)</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
                 <Button 
                   type="submit" 
                   className="w-full h-12 text-base font-semibold"
@@ -371,7 +451,7 @@ const FeaturedBondsSection = () => {
           <div>
             <div className="font-semibold text-secondary dark:text-foreground">FDIC Insured Up to $250,000</div>
             <div className="text-sm text-muted-foreground">
-              Your deposits are protected by the Federal Deposit Insurance Corporation
+              Each depositor insured to at least $250,000
             </div>
           </div>
         </motion.div>
