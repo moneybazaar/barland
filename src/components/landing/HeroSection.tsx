@@ -39,14 +39,6 @@ const HeroSection = () => {
             and reliability of a Tier 1 investment bank.
           </motion.p>
 
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.45 }}
-            className="hero-description mb-10"
-          >
-            Successfully navigating the rapid, disruptive shifts reshaping industries and business models takes a partner who deeply understands your goals. Together, let's create the tailored, sophisticated financial strategies you need to power possible.
-          </motion.p>
 
           {/* CTA Button */}
           <motion.div
