@@ -230,11 +230,11 @@ const FeaturedBondsSection = () => {
                   Verify
                 </a>
 
-                {/* FDIC Badge */}
+                {/* Insurance Badge */}
                 <div className="flex items-center justify-center gap-2 mt-4 pt-4 border-t border-border">
-                  <img src={fdicLogo} alt="FDIC Insured" className="h-5 w-auto dark:invert" />
+                  <img src={config.region === 'US' ? fdicLogo : sdicLogo} alt={`${config.insuranceAbbr} Insured`} className="h-5 w-auto dark:invert" />
                   <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-                    Each depositor insured to at least $250,000
+                    {config.insuranceMotto}
                   </span>
                 </div>
               </div>
