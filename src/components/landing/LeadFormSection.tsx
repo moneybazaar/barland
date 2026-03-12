@@ -10,6 +10,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import fdicLogo from '@/assets/fdic-logo.svg';
+import sdicLogo from '@/assets/sdic-logo.png';
+import { useRegion } from '@/contexts/RegionContext';
 
 const formSchema = z.object({
   firstName: z.string().trim().min(1, 'First name is required').max(50, 'First name must be less than 50 characters'),
