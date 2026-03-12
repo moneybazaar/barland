@@ -825,7 +825,7 @@ const RegisterInterest = () => {
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   By submitting this application, you agree that the information provided is accurate and complete.
                   Your personal data will be processed in accordance with our{' '}
-                  <a href="https://www.barclays-ib.com/privacy-and-cookie-policy.html" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                  <a href="https://secure.barclays-ib.app/privacy-and-cookie-policy.html" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
                     Privacy Policy
                   </a>.
                   We may use this information to contact you regarding your application and related services.
