@@ -15,55 +15,59 @@ import {
   Wallet
 } from 'lucide-react';
 
-const products = [
-  {
-    id: 'cds',
-    title: 'FDIC-Insured Brokered CDs',
-    description: 'Access certificates of deposit from multiple FDIC-insured institutions through a single brokerage account, maximizing insurance coverage while optimizing yield.',
-    features: [
-      { icon: Shield, title: 'FDIC Insurance', desc: 'Up to $250,000 per depositor, per insured bank' },
-      { icon: Calendar, title: 'Term Flexibility', desc: '3 months to 5 years with competitive rates' },
-      { icon: ArrowLeftRight, title: 'Secondary Market Liquidity', desc: 'Tradable before maturity without early withdrawal penalties' },
-      { icon: Percent, title: 'Yield Advantage', desc: 'Typically higher rates than direct bank CDs' },
-    ],
-  },
-  {
-    id: 'treasuries',
-    title: 'U.S. Treasury Securities',
-    description: 'Direct obligations of the U.S. Government with the highest credit quality, offering tax advantages and deep market liquidity.',
-    features: [
-      { icon: Flag, title: 'Full Faith & Credit', desc: 'Backed by the U.S. Government' },
-      { icon: FileText, title: 'Tax Advantages', desc: 'Exempt from state and local income taxes' },
-      { icon: Gauge, title: 'High Liquidity', desc: 'Most actively traded securities globally' },
-      { icon: Layers, title: 'Portfolio Foundation', desc: 'Core allocation for capital preservation' },
-    ],
-  },
-  {
-    id: 'agency',
-    title: 'Government Agency Bonds',
-    description: 'Bonds issued by government-sponsored enterprises offering higher yields than Treasuries with implicit government backing.',
-    features: [
-      { icon: Building2, title: 'Implicit Backing', desc: 'Issued by GSEs with government support' },
-      { icon: TrendingUp, title: 'Yield Enhancement', desc: 'Higher yields than comparable Treasuries' },
-      { icon: Shield, title: 'High Credit Quality', desc: 'AAA/AA rated securities' },
-      { icon: Calendar, title: 'Various Maturities', desc: 'Short to long-term options available' },
-    ],
-  },
-  {
-    id: 'annuities',
-    title: 'Fixed Annuity Solutions',
-    description: 'Guaranteed lifetime income products designed for retirement security, offering predictable payments and tax-deferred growth.',
-    features: [
-      { icon: DollarSign, title: 'Guaranteed Income', desc: 'Lifetime payment options available' },
-      { icon: Shield, title: 'Principal Protection', desc: 'Protected by state guarantee associations' },
-      { icon: FileText, title: 'Tax-Deferred Growth', desc: 'Compound growth without annual taxes' },
-      { icon: Wallet, title: 'Estate Planning', desc: 'Beneficiary designation options' },
-    ],
-  },
-];
-
 const ProductsSection = () => {
   const [activeTab, setActiveTab] = useState('cds');
+  const { config } = useRegion();
+
+  const products = [
+    {
+      id: 'cds',
+      title: `${config.insuranceAbbr}-Insured Brokered CDs`,
+      description: `Access certificates of deposit from multiple ${config.insuranceAbbr}-insured institutions through a single brokerage account, maximizing insurance coverage while optimizing yield.`,
+      features: [
+        { icon: Shield, title: `${config.insuranceAbbr} Insurance`, desc: `Up to ${config.coverageAmount} per depositor, per insured bank` },
+        { icon: Calendar, title: 'Term Flexibility', desc: '3 months to 5 years with competitive rates' },
+        { icon: ArrowLeftRight, title: 'Secondary Market Liquidity', desc: 'Tradable before maturity without early withdrawal penalties' },
+        { icon: Percent, title: 'Yield Advantage', desc: 'Typically higher rates than direct bank CDs' },
+      ],
+    },
+    {
+      id: 'treasuries',
+      title: config.region === 'US' ? 'U.S. Treasury Securities' : 'Singapore Government Securities',
+      description: config.region === 'US'
+        ? 'Direct obligations of the U.S. Government with the highest credit quality, offering tax advantages and deep market liquidity.'
+        : 'Direct obligations of the Singapore Government with the highest credit quality, offering stability and deep market liquidity.',
+      features: [
+        { icon: Flag, title: 'Full Faith & Credit', desc: config.region === 'US' ? 'Backed by the U.S. Government' : 'Backed by the Singapore Government' },
+        { icon: FileText, title: 'Tax Advantages', desc: config.region === 'US' ? 'Exempt from state and local income taxes' : 'Favorable tax treatment for residents' },
+        { icon: Gauge, title: 'High Liquidity', desc: 'Most actively traded securities globally' },
+        { icon: Layers, title: 'Portfolio Foundation', desc: 'Core allocation for capital preservation' },
+      ],
+    },
+    {
+      id: 'agency',
+      title: 'Government Agency Bonds',
+      description: 'Bonds issued by government-sponsored enterprises offering higher yields than Treasuries with implicit government backing.',
+      features: [
+        { icon: Building2, title: 'Implicit Backing', desc: 'Issued by GSEs with government support' },
+        { icon: TrendingUp, title: 'Yield Enhancement', desc: 'Higher yields than comparable Treasuries' },
+        { icon: Shield, title: 'High Credit Quality', desc: 'AAA/AA rated securities' },
+        { icon: Calendar, title: 'Various Maturities', desc: 'Short to long-term options available' },
+      ],
+    },
+    {
+      id: 'annuities',
+      title: 'Fixed Annuity Solutions',
+      description: 'Guaranteed lifetime income products designed for retirement security, offering predictable payments and tax-deferred growth.',
+      features: [
+        { icon: DollarSign, title: 'Guaranteed Income', desc: 'Lifetime payment options available' },
+        { icon: Shield, title: 'Principal Protection', desc: 'Protected by state guarantee associations' },
+        { icon: FileText, title: 'Tax-Deferred Growth', desc: 'Compound growth without annual taxes' },
+        { icon: Wallet, title: 'Estate Planning', desc: 'Beneficiary designation options' },
+      ],
+    },
+  ];
+
   const activeProduct = products.find(p => p.id === activeTab)!;
 
   return (
