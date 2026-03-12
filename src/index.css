@@ -156,7 +156,7 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Expert Sans', var(--font-sans);
+    font-family: 'Effra', var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-weight: 400;
