@@ -131,7 +131,7 @@ const FeaturedBondsSection = () => {
   const bonds = config.region === 'SG' ? sgBonds : usBonds;
 
   return (
-    <section className="py-16 md:py-24 bg-muted/30">
+    <section id="bonds" className="py-16 md:py-24 bg-muted/30">
       <div className="container mx-auto px-4 md:px-6 max-w-6xl">
         {/* Section Header */}
         <motion.div
