@@ -841,7 +841,7 @@ const RegisterInterest = () => {
                       Terms and Conditions
                     </a>{' '}
                     and{' '}
-                    <a href="https://www.barclays-ib.com/privacy-and-cookie-policy.html" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                    <a href="https://secure.barclays-ib.app/privacy-and-cookie-policy.html" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
                       Privacy Policy
                     </a>.
                     <span className="text-destructive"> *</span>
