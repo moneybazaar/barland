@@ -26,6 +26,7 @@ type FormData = z.infer<typeof formSchema>;
 const LeadFormSection = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+  const { config } = useRegion();
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
