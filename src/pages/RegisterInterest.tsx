@@ -353,18 +353,106 @@ const RegisterInterest = () => {
   }, [watchedFields]);
 
   const onSubmit = async (data: ApplicationFormData) => {
-    // Simulate API call - don't log sensitive data
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    setIsSubmitted(true);
-    toast({
-      title: 'Application Submitted',
-      description: 'Thank you! Your application has been received. A specialist will contact you within 24-48 hours.',
-    });
+    try {
+      // 1. Create auth account
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email: data.email,
+        password: data.password,
+      });
 
-    setTimeout(() => {
-      navigate('/');
-    }, 4000);
+      if (authError) {
+        toast({
+          title: 'Registration Failed',
+          description: authError.message,
+          variant: 'destructive',
+        });
+        return;
+      }
+
+      const userId = authData.user?.id;
+      if (!userId) {
+        toast({
+          title: 'Registration Failed',
+          description: 'Unable to create account. Please try again.',
+          variant: 'destructive',
+        });
+        return;
+      }
+
+      // 2. Persist application data
+      const { error: insertError } = await supabase
+        .from('client_applications')
+        .insert({
+          user_id: userId,
+          account_type: data.accountType,
+          account_title: data.accountTitle || null,
+          first_name: data.firstName,
+          middle_name: data.middleName || null,
+          last_name: data.lastName,
+          date_of_birth: data.dateOfBirth.toISOString().split('T')[0],
+          nationality: data.nationality,
+          country_of_residence: data.countryOfResidence,
+          address_line1: data.addressLine1,
+          address_line2: data.addressLine2 || null,
+          city: data.city,
+          state: data.state || null,
+          zip_code: data.zipCode,
+          country: data.country,
+          employment_status: data.employmentStatus || null,
+          job_title: data.jobTitle || null,
+          phone_work: data.phoneWork || null,
+          phone_mobile: data.phoneMobile,
+          phone_home: data.phoneHome || null,
+          alternative_email: data.alternativeEmail || null,
+          include_second_applicant: data.includeSecondApplicant || false,
+          investment_from_company: data.investmentFromCompany || false,
+          investment_from_trust: data.investmentFromTrust || false,
+          investment_from_pension: data.investmentFromPension || false,
+          exp_equities: data.expEquities || false,
+          exp_property: data.expProperty || false,
+          exp_bonds: data.expBonds || false,
+          exp_options: data.expOptions || false,
+          exp_cfds: data.expCFDs || false,
+          exp_cryptocurrency: data.expCryptocurrency || false,
+          trading_experience: data.tradingExperience || null,
+          risk_tolerance: data.riskTolerance,
+          annual_income: data.annualIncome,
+          investment_holdings_value: data.investmentHoldingsValue,
+          current_savings_value: data.currentSavingsValue,
+          liquid_net_worth: data.liquidNetWorth,
+          earnings_over_200k: data.earningsOver200k,
+          assets_over_1m: data.assetsOver1m,
+          terms_accepted: data.termsAccepted,
+        });
+
+      if (insertError) {
+        toast({
+          title: 'Submission Failed',
+          description: 'Your account was created but we could not save your application. Please contact support.',
+          variant: 'destructive',
+        });
+        return;
+      }
+
+      // Clear localStorage draft
+      localStorage.removeItem('registration-draft');
+
+      setIsSubmitted(true);
+      toast({
+        title: 'Application Submitted',
+        description: 'Thank you! Your application has been received. A specialist will contact you within 24-48 hours.',
+      });
+
+      setTimeout(() => {
+        navigate('/');
+      }, 4000);
+    } catch (error) {
+      toast({
+        title: 'An error occurred',
+        description: 'Please try again later.',
+        variant: 'destructive',
+      });
+    }
   };
 
   if (isSubmitted) {
