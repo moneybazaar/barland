@@ -32,6 +32,11 @@ const App = () => (
           <Route path="/register-interest" element={<RegisterInterest />} />
           <Route path="/portal/a7x9/login" element={<AdminLogin />} />
           <Route path="/portal/a7x9" element={<AdminDashboard />} />
+          <Route path="/important-information" element={<ImportantInformation />} />
+          <Route path="/privacy-notice" element={<PrivacyNotice />} />
+          <Route path="/disclosures" element={<Disclosures />} />
+          <Route path="/accessibility" element={<Accessibility />} />
+          <Route path="/cookies-policy" element={<CookiesPolicy />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
