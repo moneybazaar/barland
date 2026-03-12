@@ -185,7 +185,7 @@
   }
 
   p {
-    font-family: 'Expert Sans', var(--font-sans);
+    font-family: 'Effra', var(--font-sans);
     @apply leading-relaxed;
   }
 
