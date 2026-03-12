@@ -37,7 +37,6 @@ const FAQSection = () => {
       answer: 'Getting started is simple. Schedule a consultation with one of our fixed income specialists who will assess your goals, risk tolerance, and time horizon. From there, we will design a customized portfolio, guide you through our secure digital onboarding, and provide ongoing support through your dedicated advisor and our client portal.',
     },
   ];
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
     <section id="faq" className="py-24 md:py-32 section-gray">

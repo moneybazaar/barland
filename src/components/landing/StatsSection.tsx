@@ -34,8 +34,6 @@ const StatsSection = () => {
       suffix: ' Days',
     },
   ];
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
