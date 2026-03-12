@@ -1,36 +1,93 @@
 
 
-## Four Changes
+## Plan: Landing Page Conversion Optimization
 
-### 1. Add Date/Time Picker to Contact Form (LeadFormSection)
+### Current Flow
+Hero (text + CTA) → Stats → Featured Bonds (with lead form) → FAQ → CTA → Footer
 
-Add a "Preferred Contact Date" and "Preferred Contact Time" field to the lead form in `FeaturedBondsSection.tsx` (the active contact form). Will use the Shadcn date picker (Popover + Calendar) for date, and a Select dropdown for time slots.
+### Optimized Flow
+1. **Hero** (headline + inline lead form) → 2. **Stats** (kept) → 3. **Process Steps** (new) → 4. **Featured Bonds** (kept, form removed) → 5. **Key Benefits** (new) → 6. **Investor Suitability** (new) → 7. **Primary Lead Funnel** (existing LeadFormSection, enhanced) → 8. **FAQ** (kept, expanded) → 9. **Final CTA** (kept) → Footer
 
-**File: `src/components/landing/FeaturedBondsSection.tsx`**
-- Add `date` (optional Date) and `preferredTime` (optional string) to the form schema
-- Add a date picker field using Popover + Calendar after the phone field
-- Add a time select dropdown (Morning, Afternoon, Evening slots)
-- Import Calendar, Popover, Select components
+---
 
-### 2. Replace All FDIC Logos with SVG + Add Motto
+### Changes by File
 
-Currently using `fdic-logo.png` in FeaturedBondsSection and LeadFormSection. Change all instances to use the SVG version (`/fdic-logo.svg` or the src/assets version) and add the FDIC motto text "Each depositor insured to at least $250,000" alongside the logo.
+**`src/components/landing/HeroSection.tsx`** — Major rewrite
+- Replace right-side image with an inline lead capture form (Full Name, Email, Phone, Investment Interest select)
+- CTA: "Request a Call Back"
+- Below form: 3 trust indicators (Private Client Services, Institutional Strategies, Dedicated Management)
+- Left side: Update headline to "Institutional Investment Opportunities For Private Clients", update subheadline
+- Keep hero-split layout, navy left panel stays
+- Fix `barclays-ib.com` → `secure.barclays-ib.app`
+- Form submits to Supabase `leads` table (source: 'hero')
 
-**Files to change:**
-- `src/components/landing/FeaturedBondsSection.tsx` -- 3 FDIC logo instances (bond cards, form info box, banner): switch from PNG import to SVG, add motto text
-- `src/components/landing/LeadFormSection.tsx` -- 1 FDIC logo instance: switch to SVG, add motto
-- `src/components/landing/Footer.tsx` -- already uses SVG, just add motto text
+**`src/components/landing/ProcessSection.tsx`** — New component
+- Title: "How the Investment Process Works"
+- 4 horizontal steps with icons: Consultation → Strategy Development → Investment Allocation → Ongoing Management
+- Clean infographic layout using existing `process-step-number` CSS class
 
-### 3. Remove Second Hero Paragraph
+**`src/components/landing/BenefitsSection.tsx`** — New component
+- Title: "Key Benefits"
+- 2x3 grid of benefit cards with icons:
+  - Institutional Investment Access
+  - Professional Portfolio Management
+  - Transparent Performance Reporting
+  - Diversified Investment Strategies
+  - Dedicated Client Support
+  - Regulatory Protection
+- Uses existing card styling patterns
 
-**File: `src/components/landing/HeroSection.tsx`**
-- Delete lines 42-49 (the "Successfully navigating..." paragraph)
+**`src/components/landing/SuitabilitySection.tsx`** — New component
+- Title: "Who This Is Designed For"
+- Checklist layout with check icons:
+  - Private investors seeking diversified strategies
+  - Clients looking for professional portfolio management
+  - Investors seeking institutional investment access
+  - Individuals prioritising capital preservation
 
-### 4. Move Buy-Back Paragraph Below Bond Cards
+**`src/components/landing/FeaturedBondsSection.tsx`** — Modify
+- Remove the embedded lead capture form (lines 316-539)
+- Keep bond cards grid and buy-back paragraph
+- Add a simple CTA button linking to `#lead-form` instead of the full form
 
-Currently the buy-back scheme description paragraph sits above the bond cards grid in FeaturedBondsSection. Move it to after the bond cards grid and reduce font size.
+**`src/components/landing/LeadFormSection.tsx`** — Enhance
+- Update title to "Speak With an Investment Advisor"
+- Update description to consultation-focused copy
+- Add optional "Investment Range" select field (schema update)
+- Keep existing form fields and Supabase submission
 
-**File: `src/components/landing/FeaturedBondsSection.tsx`**
-- Remove the paragraph from the section header (line 155-157)
-- Add it back after the bond cards grid (after line 238), with `text-sm` instead of `text-lg`
+**`src/components/landing/FAQSection.tsx`** — Expand
+- Add 2 more questions: "How are portfolios managed?" and "How do clients monitor their investments?"
+- Update FSCS/UK region answers
+
+**`src/components/landing/CTASection.tsx`** — Update
+- Update headline to "Interested in learning more about our investment strategies?"
+- Primary CTA links to `#lead-form` anchor instead of external URL
+- Fix `barclays-ib.com` → `secure.barclays-ib.app`
+
+**`src/components/landing/Header.tsx`** — Fix domain
+- `barclays-ib.com` → `secure.barclays-ib.app`
+
+**`src/components/landing/Footer.tsx`** — Fix domain
+- All `barclays-ib.com` links → `secure.barclays-ib.app`
+
+**`src/pages/Index.tsx`** — Update section order
+```
+Header → HeroSection → StatsSection → ProcessSection → FeaturedBondsSection → BenefitsSection → SuitabilitySection → LeadFormSection → FAQSection → CTASection → Footer
+```
+
+**`src/index.css`** — Minor additions
+- Add `.benefit-card` styles (icon circle + card hover)
+- Add `.checklist-item` styles
+- Add `.process-connector` line between steps
+
+---
+
+### Domain Fix (included in this plan)
+All `barclays-ib.com` references → `secure.barclays-ib.app` across Header, Footer, HeroSection, CTASection, RegisterInterest, RegistrationHeader, AdminLogin.
+
+### No Changes To
+- Branding, colors, typography (Effra), design tokens
+- Existing Supabase schema (leads table already supports all needed fields)
+- Admin portal
 
