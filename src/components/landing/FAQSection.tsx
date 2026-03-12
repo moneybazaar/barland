@@ -11,30 +11,20 @@ const FAQSection = () => {
     {
       question: `What is ${config.insuranceAbbr} insurance and how does it protect my investments?`,
       answer: config.region === 'US'
-        ? 'FDIC (Federal Deposit Insurance Corporation) insurance protects depositors against the loss of their insured deposits if an FDIC-insured bank fails. Coverage is up to $250,000 per depositor, per insured bank, for each account ownership category. Our multi-bank CD programs can help maximize your coverage beyond this limit.'
-        : 'SDIC (Singapore Deposit Insurance Corporation) protects depositors by insuring their deposits placed with member banks and finance companies. Coverage is up to S$100,000 per depositor, per Scheme member. Our multi-bank programs can help maximize your coverage beyond this limit.',
+        ? 'FDIC (Federal Deposit Insurance Corporation) insurance protects depositors against the loss of their insured deposits if an FDIC-insured bank fails. Coverage is up to $250,000 per depositor, per insured bank, for each account ownership category.'
+        : 'SDIC (Singapore Deposit Insurance Corporation) protects depositors by insuring their deposits placed with member banks and finance companies. Coverage is up to S$100,000 per depositor, per Scheme member.',
     },
     {
-      question: 'How do brokered CDs differ from traditional bank CDs?',
-      answer: `Brokered CDs are issued by banks but purchased through a brokerage. Key advantages include access to CDs from multiple banks through one account, typically higher yields due to institutional pricing, the ability to sell on a secondary market before maturity (rather than facing early withdrawal penalties), and simplified ${config.insuranceAbbr} coverage management across multiple institutions.`,
+      question: 'What is the minimum investment for fixed rate bonds?',
+      answer: `Minimum investment amounts vary by bond issuance. Typically, Barclays fixed rate bonds are available from ${config.region === 'US' ? '$1,000' : 'S$1,000'} in face value. For personalised portfolio structuring and dedicated advisory services, we recommend a minimum of ${config.region === 'US' ? '$100,000' : 'S$100,000'}.`,
     },
     {
-      question: 'What is the minimum investment required?',
-      answer: `Minimum investment amounts vary by product. Brokered CDs typically start at ${config.region === 'US' ? '$1,000' : 'S$1,000'}, while Treasury securities can be purchased in increments of ${config.region === 'US' ? '$100' : 'S$100'}. For our fixed annuity solutions and personalized portfolio structuring services, we recommend a minimum of ${config.region === 'US' ? '$100,000' : 'S$100,000'} to fully benefit from institutional access and dedicated advisory services.`,
+      question: 'How liquid are fixed rate bonds?',
+      answer: 'Barclays fixed rate bonds can be sold on the secondary market prior to maturity, typically settling in 1-3 business days. Pricing on the secondary market will reflect prevailing interest rates and market conditions. Holding to maturity guarantees the stated coupon rate and full return of principal.',
     },
     {
-      question: 'How liquid are these fixed income investments?',
-      answer: 'Liquidity varies by product. Treasury securities offer same-day liquidity through a deep secondary market. Brokered CDs can be sold on the secondary market, typically settling in 1-3 business days, though prices may vary based on market conditions. Fixed annuities have contract-specific surrender periods, usually ranging from 3-7 years.',
-    },
-    {
-      question: 'What are the tax implications of these investments?',
-      answer: config.region === 'US'
-        ? 'U.S. Treasury securities are exempt from state and local income taxes. CD interest is taxable as ordinary income at federal, state, and local levels. Fixed annuity earnings grow tax-deferred until withdrawal, at which point they are taxed as ordinary income. We recommend consulting with a tax advisor for personalized guidance.'
-        : 'Tax implications vary by product and your individual tax residency. Interest from CDs and bonds is generally taxable in Singapore. Fixed annuity earnings may benefit from tax-deferred growth. We recommend consulting with a qualified tax advisor for guidance specific to your situation.',
-    },
-    {
-      question: 'How do I get started with Barclays Fixed Income Solutions?',
-      answer: 'Getting started is simple. Schedule a consultation with one of our fixed income specialists who will assess your goals, risk tolerance, and time horizon. From there, we will design a customized portfolio, guide you through our secure digital onboarding, and provide ongoing support through your dedicated advisor and our client portal.',
+      question: 'What does the bond buy-back scheme mean for investors?',
+      answer: `Barclays operates a bond buy-back scheme allowing private investors to sell their fixed income bonds back to the bank or affiliated brokerages, up to ${config.buyBackAmount} per client per institution. This provides an additional liquidity option beyond the secondary market.`,
     },
   ];
 
