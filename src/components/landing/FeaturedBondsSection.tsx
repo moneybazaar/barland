@@ -146,9 +146,8 @@ const FeaturedBondsSection = () => {
         {/* Bond Cards Grid */}
         <motion.div
           variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
+          initial="visible"
+          animate="visible"
           className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8"
         >
           {bonds.map((bond, index) => (
