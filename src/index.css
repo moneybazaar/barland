@@ -191,7 +191,7 @@
 
   /* Force Expert Sans on all elements */
   button, input, select, textarea, a, span, div, li {
-    font-family: 'Expert Sans', var(--font-sans);
+    font-family: 'Effra', var(--font-sans);
   }
 }
 
