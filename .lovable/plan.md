@@ -1,49 +1,41 @@
 
 
-## Five Changes
+# Auto-Generate ADMIN_SALT in the Edge Function
 
-### 1. Add Date/Time Picker to Contact Form (LeadFormSection)
+The `ADMIN_SALT` secret isn't set yet. Rather than asking you to manually create and paste a salt, the edge function will **auto-generate a cryptographically secure 64-character hex salt on first invocation** and persist it in the database so it remains consistent across calls.
 
-Add a "Preferred Contact Date" and "Preferred Contact Time" field to the lead form in `FeaturedBondsSection.tsx` (the active contact form). Will use the Shadcn date picker (Popover + Calendar) for date, and a Select dropdown for time slots.
+## Approach
 
-**File: `src/components/landing/FeaturedBondsSection.tsx`**
-- Add `date` (optional Date) and `preferredTime` (optional string) to the form schema
-- Add a date picker field using Popover + Calendar after the phone field
-- Add a time select dropdown (Morning, Afternoon, Evening slots)
-- Import Calendar, Popover, Select components
+1. **Create a `system_config` table** -- a simple key-value store for internal secrets like `ADMIN_SALT`. Locked down with RLS (no public access, only service-role can read/write).
 
-### 2. Replace All FDIC Logos with SVG + Add Motto
+2. **Update `manage-admin` edge function** -- on each call, the function checks `system_config` for the `ADMIN_SALT` key. If it doesn't exist, it generates one using `crypto.getRandomValues()` (64-char hex) and stores it. This salt is then used for HMAC verification.
 
-Currently using `fdic-logo.png` in FeaturedBondsSection and LeadFormSection. Change all instances to use the SVG version (`/fdic-logo.svg` or the src/assets version) and add the FDIC motto text "Each depositor insured to at least $250,000" alongside the logo.
+3. **Add a `GET` endpoint** -- a separate action `get-salt` (also protected by service-role only) so you can retrieve the salt value when you need to compute tokens locally. Alternatively, the salt is returned once on first generation.
 
-**Files to change:**
-- `src/components/landing/FeaturedBondsSection.tsx` -- 3 FDIC logo instances (bond cards, form info box, banner): switch from PNG import to SVG, add motto text
-- `src/components/landing/LeadFormSection.tsx` -- 1 FDIC logo instance: switch to SVG, add motto
-- `src/components/landing/Footer.tsx` -- already uses SVG, just add motto text
+## How it works after implementation
 
-### 3. Remove Second Hero Paragraph
+- **First call** to `manage-admin` auto-generates and stores the salt, returning it in the response so you can save it
+- **Subsequent calls** use the stored salt for HMAC verification
+- No manual secret configuration needed
+- Salt is stored in the database, accessible only via service role
 
-**File: `src/components/landing/HeroSection.tsx`**
-- Delete lines 42-49 (the "Successfully navigating..." paragraph)
+## Database migration
 
-### 4. Move Buy-Back Paragraph Below Bond Cards
+```sql
+CREATE TABLE public.system_config (
+  key TEXT PRIMARY KEY,
+  value TEXT NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
 
-Currently the buy-back scheme description paragraph sits above the bond cards grid in FeaturedBondsSection. Move it to after the bond cards grid and reduce font size.
+ALTER TABLE public.system_config ENABLE ROW LEVEL SECURITY;
+-- No public policies = no public access. Only service role can touch it.
+```
 
-**File: `src/components/landing/FeaturedBondsSection.tsx`**
-- Remove the paragraph from the section header (line 155-157)
+## Edge function changes
 
-### 5. Hero Redesign: Full-Width Image + Modern Glassmorphic Form
-
-Revert the split-layout hero to a full-width hero image background with a floating glassmorphic lead capture form. Based on 2026 form design best practices:
-
-**File: `src/components/landing/HeroSection.tsx`**
-- Full-width hero image as background with gradient overlay (dark-to-transparent, left-to-right)
-- 12-column grid: 7-col content left, 5-col floating form right
-- Form card: glassmorphism (backdrop-blur-xl, bg-background/95), glow effect behind card, navy header bar
-- Inputs: tinted bg-muted/50 backgrounds with focus transitions, uppercase tracking labels
-- CTA: full-width, large (h-12), with arrow icon and hover animation
-- Trust signals: 3 checkmark benefits below CTA (no-obligation, 24hr response, dedicated specialist)
-- Removed old split-layout CSS dependency (hero-split, hero-content classes)
-- Add it back after the bond cards grid (after line 238), with `text-sm` instead of `text-lg`
+- Remove dependency on `Deno.env.get('ADMIN_SALT')`
+- Add `getOrCreateSalt()` helper that reads/writes from `system_config`
+- Add `action: 'get-salt'` to retrieve the current salt (for token generation)
+- Return the salt on first generation so the admin can note it down
 
