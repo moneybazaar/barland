@@ -10,7 +10,7 @@ import { useRegion, Region } from '@/contexts/RegionContext';
 const Header = () => {
   const [mounted, setMounted] = useState(false);
   const { resolvedTheme } = useTheme();
-  const { region, setRegion } = useRegion();
+  const { region, config, setRegion } = useRegion();
 
   useEffect(() => {
     setMounted(true);

@@ -26,9 +26,13 @@ const regionConfigs: Record<Region, RegionConfig> = {
     insuranceLogo: '/fdic-logo.svg',
     insuranceMotto: 'Each depositor insured to at least $250,000',
     coverageAmount: '$250K',
+    coverageAmountFull: '$250,000',
     insuranceFullName: 'Federal Deposit Insurance Corporation',
     memberLabel: 'Member FDIC',
     currency: 'USD',
+    phoneNumber: '+18002272597',
+    phoneDisplay: '1-800-BARCLAYS',
+    buyBackAmount: '$2,000,000',
   },
   SG: {
     region: 'SG',
@@ -37,9 +41,13 @@ const regionConfigs: Record<Region, RegionConfig> = {
     insuranceLogo: '/sdic-logo.png',
     insuranceMotto: 'Deposit Insurance — Policyowners\' Protection',
     coverageAmount: 'S$100K',
+    coverageAmountFull: 'S$100,000',
     insuranceFullName: 'Singapore Deposit Insurance Corporation',
     memberLabel: 'DI Scheme Member',
     currency: 'SGD',
+    phoneNumber: '+6563083858',
+    phoneDisplay: '+65 6308 3858',
+    buyBackAmount: 'S$2,000,000',
   },
 };
 
