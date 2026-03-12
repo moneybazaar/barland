@@ -70,8 +70,7 @@ const Footer = () => {
             <span key={link.label} className="flex items-center">
               <a
                 href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
+                {...(link.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                 className="text-[#00aeef] hover:underline text-sm"
               >
                 {link.label}
