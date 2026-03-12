@@ -1,6 +1,6 @@
 
 
-## Four Changes
+## Five Changes
 
 ### 1. Add Date/Time Picker to Contact Form (LeadFormSection)
 
@@ -32,5 +32,18 @@ Currently the buy-back scheme description paragraph sits above the bond cards gr
 
 **File: `src/components/landing/FeaturedBondsSection.tsx`**
 - Remove the paragraph from the section header (line 155-157)
+
+### 5. Hero Redesign: Full-Width Image + Modern Glassmorphic Form
+
+Revert the split-layout hero to a full-width hero image background with a floating glassmorphic lead capture form. Based on 2026 form design best practices:
+
+**File: `src/components/landing/HeroSection.tsx`**
+- Full-width hero image as background with gradient overlay (dark-to-transparent, left-to-right)
+- 12-column grid: 7-col content left, 5-col floating form right
+- Form card: glassmorphism (backdrop-blur-xl, bg-background/95), glow effect behind card, navy header bar
+- Inputs: tinted bg-muted/50 backgrounds with focus transitions, uppercase tracking labels
+- CTA: full-width, large (h-12), with arrow icon and hover animation
+- Trust signals: 3 checkmark benefits below CTA (no-obligation, 24hr response, dedicated specialist)
+- Removed old split-layout CSS dependency (hero-split, hero-content classes)
 - Add it back after the bond cards grid (after line 238), with `text-sm` instead of `text-lg`
 
