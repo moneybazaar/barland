@@ -74,11 +74,17 @@ const Header = () => {
               {/* Region Toggle */}
               <button
                 onClick={() => setRegion(region === 'US' ? 'SG' : 'US')}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-full border border-border hover:bg-muted transition-colors text-sm font-medium text-foreground"
+                className="flex items-center gap-2 px-3 py-1.5 rounded border border-border hover:bg-muted transition-colors text-foreground"
                 aria-label="Switch region"
               >
-                <Globe className="w-4 h-4 text-muted-foreground" />
-                <span className="uppercase tracking-wider text-xs">{region}</span>
+                <img
+                  src={region === 'US'
+                    ? 'https://flagcdn.com/w40/us.png'
+                    : 'https://flagcdn.com/w40/sg.png'}
+                  alt={region}
+                  className="w-5 h-3.5 object-cover rounded-[2px]"
+                />
+                <span className="text-xs font-semibold tracking-wide uppercase">{region}</span>
               </button>
 
               {/* Theme Toggle */}
