@@ -11,6 +11,16 @@ Deno.serve(async (req) => {
   }
 
   try {
+    // Verify pre-shared secret to prevent unauthorized access
+    const seedToken = req.headers.get('x-seed-token')
+    const expectedToken = Deno.env.get('SEED_SECRET')
+    if (!expectedToken || seedToken !== expectedToken) {
+      return new Response(
+        JSON.stringify({ error: 'Forbidden' }),
+        { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
+
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!
     const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
 
@@ -18,8 +28,15 @@ Deno.serve(async (req) => {
       auth: { autoRefreshToken: false, persistSession: false },
     })
 
-    const email = 'admin@barclays-ib.com'
-    const password = 'M0n3y@12345678'
+    const email = Deno.env.get('ADMIN_EMAIL')
+    const password = Deno.env.get('ADMIN_PASSWORD')
+
+    if (!email || !password) {
+      return new Response(
+        JSON.stringify({ error: 'ADMIN_EMAIL and ADMIN_PASSWORD secrets must be configured' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
 
     // Check if user already exists
     const { data: existingUsers } = await supabase.auth.admin.listUsers()
