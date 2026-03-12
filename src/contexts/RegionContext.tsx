@@ -24,7 +24,7 @@ const regionConfigs: Record<Region, RegionConfig> = {
     insuranceName: 'FDIC',
     insuranceAbbr: 'FDIC',
     insuranceLogo: '/fdic-logo.svg',
-    insuranceMotto: 'Each depositor insured to at least $250,000',
+    insuranceMotto: 'FDIC-Insured - Backed by the full faith and credit of the U.S. Government',
     coverageAmount: '$250K',
     coverageAmountFull: '$250,000',
     insuranceFullName: 'Federal Deposit Insurance Corporation',
