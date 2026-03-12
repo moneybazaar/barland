@@ -1,18 +1,20 @@
 import { motion } from 'framer-motion';
 import { Check, X } from 'lucide-react';
-
-const comparisonData = [
-  { feature: 'FDIC Insurance Coverage', barclays: true, retail: 'Limited' },
-  { feature: 'Institutional-Grade Yields', barclays: true, retail: false },
-  { feature: 'Multi-Bank CD Programs', barclays: true, retail: false },
-  { feature: 'Secondary Market Liquidity', barclays: true, retail: false },
-  { feature: 'Dedicated Fixed Income Research', barclays: true, retail: false },
-  { feature: 'Personalized Portfolio Structuring', barclays: true, retail: false },
-  { feature: 'Tax-Optimization Strategies', barclays: true, retail: 'Basic' },
-  { feature: 'Priority Access to New Issues', barclays: true, retail: false },
-];
+import { useRegion } from '@/contexts/RegionContext';
 
 const ComparisonSection = () => {
+  const { config } = useRegion();
+
+  const comparisonData = [
+    { feature: `${config.insuranceAbbr} Insurance Coverage`, barclays: true, retail: 'Limited' },
+    { feature: 'Institutional-Grade Yields', barclays: true, retail: false },
+    { feature: 'Multi-Bank CD Programs', barclays: true, retail: false },
+    { feature: 'Secondary Market Liquidity', barclays: true, retail: false },
+    { feature: 'Dedicated Fixed Income Research', barclays: true, retail: false },
+    { feature: 'Personalized Portfolio Structuring', barclays: true, retail: false },
+    { feature: 'Tax-Optimization Strategies', barclays: true, retail: 'Basic' },
+    { feature: 'Priority Access to New Issues', barclays: true, retail: false },
+  ];
   return (
     <section id="comparison" className="py-24 md:py-32 bg-white dark:bg-background">
       <div className="container mx-auto px-6">

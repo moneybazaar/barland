@@ -8,6 +8,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { useRegion } from '@/contexts/RegionContext';
 
 const socialLinks = [
   { icon: Facebook, href: 'https://www.facebook.com/BarclaysUS', label: 'Facebook' },
@@ -27,6 +28,7 @@ const legalLinks = [
 
 const Footer = () => {
   const [disclaimerOpen, setDisclaimerOpen] = useState(false);
+  const { config } = useRegion();
 
   return (
     <footer className="bg-[#333333]">
@@ -50,10 +52,10 @@ const Footer = () => {
               ))}
             </div>
           </div>
-          {/* FDIC Badge */}
+          {/* Insurance Badge */}
           <div className="flex items-center gap-4">
-            <img src="/fdic-logo.svg" alt="FDIC" className="h-6 w-auto brightness-0 invert" />
-            <span className="text-white/70 text-xs">Each depositor insured to at least $250,000</span>
+            <img src={config.insuranceLogo} alt={config.insuranceAbbr} className="h-6 w-auto brightness-0 invert" />
+            <span className="text-white/70 text-xs">{config.insuranceMotto}</span>
           </div>
         </div>
       </div>
@@ -89,7 +91,7 @@ const Footer = () => {
             <DialogContent className="max-w-4xl max-h-[80vh] bg-white dark:bg-card">
               <DialogHeader>
                 <DialogTitle className="text-xl font-bold text-[#00395d] dark:text-foreground">
-                  FOR RESIDENTS OF THE UNITED STATES ONLY
+                  {config.region === 'US' ? 'FOR RESIDENTS OF THE UNITED STATES ONLY' : 'FOR RESIDENTS OF SINGAPORE ONLY'}
                 </DialogTitle>
               </DialogHeader>
               <ScrollArea className="h-[60vh] pr-4">
@@ -98,7 +100,7 @@ const Footer = () => {
                     THIS WEBSITE CONTAINS INDICATIVE SUMMARIES AND INFORMATION RELATING TO ONE OR MORE INDICES. INDICES ARE UNMANAGED AND CANNOT BE INVESTED IN DIRECTLY. THE DEVELOPMENT OR CREATION OF ANY PRODUCT OR TRANSACTION THAT USES, IS BASED ON, OR IS DEVELOPED IN CONNECTION WITH, ANY INDEX IS PROHIBITED WITHOUT THE PRIOR WRITTEN CONSENT OF BARCLAYS.
                   </p>
                   <p className="font-semibold">
-                    YOU MUST NOT ACCESS THIS WEBSITE WITHOUT HAVING PREVIOUSLY READ AND UNDERSTOOD THE FOLLOWING DISCLAIMERS. THE INFORMATION ON THIS WEBSITE IS ONLY BEING OFFERED TO AND IS ONLY INTENDED TO BE AVAILABLE TO PERSONS WHO ARE RESIDENTS OF THE UNITED STATES.
+                    YOU MUST NOT ACCESS THIS WEBSITE WITHOUT HAVING PREVIOUSLY READ AND UNDERSTOOD THE FOLLOWING DISCLAIMERS. THE INFORMATION ON THIS WEBSITE IS ONLY BEING OFFERED TO AND IS ONLY INTENDED TO BE AVAILABLE TO PERSONS WHO ARE RESIDENTS OF {config.region === 'US' ? 'THE UNITED STATES' : 'SINGAPORE'}.
                   </p>
                   <p>
                     This website has been prepared by Barclays Bank PLC ("Barclays", which term shall include Barclays' affiliates where relevant), for information purposes only. By using this website you accept the use of cookies in accordance with our Privacy Policy. Barclays uses cookies to help us to know a little bit about you and how you use our website, which improves the browsing experience and marketing – both for you and for others. They are stored locally on your computer or mobile device. To accept cookies continue browsing as normal. For more information and preferences refer to the Cookie Policy.
@@ -150,7 +152,7 @@ const Footer = () => {
       <div className="container mx-auto px-6 py-4">
         <div className="text-center text-white/60 text-xs space-y-1">
           <p>© {new Date().getFullYear()} Barclays Bank PLC. All rights reserved.</p>
-          <p>Member FDIC</p>
+          <p>{config.memberLabel}</p>
         </div>
       </div>
     </footer>

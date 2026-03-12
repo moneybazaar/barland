@@ -1,14 +1,16 @@
 import { motion } from 'framer-motion';
-import { Phone } from 'lucide-react';
+import { Phone, Globe } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import barclaysLogo from '@/assets/barclays-logo.png';
 import barclaysLogoDark from '@/assets/barclays-logo-dark.svg';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { useRegion, Region } from '@/contexts/RegionContext';
 
 const Header = () => {
   const [mounted, setMounted] = useState(false);
   const { resolvedTheme } = useTheme();
+  const { region, setRegion } = useRegion();
 
   useEffect(() => {
     setMounted(true);
@@ -68,6 +70,16 @@ const Header = () => {
               >
                 Open Account
               </a>
+
+              {/* Region Toggle */}
+              <button
+                onClick={() => setRegion(region === 'US' ? 'SG' : 'US')}
+                className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-muted hover:bg-muted/80 transition-colors text-sm font-medium text-foreground"
+                aria-label="Switch region"
+              >
+                <Globe className="w-4 h-4" />
+                <span>{region === 'US' ? '🇺🇸 US' : '🇸🇬 SG'}</span>
+              </button>
 
               {/* Theme Toggle */}
               <ThemeToggle />

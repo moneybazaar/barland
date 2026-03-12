@@ -10,6 +10,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import fdicLogo from '@/assets/fdic-logo.svg';
+import sdicLogo from '@/assets/sdic-logo.png';
+import { useRegion } from '@/contexts/RegionContext';
 
 const formSchema = z.object({
   firstName: z.string().trim().min(1, 'First name is required').max(50, 'First name must be less than 50 characters'),
@@ -24,6 +26,7 @@ type FormData = z.infer<typeof formSchema>;
 const LeadFormSection = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+  const { config } = useRegion();
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -100,12 +103,12 @@ const LeadFormSection = () => {
               </div>
             </div>
 
-            {/* FDIC Badge */}
+            {/* Insurance Badge */}
             <div className="flex items-center gap-4 p-4 rounded-lg bg-background border border-border">
-              <img src={fdicLogo} alt="FDIC Insured" className="h-10 w-auto dark:invert" />
+              <img src={config.region === 'US' ? fdicLogo : sdicLogo} alt={`${config.insuranceAbbr} Insured`} className="h-10 w-auto dark:invert" />
               <div>
-                <p className="text-sm font-medium text-foreground">FDIC Insured</p>
-                <p className="text-xs text-muted-foreground">Each depositor insured to at least $250,000</p>
+                <p className="text-sm font-medium text-foreground">{config.insuranceAbbr} Insured</p>
+                <p className="text-xs text-muted-foreground">{config.insuranceMotto}</p>
               </div>
             </div>
           </motion.div>
