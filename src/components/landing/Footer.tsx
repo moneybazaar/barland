@@ -54,7 +54,7 @@ const Footer = () => {
           </div>
           {/* Insurance Badge */}
           <div className="flex items-center gap-4">
-            <img src={config.insuranceLogo} alt={config.insuranceAbbr} className="h-6 w-auto brightness-0 invert" />
+            <img src={config.insuranceLogo} alt={config.insuranceAbbr} className={`h-6 w-auto ${config.region === 'UK' ? '' : 'brightness-0 invert'}`} />
             <span className="text-white/70 text-xs">{config.insuranceMotto}</span>
           </div>
         </div>
