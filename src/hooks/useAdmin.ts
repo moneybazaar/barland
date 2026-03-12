@@ -45,7 +45,7 @@ export const useAdmin = () => {
 
   const signOut = async () => {
     await supabase.auth.signOut();
-    navigate('/admin/login');
+    navigate('/portal/a7x9/login');
   };
 
   return { user, isAdmin, loading, signOut };

@@ -28,7 +28,7 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     if (!loading && (!user || !isAdmin)) {
-      navigate('/admin/login');
+      navigate('/portal/a7x9/login');
     }
   }, [user, isAdmin, loading, navigate]);
 
