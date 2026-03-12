@@ -161,14 +161,18 @@ const FeaturedBondsSection = () => {
           viewport={{ once: true }}
           className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8"
         >
-          {bonds.map((bond) => (
+          {bonds.map((bond, index) => (
             <motion.div
               key={bond.id}
               variants={cardVariants}
-              className="bond-card"
+              whileHover={{ y: -6, transition: { duration: 0.3 } }}
+              className="bond-card group"
             >
-              <div className="p-6">
-                <div className="flex items-start justify-between mb-6">
+              {/* Top accent bar */}
+              <div className="h-1 w-full bg-gradient-to-r from-primary to-primary/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              
+              <div className="p-6 md:p-7">
+                <div className="flex items-start justify-between mb-5">
                   <div className="flex flex-col gap-2">
                     <span className="bond-maturity-badge">
                       Matures {bond.maturityYear}
@@ -185,23 +189,35 @@ const FeaturedBondsSection = () => {
                   </span>
                 </div>
 
-                <div className="text-center mb-6">
-                  <div className="bond-rate">{bond.rate}</div>
-                  <div className="text-muted-foreground text-sm mt-1">per annum</div>
+                <div className="text-center py-6 mb-4 rounded-lg bg-muted/40 dark:bg-muted/20">
+                  <motion.div
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    whileInView={{ scale: 1, opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="bond-rate"
+                  >
+                    {bond.rate}
+                  </motion.div>
+                  <div className="text-muted-foreground text-sm mt-1 font-medium">per annum</div>
                 </div>
 
                 <div className="space-y-0 border-t border-border pt-4">
                   <div className="bond-detail-row">
-                    <span className="text-muted-foreground">ISIN</span>
+                    <span className="text-muted-foreground text-xs uppercase tracking-wide">ISIN</span>
                     <span className="font-mono text-xs text-secondary dark:text-foreground">{bond.isin}</span>
                   </div>
                   <div className="bond-detail-row">
-                    <span className="text-muted-foreground">Total Amount</span>
+                    <span className="text-muted-foreground text-xs uppercase tracking-wide">Total Amount</span>
                     <span className="font-semibold text-secondary dark:text-foreground">{bond.amount}</span>
                   </div>
                   <div className="bond-detail-row">
-                    <span className="text-muted-foreground">Payment</span>
-                    <span className="text-secondary dark:text-foreground">{bond.payment}</span>
+                    <span className="text-muted-foreground text-xs uppercase tracking-wide">Payment</span>
+                    <span className="text-secondary dark:text-foreground text-sm">{bond.payment}</span>
+                  </div>
+                  <div className="bond-detail-row">
+                    <span className="text-muted-foreground text-xs uppercase tracking-wide">Maturity Date</span>
+                    <span className="text-secondary dark:text-foreground text-sm">{bond.maturityDate}</span>
                   </div>
                 </div>
 
@@ -209,18 +225,11 @@ const FeaturedBondsSection = () => {
                   href={bond.verifyLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="verify-button mt-5"
+                  className="verify-button mt-5 group-hover:shadow-lg"
                 >
                   <ExternalLink className="w-4 h-4" />
-                  Verify
+                  Verify on Market
                 </a>
-
-                <div className="flex items-center justify-center gap-2 mt-4 pt-4 border-t border-border">
-                  <img src={config.insuranceLogo} alt={`${config.insuranceAbbr} Insured`} className="h-5 w-auto dark:invert" />
-                  <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-                    {config.insuranceMotto}
-                  </span>
-                </div>
               </div>
             </motion.div>
           ))}
