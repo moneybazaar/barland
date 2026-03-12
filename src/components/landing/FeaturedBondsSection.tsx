@@ -179,7 +179,17 @@ const FeaturedBondsSection = () => {
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     try {
-      console.log('Lead form submission:', data);
+      const { error } = await supabase.from('leads').insert({
+        first_name: data.firstName,
+        last_name: data.lastName,
+        email: data.email,
+        phone: data.phone,
+        preferred_date: data.date ? new Date(data.date).toISOString().split('T')[0] : undefined,
+        preferred_time: data.preferredTime || undefined,
+        region: config.region,
+        source: 'bonds',
+      });
+      if (error) throw error;
       toast({
         title: "Thank you for your interest!",
         description: "A Barclays specialist will contact you within 24 hours.",
