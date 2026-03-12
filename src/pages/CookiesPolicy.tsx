@@ -2,7 +2,7 @@ import LegalPageLayout from '@/components/landing/LegalPageLayout';
 
 const CookiesPolicy = () => {
   return (
-    <LegalPageLayout title="Cookies Policy">
+    <LegalPageLayout title="Cookies Policy" description="Information about how Barclays Investment Bank uses cookies, the types of cookies we use, and how to manage your cookie preferences.">
       <section>
         <h2 className="text-xl font-semibold text-secondary dark:text-foreground mb-4">What Are Cookies</h2>
         <p>

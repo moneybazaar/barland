@@ -2,7 +2,7 @@ import LegalPageLayout from '@/components/landing/LegalPageLayout';
 
 const ImportantInformation = () => {
   return (
-    <LegalPageLayout title="Important Information">
+    <LegalPageLayout title="Important Information" description="Important legal information about the use of the Barclays Investment Bank website, including terms of use, intellectual property, and liability.">
       <section>
         <h2 className="text-xl font-semibold text-secondary dark:text-foreground mb-4">General</h2>
         <p>

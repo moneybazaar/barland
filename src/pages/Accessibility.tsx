@@ -2,7 +2,7 @@ import LegalPageLayout from '@/components/landing/LegalPageLayout';
 
 const Accessibility = () => {
   return (
-    <LegalPageLayout title="Accessibility">
+    <LegalPageLayout title="Accessibility" description="Barclays Investment Bank accessibility statement. Learn about our commitment to WCAG 2.1 AA standards and supported assistive technologies.">
       <section>
         <h2 className="text-xl font-semibold text-secondary dark:text-foreground mb-4">Our Commitment</h2>
         <p>

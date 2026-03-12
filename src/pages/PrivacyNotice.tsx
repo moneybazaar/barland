@@ -2,7 +2,7 @@ import LegalPageLayout from '@/components/landing/LegalPageLayout';
 
 const PrivacyNotice = () => {
   return (
-    <LegalPageLayout title="Privacy Notice">
+    <LegalPageLayout title="Privacy Notice" description="Learn how Barclays Investment Bank collects, uses, and protects your personal data. Our privacy notice outlines your rights and our data handling practices.">
       <section>
         <h2 className="text-xl font-semibold text-secondary dark:text-foreground mb-4">Introduction</h2>
         <p>
