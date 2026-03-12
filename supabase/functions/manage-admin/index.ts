@@ -24,6 +24,42 @@ async function hmacSha256(key: string, message: string): Promise<string> {
     .join('')
 }
 
+function getServiceClient() {
+  const supabaseUrl = Deno.env.get('SUPABASE_URL')!
+  const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+  return createClient(supabaseUrl, serviceRoleKey, {
+    auth: { autoRefreshToken: false, persistSession: false },
+  })
+}
+
+async function getOrCreateSalt(supabase: ReturnType<typeof createClient>): Promise<{ salt: string; isNew: boolean }> {
+  // Try to read existing salt
+  const { data, error } = await supabase
+    .from('system_config')
+    .select('value')
+    .eq('key', 'ADMIN_SALT')
+    .maybeSingle()
+
+  if (error) throw new Error(`Failed to read system_config: ${error.message}`)
+
+  if (data?.value) {
+    return { salt: data.value, isNew: false }
+  }
+
+  // Generate a cryptographically secure 64-char hex salt
+  const bytes = new Uint8Array(32)
+  crypto.getRandomValues(bytes)
+  const newSalt = Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('')
+
+  const { error: insertError } = await supabase
+    .from('system_config')
+    .insert({ key: 'ADMIN_SALT', value: newSalt })
+
+  if (insertError) throw new Error(`Failed to store salt: ${insertError.message}`)
+
+  return { salt: newSalt, isNew: true }
+}
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders })
@@ -31,6 +67,24 @@ Deno.serve(async (req) => {
 
   try {
     const { action, email, password, authorization_token } = await req.json()
+
+    const supabase = getServiceClient()
+
+    // Handle get-salt action — returns the current salt (auto-generates if needed)
+    if (action === 'get-salt') {
+      const { salt, isNew } = await getOrCreateSalt(supabase)
+      return new Response(
+        JSON.stringify({
+          success: true,
+          salt,
+          generated: isNew,
+          message: isNew
+            ? 'New salt generated and stored. Save this value to compute authorization tokens.'
+            : 'Existing salt retrieved.',
+        }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
 
     if (!action || !email || !authorization_token) {
       return new Response(
@@ -48,21 +102,15 @@ Deno.serve(async (req) => {
 
     if (!['seed', 'delete'].includes(action)) {
       return new Response(
-        JSON.stringify({ error: 'Invalid action. Use "seed" or "delete".' }),
+        JSON.stringify({ error: 'Invalid action. Use "seed", "delete", or "get-salt".' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
 
-    // Verify HMAC-SHA256 authorization
-    const adminSalt = Deno.env.get('ADMIN_SALT')
-    if (!adminSalt) {
-      return new Response(
-        JSON.stringify({ error: 'Server misconfigured: ADMIN_SALT not set' }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      )
-    }
+    // Get or create the salt from the database
+    const { salt, isNew } = await getOrCreateSalt(supabase)
 
-    const expectedToken = await hmacSha256(adminSalt, email.toLowerCase().trim())
+    const expectedToken = await hmacSha256(salt, email.toLowerCase().trim())
 
     // Constant-time comparison to prevent timing attacks
     if (authorization_token.length !== expectedToken.length) {
@@ -85,16 +133,9 @@ Deno.serve(async (req) => {
     }
 
     // Authorized — proceed
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!
-    const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
-    const supabase = createClient(supabaseUrl, serviceRoleKey, {
-      auth: { autoRefreshToken: false, persistSession: false },
-    })
-
     const normalizedEmail = email.toLowerCase().trim()
 
     if (action === 'seed') {
-      // Find or create user
       const { data: existingUsers } = await supabase.auth.admin.listUsers()
       const existingUser = existingUsers?.users?.find(u => u.email === normalizedEmail)
 
@@ -116,15 +157,26 @@ Deno.serve(async (req) => {
         userId = newUser.user.id
       }
 
-      // Upsert admin role
       const { error: roleError } = await supabase
         .from('user_roles')
         .upsert({ user_id: userId, role: 'admin' }, { onConflict: 'user_id,role' })
 
       if (roleError) throw roleError
 
+      const response: Record<string, unknown> = {
+        success: true,
+        message: 'Admin user seeded successfully',
+        userId,
+      }
+
+      // Include salt on first generation so the admin can note it down
+      if (isNew) {
+        response.salt = salt
+        response.salt_notice = 'A new salt was auto-generated. Save this value to compute future authorization tokens.'
+      }
+
       return new Response(
-        JSON.stringify({ success: true, message: 'Admin user seeded successfully', userId }),
+        JSON.stringify(response),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
@@ -140,7 +192,6 @@ Deno.serve(async (req) => {
         )
       }
 
-      // Remove admin role
       const { error: deleteRoleError } = await supabase
         .from('user_roles')
         .delete()
@@ -149,7 +200,6 @@ Deno.serve(async (req) => {
 
       if (deleteRoleError) throw deleteRoleError
 
-      // Delete the user entirely
       const { error: deleteUserError } = await supabase.auth.admin.deleteUser(existingUser.id)
       if (deleteUserError) throw deleteUserError
 
