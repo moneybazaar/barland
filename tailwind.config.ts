@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Expert Sans', 'system-ui', 'sans-serif'],
-        serif: ['Expert Sans', 'system-ui', 'sans-serif'],
+        sans: ['Effra', 'system-ui', 'sans-serif'],
+        serif: ['Effra', 'system-ui', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
