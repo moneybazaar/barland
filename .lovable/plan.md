@@ -1,36 +1,35 @@
 
 
-## Four Changes
+## GitHub Pages Deployment Setup
 
-### 1. Add Date/Time Picker to Contact Form (LeadFormSection)
+Two files need to be created/modified:
 
-Add a "Preferred Contact Date" and "Preferred Contact Time" field to the lead form in `FeaturedBondsSection.tsx` (the active contact form). Will use the Shadcn date picker (Popover + Calendar) for date, and a Select dropdown for time slots.
+### 1. Update `vite.config.ts`
 
-**File: `src/components/landing/FeaturedBondsSection.tsx`**
-- Add `date` (optional Date) and `preferredTime` (optional string) to the form schema
-- Add a date picker field using Popover + Calendar after the phone field
-- Add a time select dropdown (Morning, Afternoon, Evening slots)
-- Import Calendar, Popover, Select components
+Add a `base` property for production builds. GitHub Pages serves from `https://<username>.github.io/<repo-name>/`, so the base path must match the repo name. Since the repo name isn't known yet, we'll use a conditional that reads from an environment variable or defaults to `/`.
 
-### 2. Replace All FDIC Logos with SVG + Add Motto
+```ts
+base: mode === "production" ? "/barland/" : "/",
+```
 
-Currently using `fdic-logo.png` in FeaturedBondsSection and LeadFormSection. Change all instances to use the SVG version (`/fdic-logo.svg` or the src/assets version) and add the FDIC motto text "Each depositor insured to at least $250,000" alongside the logo.
+> You'll need to adjust `"/barland/"` to match your actual GitHub repository name.
 
-**Files to change:**
-- `src/components/landing/FeaturedBondsSection.tsx` -- 3 FDIC logo instances (bond cards, form info box, banner): switch from PNG import to SVG, add motto text
-- `src/components/landing/LeadFormSection.tsx` -- 1 FDIC logo instance: switch to SVG, add motto
-- `src/components/landing/Footer.tsx` -- already uses SVG, just add motto text
+### 2. Create `.github/workflows/deploy.yml`
 
-### 3. Remove Second Hero Paragraph
+A GitHub Actions workflow that:
+- Triggers on push to `main`
+- Installs dependencies with `npm ci`
+- Runs `npm run build`
+- Deploys the `dist/` folder to GitHub Pages using `actions/deploy-pages`
 
-**File: `src/components/landing/HeroSection.tsx`**
-- Delete lines 42-49 (the "Successfully navigating..." paragraph)
+### 3. After deployment
 
-### 4. Move Buy-Back Paragraph Below Bond Cards
+In your GitHub repo: **Settings > Pages > Source** — select "GitHub Actions".
 
-Currently the buy-back scheme description paragraph sits above the bond cards grid in FeaturedBondsSection. Move it to after the bond cards grid and reduce font size.
+### Files changed
 
-**File: `src/components/landing/FeaturedBondsSection.tsx`**
-- Remove the paragraph from the section header (line 155-157)
-- Add it back after the bond cards grid (after line 238), with `text-sm` instead of `text-lg`
+| File | Action |
+|------|--------|
+| `vite.config.ts` | Add `base` property |
+| `.github/workflows/deploy.yml` | Create workflow file |
 
