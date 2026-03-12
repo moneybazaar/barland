@@ -1,36 +1,25 @@
 
 
-## Four Changes
+## Plan: Replace Expert Sans with Effra Font Family
 
-### 1. Add Date/Time Picker to Contact Form (LeadFormSection)
+Based on the CSS reference provided, the site uses two Effra variants: **Effra-Regular** (weight 400) and **Effra-Bold** (weight 700). The current codebase has "Expert Sans" in 3 places.
 
-Add a "Preferred Contact Date" and "Preferred Contact Time" field to the lead form in `FeaturedBondsSection.tsx` (the active contact form). Will use the Shadcn date picker (Popover + Calendar) for date, and a Select dropdown for time slots.
+### Changes
 
-**File: `src/components/landing/FeaturedBondsSection.tsx`**
-- Add `date` (optional Date) and `preferredTime` (optional string) to the form schema
-- Add a date picker field using Popover + Calendar after the phone field
-- Add a time select dropdown (Morning, Afternoon, Evening slots)
-- Import Calendar, Popover, Select components
+#### 1. `src/index.css`
+- Rename all `@font-face` declarations from `'Expert Sans'` to `'Effra'`
+- Update font file paths: `expert-sans-regular` → `effra-regular`, `expert-sans-bold` → `effra-bold`, `expert-sans-light` → `effra-light`
+- Replace every `font-family: 'Expert Sans'` reference with `font-family: 'Effra'`
+- Update `--font-sans` CSS variable to `'Effra'`
+- Update comment from "Expert Sans" to "Effra"
 
-### 2. Replace All FDIC Logos with SVG + Add Motto
+#### 2. `tailwind.config.ts`
+- Replace `'Expert Sans'` with `'Effra'` in `fontFamily.sans` and `fontFamily.serif`
 
-Currently using `fdic-logo.png` in FeaturedBondsSection and LeadFormSection. Change all instances to use the SVG version (`/fdic-logo.svg` or the src/assets version) and add the FDIC motto text "Each depositor insured to at least $250,000" alongside the logo.
+#### 3. Rename font files in `public/fonts/`
+- `expert-sans-regular.woff2` → `effra-regular.woff2` (and `.woff`)
+- `expert-sans-bold.woff2` → `effra-bold.woff2` (and `.woff`)
+- `expert-sans-light.woff2` → `effra-light.woff2` (and `.woff`)
 
-**Files to change:**
-- `src/components/landing/FeaturedBondsSection.tsx` -- 3 FDIC logo instances (bond cards, form info box, banner): switch from PNG import to SVG, add motto text
-- `src/components/landing/LeadFormSection.tsx` -- 1 FDIC logo instance: switch to SVG, add motto
-- `src/components/landing/Footer.tsx` -- already uses SVG, just add motto text
-
-### 3. Remove Second Hero Paragraph
-
-**File: `src/components/landing/HeroSection.tsx`**
-- Delete lines 42-49 (the "Successfully navigating..." paragraph)
-
-### 4. Move Buy-Back Paragraph Below Bond Cards
-
-Currently the buy-back scheme description paragraph sits above the bond cards grid in FeaturedBondsSection. Move it to after the bond cards grid and reduce font size.
-
-**File: `src/components/landing/FeaturedBondsSection.tsx`**
-- Remove the paragraph from the section header (line 155-157)
-- Add it back after the bond cards grid (after line 238), with `text-sm` instead of `text-lg`
+> **Note**: The renamed files will still contain the same font binaries. To get true Effra rendering, you'll need to upload actual Effra `.woff2`/`.woff` files to `public/fonts/`.
 
