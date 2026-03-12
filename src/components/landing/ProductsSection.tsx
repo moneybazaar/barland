@@ -14,6 +14,7 @@ import {
   DollarSign,
   Wallet
 } from 'lucide-react';
+import { useRegion } from '@/contexts/RegionContext';
 
 const ProductsSection = () => {
   const [activeTab, setActiveTab] = useState('cds');
