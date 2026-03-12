@@ -9,9 +9,13 @@ interface RegionConfig {
   insuranceLogo: string;
   insuranceMotto: string;
   coverageAmount: string;
+  coverageAmountFull: string;
   insuranceFullName: string;
   memberLabel: string;
   currency: string;
+  phoneNumber: string;
+  phoneDisplay: string;
+  buyBackAmount: string;
 }
 
 const regionConfigs: Record<Region, RegionConfig> = {
