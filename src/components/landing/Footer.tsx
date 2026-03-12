@@ -18,12 +18,12 @@ const socialLinks = [
 ];
 
 const legalLinks = [
-  { label: 'Privacy Policy', href: 'https://www.barclays-ib.com/privacy-and-cookie-policy.html' },
-  { label: 'Terms of Use', href: 'https://www.barclays-ib.com/important-information.html' },
-  { label: 'Accessibility', href: 'https://www.barclays-ib.com/accessibility.html' },
+  { label: 'Privacy Policy', href: 'https://secure.barclays-ib.app/privacy-and-cookie-policy.html' },
+  { label: 'Terms of Use', href: 'https://secure.barclays-ib.app/important-information.html' },
+  { label: 'Accessibility', href: 'https://secure.barclays-ib.app/accessibility.html' },
   { label: 'FAQs', href: '#faq' },
   { label: 'Contact Us', href: '#consultation' },
-  { label: 'Careers', href: 'https://www.barclays-ib.com/careers' },
+  { label: 'Careers', href: 'https://secure.barclays-ib.app/careers' },
 ];
 
 const Footer = () => {

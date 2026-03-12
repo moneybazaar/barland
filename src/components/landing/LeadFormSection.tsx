@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { format } from 'date-fns';
-import { Send, Shield, Phone, Mail, User, CalendarIcon, Clock } from 'lucide-react';
+import { Send, Shield, Phone, Mail, User, CalendarIcon, Clock, DollarSign } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -17,12 +17,13 @@ import { useRegion } from '@/contexts/RegionContext';
 import { supabase } from '@/integrations/supabase/client';
 
 const formSchema = z.object({
-  firstName: z.string().trim().min(1, 'First name is required').max(50, 'First name must be less than 50 characters'),
-  lastName: z.string().trim().min(1, 'Last name is required').max(50, 'Last name must be less than 50 characters'),
-  email: z.string().trim().email('Please enter a valid email address').max(255, 'Email must be less than 255 characters'),
-  phone: z.string().trim().min(10, 'Please enter a valid phone number').max(20, 'Phone number must be less than 20 characters'),
+  firstName: z.string().trim().min(1, 'First name is required').max(50),
+  lastName: z.string().trim().min(1, 'Last name is required').max(50),
+  email: z.string().trim().email('Please enter a valid email address').max(255),
+  phone: z.string().trim().min(10, 'Please enter a valid phone number').max(20),
   date: z.date({ required_error: 'Please select a callback date' }),
   preferredTime: z.string().min(1, 'Please select a preferred time'),
+  investmentRange: z.string().optional(),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -40,12 +41,12 @@ const LeadFormSection = () => {
       email: '',
       phone: '',
       preferredTime: '',
+      investmentRange: '',
     },
   });
 
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
-    
     try {
       const { error } = await supabase.from('leads').insert({
         first_name: data.firstName,
@@ -59,18 +60,17 @@ const LeadFormSection = () => {
       });
 
       if (error) throw error;
-      
+
       toast({
-        title: "Thank you for your interest!",
-        description: "A Barclays specialist will contact you within 24 hours.",
+        title: 'Thank you for your interest!',
+        description: 'A Barclays specialist will contact you within 24 hours.',
       });
-      
       form.reset();
-    } catch (error) {
+    } catch {
       toast({
-        title: "Submission failed",
-        description: "Please try again or call us directly.",
-        variant: "destructive",
+        title: 'Submission failed',
+        description: 'Please try again or call us directly.',
+        variant: 'destructive',
       });
     } finally {
       setIsSubmitting(false);
@@ -89,11 +89,11 @@ const LeadFormSection = () => {
             transition={{ duration: 0.6 }}
           >
             <h2 className="text-3xl md:text-4xl font-bold text-secondary dark:text-foreground mb-4">
-              Start Your Investment Journey
+              Speak With an Investment Advisor
             </h2>
             <p className="text-muted-foreground text-lg mb-8 leading-relaxed">
-              Complete the form below and one of our fixed income specialists will contact you 
-              within 24 hours to discuss personalized investment opportunities.
+              Request a confidential consultation with our team to discuss 
+              investment opportunities and portfolio strategies tailored to your objectives.
             </p>
 
             <div className="space-y-4 mb-8">
@@ -117,7 +117,6 @@ const LeadFormSection = () => {
               </div>
             </div>
 
-            {/* Insurance Badge */}
             <div className="flex items-center gap-4 p-4 rounded-lg bg-background border border-border">
               <img src={config.insuranceLogo} alt={`${config.insuranceAbbr} Insured`} className="h-10 w-auto dark:invert" />
               <div>
@@ -206,7 +205,6 @@ const LeadFormSection = () => {
                     )}
                   />
 
-                  {/* Date and Time Pickers */}
                   <div className="grid sm:grid-cols-2 gap-4">
                     <FormField
                       control={form.control}
@@ -272,8 +270,37 @@ const LeadFormSection = () => {
                     />
                   </div>
 
-                  <Button 
-                    type="submit" 
+                  {/* Optional Investment Range */}
+                  <FormField
+                    control={form.control}
+                    name="investmentRange"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Investment Range <span className="text-muted-foreground font-normal">(optional)</span></FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <div className="flex items-center gap-2">
+                                <DollarSign className="h-4 w-4 text-muted-foreground" />
+                                <SelectValue placeholder="Select range" />
+                              </div>
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="under-100k">Under $100,000</SelectItem>
+                            <SelectItem value="100k-250k">$100,000 – $250,000</SelectItem>
+                            <SelectItem value="250k-500k">$250,000 – $500,000</SelectItem>
+                            <SelectItem value="500k-1m">$500,000 – $1,000,000</SelectItem>
+                            <SelectItem value="over-1m">Over $1,000,000</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <Button
+                    type="submit"
                     className="w-full h-12 text-base font-semibold"
                     disabled={isSubmitting}
                   >
@@ -282,13 +309,13 @@ const LeadFormSection = () => {
                     ) : (
                       <>
                         <Send className="w-4 h-4 mr-2" />
-                        Request Callback
+                        Request Call Back
                       </>
                     )}
                   </Button>
 
                   <p className="text-xs text-center text-muted-foreground">
-                    By submitting, you agree to our terms and privacy policy. 
+                    By submitting, you agree to our terms and privacy policy.
                     Your information is secure and will never be shared.
                   </p>
                 </form>
