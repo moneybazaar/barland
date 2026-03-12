@@ -509,7 +509,7 @@ const FeaturedBondsSection = () => {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="fdic-banner mb-6"
         >
-          <img src={config.region === 'US' ? fdicLogo : sdicLogo} alt={config.insuranceAbbr} className="h-10 w-auto flex-shrink-0 dark:invert" />
+          <img src={config.insuranceLogo} alt={config.insuranceAbbr} className="h-10 w-auto flex-shrink-0 dark:invert" />
           <div>
             <div className="font-semibold text-secondary dark:text-foreground">{config.insuranceAbbr} Insured Up to {config.coverageAmountFull}</div>
             <div className="text-sm text-muted-foreground">
