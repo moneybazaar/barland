@@ -480,8 +480,9 @@
 
 /* Featured Bonds Section */
 .bond-card {
-  @apply bg-white rounded-xl border border-border transition-all duration-300 overflow-hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  @apply bg-white rounded-2xl border border-border overflow-hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .dark .bond-card {
@@ -489,9 +490,8 @@
 }
 
 .bond-card:hover {
-  @apply -translate-y-1;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
-  border-color: hsl(195 100% 47% / 0.3);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14);
+  border-color: hsl(195 100% 47% / 0.4);
 }
 
 .bond-rate {

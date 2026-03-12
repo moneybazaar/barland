@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Send, Shield, Briefcase, Users, User, Mail, Phone } from 'lucide-react';
+import heroImage from '@/assets/hero-ib.jpg';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -129,13 +130,20 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Right Side - Lead Capture Form */}
-      <div className="flex items-center justify-center bg-muted/30 dark:bg-card px-6 py-16 lg:py-0">
+      {/* Right Side - Hero Image + Lead Capture Form */}
+      <div className="relative flex items-center justify-center px-6 py-16 lg:py-0 overflow-hidden">
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${heroImage})` }}
+        />
+        <div className="absolute inset-0 bg-secondary/70 dark:bg-secondary/80" />
+        
         <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          animate={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.4 }}
-          className="w-full max-w-md"
+          className="relative z-10 w-full max-w-md"
         >
           <div className="bg-background rounded-2xl p-8 shadow-xl border border-border">
             <h2 className="text-xl font-bold text-secondary dark:text-foreground mb-1">
