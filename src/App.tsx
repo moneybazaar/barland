@@ -30,6 +30,7 @@ const App = () => (
       <CookieConsent />
     </TooltipProvider>
   </QueryClientProvider>
+  </RegionProvider>
   </ThemeProvider>
 );
 
