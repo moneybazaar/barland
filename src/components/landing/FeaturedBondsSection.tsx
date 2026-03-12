@@ -219,13 +219,7 @@ const FeaturedBondsSection = () => {
         </p>
 
         {/* CTA to Lead Form */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-center"
-        >
+        <div className="text-center">
           <a
             href="#lead-form"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-lg font-bold text-base text-primary-foreground transition-all duration-300 hover:-translate-y-0.5"
@@ -237,7 +231,7 @@ const FeaturedBondsSection = () => {
             Speak With an Advisor
             <ArrowRight className="w-4 h-4" />
           </a>
-        </motion.div>
+        </div>
 
         {/* Insurance Banner */}
         <motion.div
