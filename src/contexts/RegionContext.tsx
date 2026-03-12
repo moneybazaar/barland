@@ -53,7 +53,7 @@ const regionConfigs: Record<Region, RegionConfig> = {
     region: 'UK',
     insuranceName: 'FSCS',
     insuranceAbbr: 'FSCS',
-    insuranceLogo: '/fscs-logo.svg',
+    insuranceLogo: '/fscs-logo.png',
     insuranceMotto: 'FSCS Protected - Up to £85,000 per eligible person, per institution',
     coverageAmount: '£85K',
     coverageAmountFull: '£85,000',
