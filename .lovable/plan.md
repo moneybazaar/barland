@@ -1,49 +1,33 @@
 
 
-## Five Changes
+## Plan: Reorder Sections + Admin Dashboard Design Upgrade
 
-### 1. Add Date/Time Picker to Contact Form (LeadFormSection)
+### 1. Move Bond Cards to Top Priority Position
 
-Add a "Preferred Contact Date" and "Preferred Contact Time" field to the lead form in `FeaturedBondsSection.tsx` (the active contact form). Will use the Shadcn date picker (Popover + Calendar) for date, and a Select dropdown for time slots.
+The bond cards are the core product — they should appear immediately after the hero. Current order has Stats and Process before bonds, pushing the most important content too far down.
 
-**File: `src/components/landing/FeaturedBondsSection.tsx`**
-- Add `date` (optional Date) and `preferredTime` (optional string) to the form schema
-- Add a date picker field using Popover + Calendar after the phone field
-- Add a time select dropdown (Morning, Afternoon, Evening slots)
-- Import Calendar, Popover, Select components
+**`src/pages/Index.tsx`** — New section order:
+```
+Hero → FeaturedBonds → Stats → Process → Benefits → Philosophy → Suitability → LeadForm → FAQ → CTA
+```
 
-### 2. Replace All FDIC Logos with SVG + Add Motto
+### 2. Admin Dashboard Design Upgrade
 
-Currently using `fdic-logo.png` in FeaturedBondsSection and LeadFormSection. Change all instances to use the SVG version (`/fdic-logo.svg` or the src/assets version) and add the FDIC motto text "Each depositor insured to at least $250,000" alongside the logo.
+Inspired by the barclayportal.lovable.app design language (clean header, card-based layout, institutional typography), upgrade the admin dashboard from basic to a polished institutional portal.
 
-**Files to change:**
-- `src/components/landing/FeaturedBondsSection.tsx` -- 3 FDIC logo instances (bond cards, form info box, banner): switch from PNG import to SVG, add motto text
-- `src/components/landing/LeadFormSection.tsx` -- 1 FDIC logo instance: switch to SVG, add motto
-- `src/components/landing/Footer.tsx` -- already uses SVG, just add motto text
+**`src/pages/AdminDashboard.tsx`** — Full redesign:
 
-### 3. Remove Second Hero Paragraph
+- **Header**: Add Barclays logo, styled navy header matching brand, user email display
+- **Stats Cards**: Add percentage change indicators, subtle icon backgrounds, border-left accent color per card type
+- **Filters Bar**: Cleaner layout with search input, date range display, export button placeholder
+- **Table**: Improved typography, row hover effects, better status badge styling with dot indicators, click-to-expand row detail (phone, notes)
+- **Empty State**: Better illustration/messaging when no leads found
+- **Overall**: Use brand navy (`bg-secondary`) for header, consistent with landing page design system
 
-**File: `src/components/landing/HeroSection.tsx`**
-- Delete lines 42-49 (the "Successfully navigating..." paragraph)
+### Files
 
-### 4. Move Buy-Back Paragraph Below Bond Cards
-
-Currently the buy-back scheme description paragraph sits above the bond cards grid in FeaturedBondsSection. Move it to after the bond cards grid and reduce font size.
-
-**File: `src/components/landing/FeaturedBondsSection.tsx`**
-- Remove the paragraph from the section header (line 155-157)
-
-### 5. Hero Redesign: Full-Width Image + Modern Glassmorphic Form
-
-Revert the split-layout hero to a full-width hero image background with a floating glassmorphic lead capture form. Based on 2026 form design best practices:
-
-**File: `src/components/landing/HeroSection.tsx`**
-- Full-width hero image as background with gradient overlay (dark-to-transparent, left-to-right)
-- 12-column grid: 7-col content left, 5-col floating form right
-- Form card: glassmorphism (backdrop-blur-xl, bg-background/95), glow effect behind card, navy header bar
-- Inputs: tinted bg-muted/50 backgrounds with focus transitions, uppercase tracking labels
-- CTA: full-width, large (h-12), with arrow icon and hover animation
-- Trust signals: 3 checkmark benefits below CTA (no-obligation, 24hr response, dedicated specialist)
-- Removed old split-layout CSS dependency (hero-split, hero-content classes)
-- Add it back after the bond cards grid (after line 238), with `text-sm` instead of `text-lg`
+| File | Action |
+|------|--------|
+| `src/pages/Index.tsx` | Reorder — move FeaturedBonds right after Hero |
+| `src/pages/AdminDashboard.tsx` | Design upgrade — institutional admin portal |
 
