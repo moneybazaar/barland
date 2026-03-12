@@ -1,54 +1,36 @@
 
 
-## Plan: Singapore-Specific Content, Regional Phone Numbers, and Link Fixes
+## Four Changes
 
-### Issues Found
+### 1. Add Date/Time Picker to Contact Form (LeadFormSection)
 
-**1. Hardcoded FDIC in FeaturedBondsSection (not using region config)**
-- Lead form info box (lines 275-281): hardcoded FDIC logo, "FDIC Insured", "$250,000"
-- FDIC Banner (lines 445-460): hardcoded FDIC logo, "FDIC Insured Up to $250,000"
-- Buy-back paragraph (line 254): hardcoded "$2,000,000"
+Add a "Preferred Contact Date" and "Preferred Contact Time" field to the lead form in `FeaturedBondsSection.tsx` (the active contact form). Will use the Shadcn date picker (Popover + Calendar) for date, and a Select dropdown for time slots.
 
-**2. Hardcoded US phone numbers**
-- Header: `tel:+18002272597` and "1-800-BARCLAYS" (lines 48, 52, 57)
-- CTASection: `tel:1-800-BARCLAYS` and "1-800-BARCLAYS" (lines 52, 57)
-- SG should show: `+65 6308 3858` (Barclays Singapore office)
+**File: `src/components/landing/FeaturedBondsSection.tsx`**
+- Add `date` (optional Date) and `preferredTime` (optional string) to the form schema
+- Add a date picker field using Popover + Calendar after the phone field
+- Add a time select dropdown (Morning, Afternoon, Evening slots)
+- Import Calendar, Popover, Select components
 
-**3. No SGD bond listings for Singapore region**
-- All 4 bonds are USD with US ISINs — SG users should see SGD-denominated equivalents
+### 2. Replace All FDIC Logos with SVG + Add Motto
 
-**4. External links to verify**
-All links found across the site:
-- `https://www.barclays-ib.com/` — Logo link
-- `https://secure.barclays-ib.com/openaccount` — Open Account CTA (x3)
-- `https://www.facebook.com/BarclaysUS` — Social
-- `https://twitter.com/baraboraib` — Social
-- `https://www.youtube.com/@barclaysib` — Social
-- `https://www.instagram.com/barclaysib/` — Social
-- `https://www.barclays-ib.com/privacy-and-cookie-policy.html` — Footer legal
-- `https://www.barclays-ib.com/important-information.html` — Footer legal
-- `https://www.barclays-ib.com/accessibility.html` — Footer legal
-- `https://www.barclays-ib.com/careers` — Footer legal
-- 4x Business Insider bond verify links
+Currently using `fdic-logo.png` in FeaturedBondsSection and LeadFormSection. Change all instances to use the SVG version (`/fdic-logo.svg` or the src/assets version) and add the FDIC motto text "Each depositor insured to at least $250,000" alongside the logo.
 
-These all point to `barclays-ib.com` which is the site's own domain — they should remain as-is since they're self-referential. The Business Insider verify links are third-party and should be kept.
+**Files to change:**
+- `src/components/landing/FeaturedBondsSection.tsx` -- 3 FDIC logo instances (bond cards, form info box, banner): switch from PNG import to SVG, add motto text
+- `src/components/landing/LeadFormSection.tsx` -- 1 FDIC logo instance: switch to SVG, add motto
+- `src/components/landing/Footer.tsx` -- already uses SVG, just add motto text
 
----
+### 3. Remove Second Hero Paragraph
 
-### Changes
+**File: `src/components/landing/HeroSection.tsx`**
+- Delete lines 42-49 (the "Successfully navigating..." paragraph)
 
-#### 1. `src/components/landing/FeaturedBondsSection.tsx`
-- **Add SGD bond data** for SG region (4 SGD-denominated bonds with different ISINs and verify links)
-- **Fix lead form info box** to use `config` for insurance logo, name, and motto
-- **Fix FDIC banner** to use `config` for insurance logo, name, coverage amount, and motto
-- **Regionalize buy-back paragraph** currency amounts
+### 4. Move Buy-Back Paragraph Below Bond Cards
 
-#### 2. `src/components/landing/Header.tsx`
-- Switch phone number based on region: US = `+18002272597` / "1-800-BARCLAYS", SG = `+6563083858` / "+65 6308 3858"
+Currently the buy-back scheme description paragraph sits above the bond cards grid in FeaturedBondsSection. Move it to after the bond cards grid and reduce font size.
 
-#### 3. `src/components/landing/CTASection.tsx`
-- Use `useRegion` to switch phone number and label based on region
-
-#### 4. `src/contexts/RegionContext.tsx`
-- Add `phoneNumber` and `phoneDisplay` fields to `RegionConfig`
+**File: `src/components/landing/FeaturedBondsSection.tsx`**
+- Remove the paragraph from the section header (line 155-157)
+- Add it back after the bond cards grid (after line 238), with `text-sm` instead of `text-lg`
 

@@ -10,7 +10,7 @@ import { useRegion, Region } from '@/contexts/RegionContext';
 const Header = () => {
   const [mounted, setMounted] = useState(false);
   const { resolvedTheme } = useTheme();
-  const { region, setRegion } = useRegion();
+  const { region, config, setRegion } = useRegion();
 
   useEffect(() => {
     setMounted(true);
@@ -45,16 +45,16 @@ const Header = () => {
             <div className="flex items-center gap-2 sm:gap-4">
               {/* Phone Number - Hidden on mobile, shown on sm+ */}
               <a
-                href="tel:+18002272597"
+                href={`tel:${config.phoneNumber}`}
                 className="hidden md:flex items-center gap-2 text-foreground hover:text-primary transition-colors"
               >
                 <Phone className="w-4 h-4" />
-                <span className="text-sm font-medium">1-800-BARCLAYS</span>
+                <span className="text-sm font-medium">{config.phoneDisplay}</span>
               </a>
 
               {/* Phone Icon Only - Shown on mobile */}
               <a
-                href="tel:+18002272597"
+                href={`tel:${config.phoneNumber}`}
                 className="md:hidden flex items-center justify-center w-10 h-10 rounded-full bg-muted hover:bg-muted/80 transition-colors"
                 aria-label="Call us"
               >

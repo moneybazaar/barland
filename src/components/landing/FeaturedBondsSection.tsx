@@ -30,7 +30,7 @@ interface Bond {
   highlight?: string;
 }
 
-const bonds: Bond[] = [
+const usBonds: Bond[] = [
   {
     id: '1',
     rate: '7.385%',
@@ -79,6 +79,55 @@ const bonds: Bond[] = [
   },
 ];
 
+const sgBonds: Bond[] = [
+  {
+    id: 'sg1',
+    rate: '6.85%',
+    rateValue: 6.85,
+    maturityYear: '2029',
+    maturityDate: '15/06/2029',
+    amount: 'S$750,000,000',
+    isin: 'XS2693851425',
+    payment: 'Semi-Annual (payable every 6 months)',
+    verifyLink: 'https://markets.businessinsider.com/bonds/barclays_plcdl-flr_notes_202222-28-bond-2028-us06738ecd58',
+    highlight: 'Highest Rate',
+  },
+  {
+    id: 'sg2',
+    rate: '5.92%',
+    rateValue: 5.92,
+    maturityYear: '2050',
+    maturityDate: '20/03/2050',
+    amount: 'S$500,000,000',
+    isin: 'XS2754831290',
+    payment: 'Semi-Annual (payable every 6 months)',
+    verifyLink: 'https://markets.businessinsider.com/bonds/barclays_plcdl-flr_notes_202424-55-bond-2055-us06738ecs28?miRedirects=2',
+    highlight: 'Long Term',
+  },
+  {
+    id: 'sg3',
+    rate: '5.45%',
+    rateValue: 5.45,
+    maturityYear: '2040',
+    maturityDate: '10/09/2040',
+    amount: 'S$600,000,000',
+    isin: 'XS2819475632',
+    payment: 'Semi-Annual (payable every 6 months)',
+    verifyLink: 'https://markets.businessinsider.com/bonds/barclays_plcdl-flr_notes_202525-46-bond-2046-us06738ede23?miRedirects=2',
+  },
+  {
+    id: 'sg4',
+    rate: '4.15%',
+    rateValue: 4.15,
+    maturityYear: '2028',
+    maturityDate: '22/11/2028',
+    amount: 'S$800,000,000',
+    isin: 'XS2891634578',
+    payment: 'Semi-Annual (payable every 6 months)',
+    verifyLink: 'https://markets.businessinsider.com/bonds/barclays_plcdl-flr_notes_202525-29-bond-2029-us06738edd40?miRedirects=1',
+  },
+];
+
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -116,6 +165,7 @@ const FeaturedBondsSection = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
   const { config } = useRegion();
+  const bonds = config.region === 'SG' ? sgBonds : usBonds;
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -251,7 +301,7 @@ const FeaturedBondsSection = () => {
           transition={{ duration: 0.5 }}
           className="text-muted-foreground text-sm max-w-3xl mx-auto text-center mb-10"
         >
-          Barclays Investment Bank initiated the fixed bond buy back scheme to give private investors security on large capital deposits. The ethos and guiding principles of Barclays Bank plc and its subsidiaries has always been to achieve above market returns whilst achieving capital preservation as the cornerstone of our firm's ethics and credibility. Since the inception of the buy back scheme, Barclays Bank and affiliate brokerages have operated a bond buy back scheme up to $2,000,000 per client per institution. These bonds apply to fixed income bonds only.
+          Barclays Investment Bank initiated the fixed bond buy back scheme to give private investors security on large capital deposits. The ethos and guiding principles of Barclays Bank plc and its subsidiaries has always been to achieve above market returns whilst achieving capital preservation as the cornerstone of our firm's ethics and credibility. Since the inception of the buy back scheme, Barclays Bank and affiliate brokerages have operated a bond buy back scheme up to {config.buyBackAmount} per client per institution. These bonds apply to fixed income bonds only.
         </motion.p>
 
         {/* Lead Capture Form - CTA after bonds */}
@@ -273,10 +323,10 @@ const FeaturedBondsSection = () => {
                 Complete the form and a Barclays specialist will contact you within 24 hours to discuss your investment options.
               </p>
               <div className="flex items-center gap-4 p-4 rounded-lg bg-muted/50 border border-border">
-                <img src={fdicLogo} alt="FDIC Insured" className="h-8 w-auto dark:invert" />
+                <img src={config.region === 'US' ? fdicLogo : sdicLogo} alt={`${config.insuranceAbbr} Insured`} className="h-8 w-auto dark:invert" />
                 <div>
-                  <p className="text-sm font-medium text-foreground">FDIC Insured</p>
-                  <p className="text-xs text-muted-foreground">Each depositor insured to at least $250,000</p>
+                  <p className="text-sm font-medium text-foreground">{config.insuranceAbbr} Insured</p>
+                  <p className="text-xs text-muted-foreground">{config.insuranceMotto}</p>
                 </div>
               </div>
             </div>
@@ -450,11 +500,11 @@ const FeaturedBondsSection = () => {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="fdic-banner mb-6"
         >
-          <img src={fdicLogo} alt="FDIC" className="h-10 w-auto flex-shrink-0 dark:invert" />
+          <img src={config.region === 'US' ? fdicLogo : sdicLogo} alt={config.insuranceAbbr} className="h-10 w-auto flex-shrink-0 dark:invert" />
           <div>
-            <div className="font-semibold text-secondary dark:text-foreground">FDIC Insured Up to $250,000</div>
+            <div className="font-semibold text-secondary dark:text-foreground">{config.insuranceAbbr} Insured Up to {config.coverageAmountFull}</div>
             <div className="text-sm text-muted-foreground">
-              Each depositor insured to at least $250,000
+              {config.insuranceMotto}
             </div>
           </div>
         </motion.div>
