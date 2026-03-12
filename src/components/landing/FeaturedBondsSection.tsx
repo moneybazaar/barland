@@ -323,10 +323,10 @@ const FeaturedBondsSection = () => {
                 Complete the form and a Barclays specialist will contact you within 24 hours to discuss your investment options.
               </p>
               <div className="flex items-center gap-4 p-4 rounded-lg bg-muted/50 border border-border">
-                <img src={fdicLogo} alt="FDIC Insured" className="h-8 w-auto dark:invert" />
+                <img src={config.region === 'US' ? fdicLogo : sdicLogo} alt={`${config.insuranceAbbr} Insured`} className="h-8 w-auto dark:invert" />
                 <div>
-                  <p className="text-sm font-medium text-foreground">FDIC Insured</p>
-                  <p className="text-xs text-muted-foreground">Each depositor insured to at least $250,000</p>
+                  <p className="text-sm font-medium text-foreground">{config.insuranceAbbr} Insured</p>
+                  <p className="text-xs text-muted-foreground">{config.insuranceMotto}</p>
                 </div>
               </div>
             </div>
