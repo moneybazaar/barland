@@ -3,22 +3,26 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Send, Shield, Phone, Mail, User } from 'lucide-react';
+import { format } from 'date-fns';
+import { Send, Shield, Phone, Mail, User, CalendarIcon, Clock } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import fdicLogo from '@/assets/fdic-logo.svg';
-import sdicLogo from '@/assets/sdic-logo.png';
 import { useRegion } from '@/contexts/RegionContext';
+import { supabase } from '@/integrations/supabase/client';
 
 const formSchema = z.object({
   firstName: z.string().trim().min(1, 'First name is required').max(50, 'First name must be less than 50 characters'),
   lastName: z.string().trim().min(1, 'Last name is required').max(50, 'Last name must be less than 50 characters'),
   email: z.string().trim().email('Please enter a valid email address').max(255, 'Email must be less than 255 characters'),
   phone: z.string().trim().min(10, 'Please enter a valid phone number').max(20, 'Phone number must be less than 20 characters'),
-  message: z.string().trim().max(1000, 'Message must be less than 1000 characters').optional(),
+  date: z.date({ required_error: 'Please select a callback date' }),
+  preferredTime: z.string().min(1, 'Please select a preferred time'),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -35,7 +39,7 @@ const LeadFormSection = () => {
       lastName: '',
       email: '',
       phone: '',
-      message: '',
+      preferredTime: '',
     },
   });
 
@@ -43,8 +47,18 @@ const LeadFormSection = () => {
     setIsSubmitting(true);
     
     try {
-      // TODO: Send to database on barclays-ib.app when Cloud is enabled
-      console.log('Lead form submission:', data);
+      const { error } = await supabase.from('leads').insert({
+        first_name: data.firstName,
+        last_name: data.lastName,
+        email: data.email,
+        phone: data.phone,
+        preferred_date: format(data.date, 'yyyy-MM-dd'),
+        preferred_time: data.preferredTime,
+        region: config.region,
+        source: 'landing',
+      });
+
+      if (error) throw error;
       
       toast({
         title: "Thank you for your interest!",
@@ -105,7 +119,7 @@ const LeadFormSection = () => {
 
             {/* Insurance Badge */}
             <div className="flex items-center gap-4 p-4 rounded-lg bg-background border border-border">
-              <img src={config.region === 'US' ? fdicLogo : sdicLogo} alt={`${config.insuranceAbbr} Insured`} className="h-10 w-auto dark:invert" />
+              <img src={config.insuranceLogo} alt={`${config.insuranceAbbr} Insured`} className="h-10 w-auto dark:invert" />
               <div>
                 <p className="text-sm font-medium text-foreground">{config.insuranceAbbr} Insured</p>
                 <p className="text-xs text-muted-foreground">{config.insuranceMotto}</p>
@@ -192,23 +206,71 @@ const LeadFormSection = () => {
                     )}
                   />
 
-                  <FormField
-                    control={form.control}
-                    name="message"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Message (Optional)</FormLabel>
-                        <FormControl>
-                          <Textarea 
-                            placeholder="Tell us about your investment goals..." 
-                            className="min-h-[100px] resize-none"
-                            {...field} 
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  {/* Date and Time Pickers */}
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="date"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-col">
+                          <FormLabel>Preferred Callback Date</FormLabel>
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <FormControl>
+                                <Button
+                                  variant="outline"
+                                  className={cn(
+                                    "w-full pl-3 text-left font-normal",
+                                    !field.value && "text-muted-foreground"
+                                  )}
+                                >
+                                  {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
+                                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                </Button>
+                              </FormControl>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0" align="start">
+                              <Calendar
+                                mode="single"
+                                selected={field.value}
+                                onSelect={field.onChange}
+                                disabled={(date) => date < new Date()}
+                                initialFocus
+                                className={cn("p-3 pointer-events-auto")}
+                              />
+                            </PopoverContent>
+                          </Popover>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="preferredTime"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Preferred Time</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <div className="flex items-center gap-2">
+                                  <Clock className="h-4 w-4 text-muted-foreground" />
+                                  <SelectValue placeholder="Select time" />
+                                </div>
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="morning">Morning (9AM - 12PM)</SelectItem>
+                              <SelectItem value="afternoon">Afternoon (12PM - 5PM)</SelectItem>
+                              <SelectItem value="evening">Evening (5PM - 8PM)</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
 
                   <Button 
                     type="submit" 
@@ -220,7 +282,7 @@ const LeadFormSection = () => {
                     ) : (
                       <>
                         <Send className="w-4 h-4 mr-2" />
-                        Request Consultation
+                        Request Callback
                       </>
                     )}
                   </Button>

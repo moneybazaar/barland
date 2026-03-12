@@ -1,11 +1,18 @@
 import { motion } from 'framer-motion';
-import { Phone, Globe } from 'lucide-react';
+import { Phone } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import barclaysLogo from '@/assets/barclays-logo.png';
 import barclaysLogoDark from '@/assets/barclays-logo-dark.svg';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { useRegion, Region } from '@/contexts/RegionContext';
+
+const regionCycle: Region[] = ['US', 'SG', 'UK'];
+const regionFlags: Record<Region, string> = {
+  US: 'https://flagcdn.com/w40/us.png',
+  SG: 'https://flagcdn.com/w40/sg.png',
+  UK: 'https://flagcdn.com/w40/gb.png',
+};
 
 const Header = () => {
   const [mounted, setMounted] = useState(false);
@@ -17,6 +24,11 @@ const Header = () => {
   }, []);
 
   const currentLogo = mounted && resolvedTheme === 'dark' ? barclaysLogoDark : barclaysLogo;
+
+  const cycleRegion = () => {
+    const idx = regionCycle.indexOf(region);
+    setRegion(regionCycle[(idx + 1) % regionCycle.length]);
+  };
 
   return (
     <motion.header 
@@ -41,9 +53,8 @@ const Header = () => {
               </span>
             </a>
 
-            {/* Right Side - Phone + CTA + Theme Toggle */}
+            {/* Right Side */}
             <div className="flex items-center gap-2 sm:gap-4">
-              {/* Phone Number - Hidden on mobile, shown on sm+ */}
               <a
                 href={`tel:${config.phoneNumber}`}
                 className="hidden md:flex items-center gap-2 text-foreground hover:text-primary transition-colors"
@@ -52,7 +63,6 @@ const Header = () => {
                 <span className="text-sm font-medium">{config.phoneDisplay}</span>
               </a>
 
-              {/* Phone Icon Only - Shown on mobile */}
               <a
                 href={`tel:${config.phoneNumber}`}
                 className="md:hidden flex items-center justify-center w-10 h-10 rounded-full bg-muted hover:bg-muted/80 transition-colors"
@@ -61,7 +71,6 @@ const Header = () => {
                 <Phone className="w-5 h-5 text-foreground" />
               </a>
 
-              {/* Contact CTA */}
               <a
                 href="https://secure.barclays-ib.com/openaccount"
                 target="_blank"
@@ -71,23 +80,20 @@ const Header = () => {
                 Open Account
               </a>
 
-              {/* Region Toggle */}
+              {/* Region Toggle - cycles US → SG → UK */}
               <button
-                onClick={() => setRegion(region === 'US' ? 'SG' : 'US')}
+                onClick={cycleRegion}
                 className="flex items-center gap-2 px-3 py-1.5 rounded border border-border hover:bg-muted transition-colors text-foreground"
                 aria-label="Switch region"
               >
                 <img
-                  src={region === 'US'
-                    ? 'https://flagcdn.com/w40/us.png'
-                    : 'https://flagcdn.com/w40/sg.png'}
+                  src={regionFlags[region]}
                   alt={region}
                   className="w-5 h-3.5 object-cover rounded-[2px]"
                 />
                 <span className="text-xs font-semibold tracking-wide uppercase">{region}</span>
               </button>
 
-              {/* Theme Toggle */}
               <ThemeToggle />
             </div>
           </div>

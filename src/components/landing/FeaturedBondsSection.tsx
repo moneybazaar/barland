@@ -13,9 +13,8 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Calendar } from '@/components/ui/calendar';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import fdicLogo from '@/assets/fdic-logo.svg';
-import sdicLogo from '@/assets/sdic-logo.png';
 import { useRegion } from '@/contexts/RegionContext';
+import { supabase } from '@/integrations/supabase/client';
 
 interface Bond {
   id: string;
@@ -180,7 +179,17 @@ const FeaturedBondsSection = () => {
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     try {
-      console.log('Lead form submission:', data);
+      const { error } = await supabase.from('leads').insert({
+        first_name: data.firstName,
+        last_name: data.lastName,
+        email: data.email,
+        phone: data.phone,
+        preferred_date: data.date ? new Date(data.date).toISOString().split('T')[0] : undefined,
+        preferred_time: data.preferredTime || undefined,
+        region: config.region,
+        source: 'bonds',
+      });
+      if (error) throw error;
       toast({
         title: "Thank you for your interest!",
         description: "A Barclays specialist will contact you within 24 hours.",
@@ -283,7 +292,7 @@ const FeaturedBondsSection = () => {
 
                 {/* Insurance Badge */}
                 <div className="flex items-center justify-center gap-2 mt-4 pt-4 border-t border-border">
-                  <img src={config.region === 'US' ? fdicLogo : sdicLogo} alt={`${config.insuranceAbbr} Insured`} className="h-5 w-auto dark:invert" />
+                  <img src={config.insuranceLogo} alt={`${config.insuranceAbbr} Insured`} className="h-5 w-auto dark:invert" />
                   <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
                     {config.insuranceMotto}
                   </span>
@@ -323,7 +332,7 @@ const FeaturedBondsSection = () => {
                 Complete the form and a Barclays specialist will contact you within 24 hours to discuss your investment options.
               </p>
               <div className="flex items-center gap-4 p-4 rounded-lg bg-muted/50 border border-border">
-                <img src={config.region === 'US' ? fdicLogo : sdicLogo} alt={`${config.insuranceAbbr} Insured`} className="h-8 w-auto dark:invert" />
+                <img src={config.insuranceLogo} alt={`${config.insuranceAbbr} Insured`} className="h-8 w-auto dark:invert" />
                 <div>
                   <p className="text-sm font-medium text-foreground">{config.insuranceAbbr} Insured</p>
                   <p className="text-xs text-muted-foreground">{config.insuranceMotto}</p>
@@ -500,7 +509,7 @@ const FeaturedBondsSection = () => {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="fdic-banner mb-6"
         >
-          <img src={config.region === 'US' ? fdicLogo : sdicLogo} alt={config.insuranceAbbr} className="h-10 w-auto flex-shrink-0 dark:invert" />
+          <img src={config.insuranceLogo} alt={config.insuranceAbbr} className="h-10 w-auto flex-shrink-0 dark:invert" />
           <div>
             <div className="font-semibold text-secondary dark:text-foreground">{config.insuranceAbbr} Insured Up to {config.coverageAmountFull}</div>
             <div className="text-sm text-muted-foreground">
