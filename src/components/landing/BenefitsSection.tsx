@@ -36,8 +36,18 @@ const benefits = [
 
 const BenefitsSection = () => {
   return (
-    <section className="py-20 md:py-28 bg-white dark:bg-background">
-      <div className="container mx-auto px-6">
+    <section className="py-20 md:py-28 relative overflow-hidden">
+      {/* Background image with heavy overlay */}
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url('/images/investment-banking-bg.jpg')` }}
+      />
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.92) 0%, rgba(245,245,245,0.95) 100%)' }} />
+      <div className="dark:hidden absolute inset-0" />
+      {/* Dark mode: full opaque overlay */}
+      <div className="hidden dark:block absolute inset-0 bg-background" />
+
+      <div className="container mx-auto px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -61,6 +71,7 @@ const BenefitsSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.08 }}
+              whileHover={{ y: -6, transition: { duration: 0.3 } }}
               className="benefit-card"
             >
               <div className="benefit-icon">

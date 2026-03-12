@@ -137,12 +137,12 @@ const HeroSection = () => {
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${heroImage})` }}
         />
-        <div className="absolute inset-0 bg-secondary/70 dark:bg-secondary/80" />
+        <div className="absolute inset-0 bg-secondary/50 dark:bg-secondary/70" />
         
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.4 }}
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7, delay: 0.5, ease: [0.4, 0, 0.2, 1] }}
           className="relative z-10 w-full max-w-md"
         >
           <div className="bg-background rounded-2xl p-8 shadow-xl border border-border">
