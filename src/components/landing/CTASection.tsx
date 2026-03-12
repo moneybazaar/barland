@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion';
 import { CalendarCheck, Phone, MessageCircle, ArrowRight } from 'lucide-react';
+import { useRegion } from '@/contexts/RegionContext';
 
 const CTASection = () => {
+  const { config } = useRegion();
   return (
     <section id="consultation" className="py-24 md:py-32 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, hsl(200 100% 18%) 0%, hsl(200 100% 12%) 100%)' }}>
       {/* Background Pattern */}
