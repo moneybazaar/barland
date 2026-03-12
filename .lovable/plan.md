@@ -1,49 +1,72 @@
 
 
-## Five Changes
+# Admin Management System with Entropy-Based Authorization
 
-### 1. Add Date/Time Picker to Contact Form (LeadFormSection)
+## Concept (Refined)
 
-Add a "Preferred Contact Date" and "Preferred Contact Time" field to the lead form in `FeaturedBondsSection.tsx` (the active contact form). Will use the Shadcn date picker (Popover + Calendar) for date, and a Select dropdown for time slots.
+Instead of a static `SEED_SECRET`, authorization for admin management operations uses a **derived key** computed from a server-side salt combined with the admin email being acted upon. This ensures:
 
-**File: `src/components/landing/FeaturedBondsSection.tsx`**
-- Add `date` (optional Date) and `preferredTime` (optional string) to the form schema
-- Add a date picker field using Popover + Calendar after the phone field
-- Add a time select dropdown (Morning, Afternoon, Evening slots)
-- Import Calendar, Popover, Select components
+- Each operation is **email-specific** -- a token for `alice@example.com` cannot be reused for `bob@example.com`
+- The salt is stored server-side only (as a secret), never exposed to the client
+- The derivation uses HMAC-SHA256 for cryptographic strength
+- No single master password grants blanket admin-creation power
 
-### 2. Replace All FDIC Logos with SVG + Add Motto
+**How it works:**
 
-Currently using `fdic-logo.png` in FeaturedBondsSection and LeadFormSection. Change all instances to use the SVG version (`/fdic-logo.svg` or the src/assets version) and add the FDIC motto text "Each depositor insured to at least $250,000" alongside the logo.
+```text
+User provides:   email + authorization_token
+Server computes: HMAC-SHA256(ADMIN_SALT, email)
+Server compares: computed_hash === authorization_token
+Match? → proceed. No match? → 403 Forbidden.
+```
 
-**Files to change:**
-- `src/components/landing/FeaturedBondsSection.tsx` -- 3 FDIC logo instances (bond cards, form info box, banner): switch from PNG import to SVG, add motto text
-- `src/components/landing/LeadFormSection.tsx` -- 1 FDIC logo instance: switch to SVG, add motto
-- `src/components/landing/Footer.tsx` -- already uses SVG, just add motto text
+To generate a valid token, someone must know both the secret salt AND the target email. The token is different for every email address.
 
-### 3. Remove Second Hero Paragraph
+## Changes
 
-**File: `src/components/landing/HeroSection.tsx`**
-- Delete lines 42-49 (the "Successfully navigating..." paragraph)
+### 1. Replace `seed-admin` edge function with `manage-admin`
 
-### 4. Move Buy-Back Paragraph Below Bond Cards
+A single edge function supporting two actions:
 
-Currently the buy-back scheme description paragraph sits above the bond cards grid in FeaturedBondsSection. Move it to after the bond cards grid and reduce font size.
+- **`seed`** -- Create or update an admin user (email + password + authorization token)
+- **`delete`** -- Remove admin role and optionally delete the user (email + authorization token)
 
-**File: `src/components/landing/FeaturedBondsSection.tsx`**
-- Remove the paragraph from the section header (line 155-157)
+Authorization: HMAC-SHA256 of `ADMIN_SALT` + provided email, compared against the `authorization_token` in the request body. No more static `SEED_SECRET`.
 
-### 5. Hero Redesign: Full-Width Image + Modern Glassmorphic Form
+Request format:
+```json
+{ "action": "seed", "email": "...", "password": "...", "authorization_token": "..." }
+{ "action": "delete", "email": "...", "authorization_token": "..." }
+```
 
-Revert the split-layout hero to a full-width hero image background with a floating glassmorphic lead capture form. Based on 2026 form design best practices:
+### 2. Update `supabase/config.toml`
 
-**File: `src/components/landing/HeroSection.tsx`**
-- Full-width hero image as background with gradient overlay (dark-to-transparent, left-to-right)
-- 12-column grid: 7-col content left, 5-col floating form right
-- Form card: glassmorphism (backdrop-blur-xl, bg-background/95), glow effect behind card, navy header bar
-- Inputs: tinted bg-muted/50 backgrounds with focus transitions, uppercase tracking labels
-- CTA: full-width, large (h-12), with arrow icon and hover animation
-- Trust signals: 3 checkmark benefits below CTA (no-obligation, 24hr response, dedicated specialist)
-- Removed old split-layout CSS dependency (hero-split, hero-content classes)
-- Add it back after the bond cards grid (after line 238), with `text-sm` instead of `text-lg`
+Add `verify_jwt = false` for the new function.
+
+### 3. Update Admin Login page
+
+Add a collapsible "Admin Management" section below the login form with:
+- Action toggle: Seed / Delete
+- Email input
+- Password input (only for seed)
+- Authorization token input (the HMAC they pre-computed)
+- Submit button that calls the `manage-admin` edge function
+
+### 4. Secret configuration
+
+Replace `SEED_SECRET` with `ADMIN_SALT` -- a random 64-character hex string stored as a backend secret. Remove `ADMIN_EMAIL` and `ADMIN_PASSWORD` since credentials are now passed per-request.
+
+### 5. Delete old `seed-admin` function
+
+Remove `supabase/functions/seed-admin/index.ts`.
+
+## How admins generate their token
+
+Admins use any HMAC-SHA256 tool (online or CLI) with the shared salt and their email:
+
+```bash
+echo -n "admin@example.com" | openssl dgst -sha256 -hmac "THE_SALT_VALUE"
+```
+
+This output is their authorization token. Without the salt, the token cannot be forged.
 
