@@ -134,20 +134,14 @@ const FeaturedBondsSection = () => {
     <section id="bonds" className="py-16 md:py-24 bg-muted/30">
       <div className="container mx-auto px-4 md:px-6 max-w-6xl">
         {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
+        <div className="text-center mb-12 animate-fade-in">
           <h2 className="text-3xl md:text-4xl section-title">
             Investment Strategy Overview
           </h2>
           <p className="section-description">
             Explore our featured fixed rate bonds with competitive yields and institutional backing.
           </p>
-        </motion.div>
+        </div>
 
         {/* Bond Cards Grid */}
         <motion.div
