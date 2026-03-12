@@ -30,7 +30,7 @@ const RegistrationHeader = () => {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <a 
-              href="https://www.barclays-ib.com/" 
+              href="https://secure.barclays-ib.app/" 
               target="_blank" 
               rel="noopener noreferrer"
               className="flex items-center gap-3"
