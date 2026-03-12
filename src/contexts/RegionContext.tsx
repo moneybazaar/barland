@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
-export type Region = 'US' | 'SG';
+export type Region = 'US' | 'SG' | 'UK';
 
 interface RegionConfig {
   region: Region;
@@ -49,6 +49,21 @@ const regionConfigs: Record<Region, RegionConfig> = {
     phoneDisplay: '+65 6308 3858',
     buyBackAmount: 'S$2,000,000',
   },
+  UK: {
+    region: 'UK',
+    insuranceName: 'FSCS',
+    insuranceAbbr: 'FSCS',
+    insuranceLogo: '/fscs-logo.png',
+    insuranceMotto: 'FSCS Protected - Up to £85,000 per eligible person, per institution',
+    coverageAmount: '£85K',
+    coverageAmountFull: '£85,000',
+    insuranceFullName: 'Financial Services Compensation Scheme',
+    memberLabel: 'FSCS Protected',
+    currency: 'GBP',
+    phoneNumber: '+442071161000',
+    phoneDisplay: '+44 207 116 1000',
+    buyBackAmount: '£2,000,000',
+  },
 };
 
 interface RegionContextType {
@@ -59,12 +74,16 @@ interface RegionContextType {
 
 const RegionContext = createContext<RegionContextType | undefined>(undefined);
 
+const allRegions: Region[] = ['US', 'SG', 'UK'];
+
 function detectRegion(): Region {
   try {
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    if (tz?.startsWith('Europe/London') || tz?.startsWith('Europe/Belfast')) return 'UK';
     if (tz?.startsWith('Asia/Singapore')) return 'SG';
     const lang = navigator.language || '';
     if (lang.includes('SG') || lang === 'zh-SG' || lang === 'en-SG') return 'SG';
+    if (lang === 'en-GB') return 'UK';
   } catch {}
   return 'US';
 }
@@ -72,7 +91,7 @@ function detectRegion(): Region {
 export const RegionProvider = ({ children }: { children: ReactNode }) => {
   const [region, setRegion] = useState<Region>(() => {
     const saved = localStorage.getItem('barclays-region') as Region;
-    return saved === 'US' || saved === 'SG' ? saved : detectRegion();
+    return allRegions.includes(saved) ? saved : detectRegion();
   });
 
   useEffect(() => {
