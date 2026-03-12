@@ -41,7 +41,7 @@ const Header = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <a href="https://www.barclays-ib.com/" className="flex items-center gap-2 sm:gap-3" target="_blank" rel="noopener noreferrer">
+            <a href="https://secure.barclays-ib.app/" className="flex items-center gap-2 sm:gap-3" target="_blank" rel="noopener noreferrer">
               <img 
                 src={currentLogo} 
                 alt="Barclays" 
