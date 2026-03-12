@@ -43,7 +43,7 @@ const RegistrationHeader = () => {
             {/* Right Actions */}
             <div className="flex items-center gap-2 sm:gap-3">
               <a
-                href="mailto:support@barclays-ib.com"
+                href="mailto:support@barclays-ib.app"
                 className="flex items-center gap-2 px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 <HelpCircle className="w-4 h-4" />
