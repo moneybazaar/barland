@@ -2,7 +2,7 @@ import LegalPageLayout from '@/components/landing/LegalPageLayout';
 
 const Disclosures = () => {
   return (
-    <LegalPageLayout title="Disclosures">
+    <LegalPageLayout title="Disclosures" description="Regulatory disclosures for Barclays Investment Bank, including status disclosure, MiFID II, Pillar 3, and conflicts of interest policies.">
       <section>
         <h2 className="text-xl font-semibold text-secondary dark:text-foreground mb-4">Status Disclosure</h2>
         <p>
