@@ -14,6 +14,144 @@ export type Database = {
   }
   public: {
     Tables: {
+      client_applications: {
+        Row: {
+          account_title: string | null
+          account_type: string
+          address_line1: string
+          address_line2: string | null
+          alternative_email: string | null
+          annual_income: string
+          assets_over_1m: string
+          city: string
+          country: string
+          country_of_residence: string
+          created_at: string | null
+          current_savings_value: string
+          date_of_birth: string
+          earnings_over_200k: string
+          employment_status: string | null
+          exp_bonds: boolean | null
+          exp_cfds: boolean | null
+          exp_cryptocurrency: boolean | null
+          exp_equities: boolean | null
+          exp_options: boolean | null
+          exp_property: boolean | null
+          first_name: string
+          id: string
+          include_second_applicant: boolean | null
+          investment_from_company: boolean | null
+          investment_from_pension: boolean | null
+          investment_from_trust: boolean | null
+          investment_holdings_value: string
+          job_title: string | null
+          last_name: string
+          liquid_net_worth: string
+          middle_name: string | null
+          nationality: string
+          phone_home: string | null
+          phone_mobile: string
+          phone_work: string | null
+          risk_tolerance: string
+          state: string | null
+          terms_accepted: boolean
+          trading_experience: string | null
+          updated_at: string | null
+          user_id: string
+          zip_code: string
+        }
+        Insert: {
+          account_title?: string | null
+          account_type: string
+          address_line1: string
+          address_line2?: string | null
+          alternative_email?: string | null
+          annual_income: string
+          assets_over_1m: string
+          city: string
+          country: string
+          country_of_residence: string
+          created_at?: string | null
+          current_savings_value: string
+          date_of_birth: string
+          earnings_over_200k: string
+          employment_status?: string | null
+          exp_bonds?: boolean | null
+          exp_cfds?: boolean | null
+          exp_cryptocurrency?: boolean | null
+          exp_equities?: boolean | null
+          exp_options?: boolean | null
+          exp_property?: boolean | null
+          first_name: string
+          id?: string
+          include_second_applicant?: boolean | null
+          investment_from_company?: boolean | null
+          investment_from_pension?: boolean | null
+          investment_from_trust?: boolean | null
+          investment_holdings_value: string
+          job_title?: string | null
+          last_name: string
+          liquid_net_worth: string
+          middle_name?: string | null
+          nationality: string
+          phone_home?: string | null
+          phone_mobile: string
+          phone_work?: string | null
+          risk_tolerance: string
+          state?: string | null
+          terms_accepted?: boolean
+          trading_experience?: string | null
+          updated_at?: string | null
+          user_id: string
+          zip_code: string
+        }
+        Update: {
+          account_title?: string | null
+          account_type?: string
+          address_line1?: string
+          address_line2?: string | null
+          alternative_email?: string | null
+          annual_income?: string
+          assets_over_1m?: string
+          city?: string
+          country?: string
+          country_of_residence?: string
+          created_at?: string | null
+          current_savings_value?: string
+          date_of_birth?: string
+          earnings_over_200k?: string
+          employment_status?: string | null
+          exp_bonds?: boolean | null
+          exp_cfds?: boolean | null
+          exp_cryptocurrency?: boolean | null
+          exp_equities?: boolean | null
+          exp_options?: boolean | null
+          exp_property?: boolean | null
+          first_name?: string
+          id?: string
+          include_second_applicant?: boolean | null
+          investment_from_company?: boolean | null
+          investment_from_pension?: boolean | null
+          investment_from_trust?: boolean | null
+          investment_holdings_value?: string
+          job_title?: string | null
+          last_name?: string
+          liquid_net_worth?: string
+          middle_name?: string | null
+          nationality?: string
+          phone_home?: string | null
+          phone_mobile?: string
+          phone_work?: string | null
+          risk_tolerance?: string
+          state?: string | null
+          terms_accepted?: boolean
+          trading_experience?: string | null
+          updated_at?: string | null
+          user_id?: string
+          zip_code?: string
+        }
+        Relationships: []
+      }
       leads: {
         Row: {
           created_at: string | null
