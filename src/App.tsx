@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/components/theme-provider";
+import { RegionProvider } from "@/contexts/RegionContext";
 import CookieConsent from "@/components/CookieConsent";
 import Index from "./pages/Index";
 import RegisterInterest from "./pages/RegisterInterest";
