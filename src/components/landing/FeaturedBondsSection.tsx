@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ExternalLink, Award, ArrowRight } from 'lucide-react';
+import { ExternalLink, ArrowRight } from 'lucide-react';
 import { useRegion } from '@/contexts/RegionContext';
 
 interface Bond {
@@ -12,7 +12,6 @@ interface Bond {
   isin: string;
   payment: string;
   verifyLink: string;
-  highlight?: string;
 }
 
 const usBonds: Bond[] = [
@@ -26,7 +25,6 @@ const usBonds: Bond[] = [
     isin: 'US06738ECD58',
     payment: 'Semi-Annual (payable every 6 months)',
     verifyLink: 'https://markets.businessinsider.com/bonds/barclays_plcdl-flr_notes_202222-28-bond-2028-us06738ecd58',
-    highlight: 'Highest Rate',
   },
   {
     id: '2',
@@ -38,7 +36,6 @@ const usBonds: Bond[] = [
     isin: 'US06738ECS28',
     payment: 'Semi-Annual (payable every 6 months)',
     verifyLink: 'https://markets.businessinsider.com/bonds/barclays_plcdl-flr_notes_202424-55-bond-2055-us06738ecs28?miRedirects=2',
-    highlight: 'Long Term',
   },
   {
     id: '3',
@@ -75,7 +72,6 @@ const sgBonds: Bond[] = [
     isin: 'XS2693851425',
     payment: 'Semi-Annual (payable every 6 months)',
     verifyLink: 'https://markets.businessinsider.com/bonds/barclays_plcdl-flr_notes_202222-28-bond-2028-us06738ecd58',
-    highlight: 'Highest Rate',
   },
   {
     id: 'sg2',
@@ -87,7 +83,6 @@ const sgBonds: Bond[] = [
     isin: 'XS2754831290',
     payment: 'Semi-Annual (payable every 6 months)',
     verifyLink: 'https://markets.businessinsider.com/bonds/barclays_plcdl-flr_notes_202424-55-bond-2055-us06738ecs28?miRedirects=2',
-    highlight: 'Long Term',
   },
   {
     id: 'sg3',
@@ -117,16 +112,17 @@ const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.1 },
+    transition: { staggerChildren: 0.12 },
   },
 };
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 30, scale: 0.97 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] as const },
+    scale: 1,
+    transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] as const },
   },
 };
 
@@ -165,41 +161,36 @@ const FeaturedBondsSection = () => {
             <motion.div
               key={bond.id}
               variants={cardVariants}
-              whileHover={{ y: -6, transition: { duration: 0.3 } }}
+              whileHover={{ y: -8, scale: 1.02, transition: { duration: 0.3 } }}
               className="bond-card group"
             >
               {/* Top accent bar */}
-              <div className="h-1 w-full bg-gradient-to-r from-primary to-primary/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="h-1 w-full bg-gradient-to-r from-primary via-primary/80 to-primary/40" />
               
               <div className="p-6 md:p-7">
-                <div className="flex items-start justify-between mb-5">
-                  <div className="flex flex-col gap-2">
-                    <span className="bond-maturity-badge">
-                      Matures {bond.maturityYear}
-                    </span>
-                    {bond.highlight && (
-                      <span className="bond-highlight-badge">
-                        {bond.highlight}
-                      </span>
-                    )}
-                  </div>
-                  <span className="bond-rating-badge">
-                    <Award className="w-3.5 h-3.5 mr-1" />
-                    AAA
+                <div className="flex items-center justify-between mb-5">
+                  <span className="bond-maturity-badge">
+                    Matures {bond.maturityYear}
+                  </span>
+                  <span className="text-xs text-muted-foreground font-medium uppercase tracking-wider">
+                    Fixed Rate Bond
                   </span>
                 </div>
 
-                <div className="text-center py-6 mb-4 rounded-lg bg-muted/40 dark:bg-muted/20">
+                {/* Rate Display with gradient bg */}
+                <div className="text-center py-7 mb-5 rounded-xl relative overflow-hidden" style={{
+                  background: 'linear-gradient(135deg, hsl(195 100% 47% / 0.08) 0%, hsl(200 100% 18% / 0.06) 100%)',
+                }}>
                   <motion.div
-                    initial={{ scale: 0.9, opacity: 0 }}
+                    initial={{ scale: 0.8, opacity: 0 }}
                     whileInView={{ scale: 1, opacity: 1 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    transition={{ duration: 0.6, delay: index * 0.1, type: 'spring', stiffness: 200 }}
                     className="bond-rate"
                   >
                     {bond.rate}
                   </motion.div>
-                  <div className="text-muted-foreground text-sm mt-1 font-medium">per annum</div>
+                  <div className="text-muted-foreground text-sm mt-1.5 font-medium tracking-wide">per annum</div>
                 </div>
 
                 <div className="space-y-0 border-t border-border pt-4">
@@ -225,7 +216,7 @@ const FeaturedBondsSection = () => {
                   href={bond.verifyLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="verify-button mt-5 group-hover:shadow-lg"
+                  className="verify-button mt-5"
                 >
                   <ExternalLink className="w-4 h-4" />
                   Verify on Market
@@ -256,7 +247,7 @@ const FeaturedBondsSection = () => {
         >
           <a
             href="#lead-form"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-lg font-bold text-base text-white transition-all duration-300 hover:-translate-y-0.5"
+            className="inline-flex items-center gap-2 px-8 py-4 rounded-lg font-bold text-base text-primary-foreground transition-all duration-300 hover:-translate-y-0.5"
             style={{
               background: 'linear-gradient(135deg, hsl(195 100% 47%) 0%, hsl(195 100% 42%) 100%)',
               boxShadow: '0 4px 14px rgba(0, 174, 239, 0.4)',

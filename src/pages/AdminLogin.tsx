@@ -67,7 +67,7 @@ const AdminLogin = () => {
             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
               type="email"
-              placeholder="admin@barclays-ib.app"
+              placeholder="admin@barclays-ib.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="pl-10"

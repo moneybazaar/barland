@@ -506,17 +506,6 @@
   color: white;
 }
 
-.bond-highlight-badge {
-  @apply inline-block px-2.5 py-1 text-xs font-bold uppercase tracking-wide rounded;
-  background-color: hsl(195 100% 47%);
-  color: white;
-}
-
-.bond-rating-badge {
-  @apply inline-flex items-center px-2 py-1 text-xs font-bold rounded;
-  background: linear-gradient(135deg, #d4af37 0%, #c5a028 100%);
-  color: hsl(200 100% 12%);
-}
 
 .bond-detail-row {
   @apply flex justify-between items-center py-2.5 border-b border-border/50 text-sm;

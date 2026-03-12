@@ -5,7 +5,14 @@ import { useRegion } from '@/contexts/RegionContext';
 const CTASection = () => {
   const { config } = useRegion();
   return (
-    <section id="consultation" className="py-24 md:py-32 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, hsl(200 100% 18%) 0%, hsl(200 100% 12%) 100%)' }}>
+    <section id="consultation" className="py-24 md:py-32 relative overflow-hidden">
+      {/* Background image with heavy overlay */}
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url('/images/global-markets-bg.jpg')` }}
+      />
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, hsl(200 100% 18% / 0.92) 0%, hsl(200 100% 12% / 0.95) 100%)' }} />
+      
       <div className="absolute inset-0 opacity-30" style={{ 
         backgroundImage: `radial-gradient(circle at 20% 80%, rgba(0, 174, 239, 0.15) 0%, transparent 50%),
                           radial-gradient(circle at 80% 20%, rgba(0, 174, 239, 0.1) 0%, transparent 50%)`

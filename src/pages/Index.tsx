@@ -4,6 +4,7 @@ import StatsSection from '@/components/landing/StatsSection';
 import ProcessSection from '@/components/landing/ProcessSection';
 import FeaturedBondsSection from '@/components/landing/FeaturedBondsSection';
 import BenefitsSection from '@/components/landing/BenefitsSection';
+import PhilosophySection from '@/components/landing/PhilosophySection';
 import SuitabilitySection from '@/components/landing/SuitabilitySection';
 import LeadFormSection from '@/components/landing/LeadFormSection';
 import FAQSection from '@/components/landing/FAQSection';
@@ -20,6 +21,7 @@ const Index = () => {
         <ProcessSection />
         <FeaturedBondsSection />
         <BenefitsSection />
+        <PhilosophySection />
         <SuitabilitySection />
         <LeadFormSection />
         <FAQSection />
