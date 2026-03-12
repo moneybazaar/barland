@@ -9,18 +9,28 @@ const FAQSection = () => {
 
   const faqs = [
     {
+      question: 'How does the investment process work?',
+      answer: 'Our process begins with a confidential consultation where a specialist discusses your investment objectives. We then develop a tailored portfolio strategy, execute investment allocations, and provide ongoing management with regular performance reporting.',
+    },
+    {
       question: `What is ${config.insuranceAbbr} insurance and how does it protect my investments?`,
       answer: config.region === 'US'
         ? 'FDIC (Federal Deposit Insurance Corporation) insurance protects depositors against the loss of their insured deposits if an FDIC-insured bank fails. Coverage is up to $250,000 per depositor, per insured bank, for each account ownership category.'
+        : config.region === 'UK'
+        ? 'FSCS (Financial Services Compensation Scheme) protects eligible deposits up to £85,000 per person, per authorised firm. This provides a safety net if a financial services firm is unable to pay claims against it.'
         : 'SDIC (Singapore Deposit Insurance Corporation) protects depositors by insuring their deposits placed with member banks and finance companies. Coverage is up to S$100,000 per depositor, per Scheme member.',
     },
     {
       question: 'What is the minimum investment for fixed rate bonds?',
-      answer: `Minimum investment amounts vary by bond issuance. Typically, Barclays fixed rate bonds are available from ${config.region === 'US' ? '$1,000' : 'S$1,000'} in face value. For personalised portfolio structuring and dedicated advisory services, we recommend a minimum of ${config.region === 'US' ? '$100,000' : 'S$100,000'}.`,
+      answer: `Minimum investment amounts vary by bond issuance. Typically, Barclays fixed rate bonds are available from ${config.region === 'US' ? '$1,000' : config.region === 'UK' ? '£1,000' : 'S$1,000'} in face value. For personalised portfolio structuring and dedicated advisory services, we recommend a minimum of ${config.region === 'US' ? '$100,000' : config.region === 'UK' ? '£100,000' : 'S$100,000'}.`,
     },
     {
-      question: 'How liquid are fixed rate bonds?',
-      answer: 'Barclays fixed rate bonds can be sold on the secondary market prior to maturity, typically settling in 1-3 business days. Pricing on the secondary market will reflect prevailing interest rates and market conditions. Holding to maturity guarantees the stated coupon rate and full return of principal.',
+      question: 'How are portfolios managed?',
+      answer: 'Portfolios are managed by our experienced fixed income team who monitor market conditions, credit quality, and maturity profiles. We actively manage duration exposure and reinvestment strategies to optimise returns while maintaining your risk parameters.',
+    },
+    {
+      question: 'How do clients monitor their investments?',
+      answer: 'Clients receive access to our secure client portal with real-time portfolio valuations, transaction history, and downloadable reports. Quarterly performance summaries are provided, and your dedicated relationship manager is available for detailed discussions.',
     },
     {
       question: 'What does the bond buy-back scheme mean for investors?',
