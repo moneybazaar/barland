@@ -10,6 +10,11 @@ import Index from "./pages/Index";
 import RegisterInterest from "./pages/RegisterInterest";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
+import ImportantInformation from "./pages/ImportantInformation";
+import PrivacyNotice from "./pages/PrivacyNotice";
+import Disclosures from "./pages/Disclosures";
+import Accessibility from "./pages/Accessibility";
+import CookiesPolicy from "./pages/CookiesPolicy";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,6 +32,11 @@ const App = () => (
           <Route path="/register-interest" element={<RegisterInterest />} />
           <Route path="/portal/a7x9/login" element={<AdminLogin />} />
           <Route path="/portal/a7x9" element={<AdminDashboard />} />
+          <Route path="/important-information" element={<ImportantInformation />} />
+          <Route path="/privacy-notice" element={<PrivacyNotice />} />
+          <Route path="/disclosures" element={<Disclosures />} />
+          <Route path="/accessibility" element={<Accessibility />} />
+          <Route path="/cookies-policy" element={<CookiesPolicy />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

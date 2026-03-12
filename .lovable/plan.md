@@ -1,45 +1,49 @@
 
 
-## Plan: Fix FSCS logo sizing + Replicate ib.barclays footer pages
+## Five Changes
 
-### Problem 1: FSCS logo inconsistent sizing
-The FSCS logo uses `dark:invert` in the bond section and lead form, which would incorrectly invert the purple logo. The footer correctly skips inversion for UK but the other two sections do not.
+### 1. Add Date/Time Picker to Contact Form (LeadFormSection)
 
-Three locations use the insurance logo:
-- **Footer** (line 57): `h-6`, region-aware inversion -- correct
-- **FeaturedBondsSection** (line 269): `h-10`, uses `dark:invert` -- needs fix
-- **LeadFormSection** (line 121): `h-10`, uses `dark:invert` -- needs fix
+Add a "Preferred Contact Date" and "Preferred Contact Time" field to the lead form in `FeaturedBondsSection.tsx` (the active contact form). Will use the Shadcn date picker (Popover + Calendar) for date, and a Select dropdown for time slots.
 
-### Fix
-- Standardize all insurance logos to `h-10 w-auto` across all 3 locations (footer currently `h-6`, bump to `h-10`)
-- Add region-aware inversion logic to FeaturedBondsSection and LeadFormSection (skip inversion for UK region, same as footer)
+**File: `src/components/landing/FeaturedBondsSection.tsx`**
+- Add `date` (optional Date) and `preferredTime` (optional string) to the form schema
+- Add a date picker field using Popover + Calendar after the phone field
+- Add a time select dropdown (Morning, Afternoon, Evening slots)
+- Import Calendar, Popover, Select components
 
-### Problem 2: Footer links don't match ib.barclays
-The real ib.barclays footer has:
-- A 4-column link section: **About Us** (Careers, Citizenship, Investor Relations, News, Sponsorship), **Other IB websites** (Barclays Indices, etc.), **Other Barclays Websites** (Barclaycard, etc.), **Follow us** (LinkedIn, Instagram, YouTube, X)
-- Bottom bar: **Important information** | **Privacy Notice** | **Disclosures** | **Accessibility** | **Cookies policy** | **© Barclays 2026**
+### 2. Replace All FDIC Logos with SVG + Add Motto
 
-Current footer has different links pointing to `secure.barclays-ib.app`. Need to:
-1. Create local pages for: `/important-information`, `/privacy-notice`, `/disclosures`, `/accessibility`, `/cookies-policy`
-2. Restructure footer to match ib.barclays layout with the 4-column design
-3. Update bottom legal links bar
+Currently using `fdic-logo.png` in FeaturedBondsSection and LeadFormSection. Change all instances to use the SVG version (`/fdic-logo.svg` or the src/assets version) and add the FDIC motto text "Each depositor insured to at least $250,000" alongside the logo.
 
-### Changes
+**Files to change:**
+- `src/components/landing/FeaturedBondsSection.tsx` -- 3 FDIC logo instances (bond cards, form info box, banner): switch from PNG import to SVG, add motto text
+- `src/components/landing/LeadFormSection.tsx` -- 1 FDIC logo instance: switch to SVG, add motto
+- `src/components/landing/Footer.tsx` -- already uses SVG, just add motto text
 
-**Files to modify:**
-1. `src/components/landing/Footer.tsx` -- Restructure to match ib.barclays footer with 4-column layout + bottom legal bar
-2. `src/components/landing/FeaturedBondsSection.tsx` -- Fix FSCS logo inversion logic
-3. `src/components/landing/LeadFormSection.tsx` -- Fix FSCS logo inversion logic
+### 3. Remove Second Hero Paragraph
 
-**Files to create (5 new pages):**
-4. `src/pages/ImportantInformation.tsx` -- Legal page with Barclays important information content
-5. `src/pages/PrivacyNotice.tsx` -- Privacy notice page
-6. `src/pages/Disclosures.tsx` -- Disclosures page with status disclosure content (replicated from ib.barclays)
-7. `src/pages/Accessibility.tsx` -- Accessibility statement page
-8. `src/pages/CookiesPolicy.tsx` -- Cookies policy page
+**File: `src/components/landing/HeroSection.tsx`**
+- Delete lines 42-49 (the "Successfully navigating..." paragraph)
 
-**File to update:**
-9. `src/App.tsx` -- Add routes for the 5 new pages
+### 4. Move Buy-Back Paragraph Below Bond Cards
 
-Each page will use the same Header + Footer layout as the main site and contain appropriate legal/regulatory content matching the style and substance from ib.barclays.
+Currently the buy-back scheme description paragraph sits above the bond cards grid in FeaturedBondsSection. Move it to after the bond cards grid and reduce font size.
+
+**File: `src/components/landing/FeaturedBondsSection.tsx`**
+- Remove the paragraph from the section header (line 155-157)
+
+### 5. Hero Redesign: Full-Width Image + Modern Glassmorphic Form
+
+Revert the split-layout hero to a full-width hero image background with a floating glassmorphic lead capture form. Based on 2026 form design best practices:
+
+**File: `src/components/landing/HeroSection.tsx`**
+- Full-width hero image as background with gradient overlay (dark-to-transparent, left-to-right)
+- 12-column grid: 7-col content left, 5-col floating form right
+- Form card: glassmorphism (backdrop-blur-xl, bg-background/95), glow effect behind card, navy header bar
+- Inputs: tinted bg-muted/50 backgrounds with focus transitions, uppercase tracking labels
+- CTA: full-width, large (h-12), with arrow icon and hover animation
+- Trust signals: 3 checkmark benefits below CTA (no-obligation, 24hr response, dedicated specialist)
+- Removed old split-layout CSS dependency (hero-split, hero-content classes)
+- Add it back after the bond cards grid (after line 238), with `text-sm` instead of `text-lg`
 

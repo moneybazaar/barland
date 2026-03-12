@@ -118,7 +118,7 @@ const LeadFormSection = () => {
             </div>
 
             <div className="flex items-center gap-4 p-4 rounded-lg bg-background border border-border">
-              <img src={config.insuranceLogo} alt={`${config.insuranceAbbr} Insured`} className="h-10 w-auto dark:invert" />
+              <img src={config.insuranceLogo} alt={`${config.insuranceAbbr} Insured`} className={`h-10 w-auto ${config.region === 'UK' ? '' : 'dark:invert'}`} />
               <div>
                 <p className="text-sm font-medium text-foreground">{config.insuranceAbbr} Insured</p>
                 <p className="text-xs text-muted-foreground">{config.insuranceMotto}</p>
