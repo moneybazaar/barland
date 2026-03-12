@@ -109,7 +109,7 @@ const sgBonds: Bond[] = [
 ];
 
 const containerVariants = {
-  hidden: { opacity: 0 },
+  hidden: { opacity: 1 },
   visible: {
     opacity: 1,
     transition: { staggerChildren: 0.12 },
@@ -117,7 +117,7 @@ const containerVariants = {
 };
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 30, scale: 0.97 },
+  hidden: { opacity: 1, y: 0, scale: 1 },
   visible: {
     opacity: 1,
     y: 0,
