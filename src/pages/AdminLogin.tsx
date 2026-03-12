@@ -30,7 +30,7 @@ const AdminLogin = () => {
         });
 
         if (hasAdmin) {
-          navigate('/admin');
+          navigate('/portal/a7x9');
         } else {
           await supabase.auth.signOut();
           toast({
