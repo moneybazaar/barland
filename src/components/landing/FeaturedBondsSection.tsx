@@ -13,9 +13,8 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Calendar } from '@/components/ui/calendar';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import fdicLogo from '@/assets/fdic-logo.svg';
-import sdicLogo from '@/assets/sdic-logo.png';
 import { useRegion } from '@/contexts/RegionContext';
+import { supabase } from '@/integrations/supabase/client';
 
 interface Bond {
   id: string;
