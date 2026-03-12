@@ -164,7 +164,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Expert Sans', var(--font-sans);
+    font-family: 'Effra', var(--font-sans);
     @apply font-bold tracking-tight;
     letter-spacing: -0.02em;
   }
