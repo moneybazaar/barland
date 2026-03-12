@@ -243,18 +243,12 @@ const FeaturedBondsSection = () => {
         </div>
 
         {/* Investment Disclaimer */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="text-xs text-muted-foreground text-center leading-relaxed max-w-3xl mx-auto"
-        >
+        <p className="text-xs text-muted-foreground text-center leading-relaxed max-w-3xl mx-auto">
           Investment in bonds involves risk, including possible loss of principal. 
           Past performance is not indicative of future results. The bonds featured 
           are subject to availability and market conditions. Verify all details 
           directly with issuing institutions before investing.
-        </motion.p>
+        </p>
       </div>
     </section>
   );
