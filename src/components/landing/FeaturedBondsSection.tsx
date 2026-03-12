@@ -234,19 +234,13 @@ const FeaturedBondsSection = () => {
         </div>
 
         {/* Insurance Banner */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="fdic-banner mt-10 mb-6"
-        >
+        <div className="fdic-banner mt-10 mb-6">
           <img src={config.insuranceLogo} alt={config.insuranceAbbr} className={`h-10 w-auto flex-shrink-0 ${config.region === 'UK' ? '' : 'dark:invert'}`} />
           <div>
             <div className="font-semibold text-secondary dark:text-foreground">{config.insuranceAbbr} Insured Up to {config.coverageAmountFull}</div>
             <div className="text-sm text-muted-foreground">{config.insuranceMotto}</div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Investment Disclaimer */}
         <motion.p
