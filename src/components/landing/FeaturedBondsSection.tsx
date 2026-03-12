@@ -174,15 +174,9 @@ const FeaturedBondsSection = () => {
                 <div className="text-center py-7 mb-5 rounded-xl relative overflow-hidden" style={{
                   background: 'linear-gradient(135deg, hsl(195 100% 47% / 0.08) 0%, hsl(200 100% 18% / 0.06) 100%)',
                 }}>
-                  <motion.div
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    whileInView={{ scale: 1, opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: index * 0.1, type: 'spring', stiffness: 200 }}
-                    className="bond-rate"
-                  >
+                  <div className="bond-rate">
                     {bond.rate}
-                  </motion.div>
+                  </div>
                   <div className="text-muted-foreground text-sm mt-1.5 font-medium tracking-wide">per annum</div>
                 </div>
 
