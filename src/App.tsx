@@ -10,6 +10,11 @@ import Index from "./pages/Index";
 import RegisterInterest from "./pages/RegisterInterest";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
+import ImportantInformation from "./pages/ImportantInformation";
+import PrivacyNotice from "./pages/PrivacyNotice";
+import Disclosures from "./pages/Disclosures";
+import Accessibility from "./pages/Accessibility";
+import CookiesPolicy from "./pages/CookiesPolicy";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
