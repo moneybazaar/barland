@@ -82,7 +82,7 @@ const ProductsSection = () => {
           className="text-center mb-14"
         >
           <h2 className="text-3xl md:text-4xl section-title">
-            FDIC-Insured Investment Solutions
+            {config.insuranceAbbr}-Insured Investment Solutions
           </h2>
           <p className="section-description">
             A comprehensive suite of fixed income solutions designed to preserve capital

@@ -53,7 +53,7 @@ const FAQSection = () => {
             Frequently Asked Questions
           </h2>
           <p className="section-description">
-            Find answers to common questions about our FDIC-insured fixed income solutions.
+            Find answers to common questions about our {config.insuranceAbbr}-insured fixed income solutions.
           </p>
         </motion.div>
 

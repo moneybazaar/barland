@@ -1,35 +1,39 @@
 import { motion } from 'framer-motion';
 import { Shield, TrendingUp, Lock, Clock } from 'lucide-react';
 import { useEffect, useState, useRef } from 'react';
-
-const stats = [
-  {
-    icon: Shield,
-    value: '$250K',
-    label: 'FDIC Insurance Per Institution',
-    suffix: '',
-  },
-  {
-    icon: TrendingUp,
-    value: '4.5-7.5',
-    label: 'Current Yield Range',
-    suffix: '%',
-  },
-  {
-    icon: Lock,
-    value: '100',
-    label: 'Principal Protection at Maturity',
-    suffix: '%',
-  },
-  {
-    icon: Clock,
-    value: '3-5',
-    label: 'Days Typical Liquidity Access',
-    suffix: ' Days',
-  },
-];
+import { useRegion } from '@/contexts/RegionContext';
 
 const StatsSection = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const { config } = useRegion();
+
+  const stats = [
+    {
+      icon: Shield,
+      value: config.coverageAmount,
+      label: `${config.insuranceAbbr} Insurance Per Institution`,
+      suffix: '',
+    },
+    {
+      icon: TrendingUp,
+      value: '4.5-7.5',
+      label: 'Current Yield Range',
+      suffix: '%',
+    },
+    {
+      icon: Lock,
+      value: '100',
+      label: 'Principal Protection at Maturity',
+      suffix: '%',
+    },
+    {
+      icon: Clock,
+      value: '3-5',
+      label: 'Days Typical Liquidity Access',
+      suffix: ' Days',
+    },
+  ];
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
 
