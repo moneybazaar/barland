@@ -837,7 +837,7 @@ const RegisterInterest = () => {
                   <input type="checkbox" {...register('termsAccepted')} className="form-checkbox mt-0.5" />
                   <span className="text-sm text-foreground">
                     I have read and agree to the{' '}
-                    <a href="https://www.barclays-ib.com/important-information.html" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                    <a href="https://secure.barclays-ib.app/important-information.html" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
                       Terms and Conditions
                     </a>{' '}
                     and{' '}
