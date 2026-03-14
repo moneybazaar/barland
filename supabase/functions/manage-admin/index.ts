@@ -2,7 +2,7 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version',
 }
 
 async function hmacSha256(key: string, message: string): Promise<string> {
@@ -33,7 +33,6 @@ function getServiceClient() {
 }
 
 async function getOrCreateSalt(supabase: ReturnType<typeof createClient>): Promise<{ salt: string; isNew: boolean }> {
-  // Try to read existing salt
   const { data, error } = await supabase
     .from('system_config')
     .select('value')
@@ -46,7 +45,6 @@ async function getOrCreateSalt(supabase: ReturnType<typeof createClient>): Promi
     return { salt: data.value, isNew: false }
   }
 
-  // Generate a cryptographically secure 64-char hex salt
   const bytes = new Uint8Array(32)
   crypto.getRandomValues(bytes)
   const newSalt = Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('')
@@ -60,6 +58,13 @@ async function getOrCreateSalt(supabase: ReturnType<typeof createClient>): Promi
   return { salt: newSalt, isNew: true }
 }
 
+// The only email allowed to be an admin — hardcoded via secret
+function getRootAdminEmail(): string {
+  const email = Deno.env.get('ROOT_ADMIN_EMAIL')
+  if (!email) throw new Error('ROOT_ADMIN_EMAIL secret is not configured')
+  return email.toLowerCase().trim()
+}
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders })
@@ -67,10 +72,10 @@ Deno.serve(async (req) => {
 
   try {
     const { action, email, password, authorization_token } = await req.json()
-
     const supabase = getServiceClient()
+    const rootEmail = getRootAdminEmail()
 
-    // Handle get-salt action — returns the current salt (auto-generates if needed)
+    // Handle get-salt action
     if (action === 'get-salt') {
       const { salt, isNew } = await getOrCreateSalt(supabase)
       return new Response(
@@ -79,7 +84,7 @@ Deno.serve(async (req) => {
           salt,
           generated: isNew,
           message: isNew
-            ? 'New salt generated and stored. Save this value to compute authorization tokens.'
+            ? 'New salt generated and stored.'
             : 'Existing salt retrieved.',
         }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -107,12 +112,20 @@ Deno.serve(async (req) => {
       )
     }
 
-    // Get or create the salt from the database
+    // SECURITY: Only the hardcoded root admin email is allowed
+    const normalizedEmail = email.toLowerCase().trim()
+    if (normalizedEmail !== rootEmail) {
+      return new Response(
+        JSON.stringify({ error: 'Forbidden: this email is not authorized for admin operations' }),
+        { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
+
+    // Verify HMAC authorization token
     const { salt, isNew } = await getOrCreateSalt(supabase)
+    const expectedToken = await hmacSha256(salt, normalizedEmail)
 
-    const expectedToken = await hmacSha256(salt, email.toLowerCase().trim())
-
-    // Constant-time comparison to prevent timing attacks
+    // Constant-time comparison
     if (authorization_token.length !== expectedToken.length) {
       return new Response(
         JSON.stringify({ error: 'Forbidden: invalid authorization token' }),
@@ -133,8 +146,6 @@ Deno.serve(async (req) => {
     }
 
     // Authorized — proceed
-    const normalizedEmail = email.toLowerCase().trim()
-
     if (action === 'seed') {
       const { data: existingUsers } = await supabase.auth.admin.listUsers()
       const existingUser = existingUsers?.users?.find(u => u.email === normalizedEmail)
@@ -169,7 +180,6 @@ Deno.serve(async (req) => {
         userId,
       }
 
-      // Include salt on first generation so the admin can note it down
       if (isNew) {
         response.salt = salt
         response.salt_notice = 'A new salt was auto-generated. Save this value to compute future authorization tokens.'
