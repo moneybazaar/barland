@@ -1,0 +1,20 @@
+# Local development / testing override
+# Usage: docker compose up --build
+# This file is auto-loaded alongside docker-compose.yml
+
+version: "3.8"
+
+services:
+  bonds-app:
+    ports:
+      - "3002:80"
+    environment:
+      - VITE_SUPABASE_URL=https://pgnvofalgkamtqxcjqpc.supabase.co
+      - VITE_SUPABASE_PUBLISHABLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnbnZvZmFsZ2thbXRxeGNqcXBjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMyODAwODUsImV4cCI6MjA4ODg1NjA4NX0.Fbvr0L4GlEj_VMmMQk7jd-Cv7EZyWoXXgzmx05vlwO8
+      - VITE_SUPABASE_PROJECT_ID=pgnvofalgkamtqxcjqpc
+    networks:
+      webnet: null
+
+networks:
+  webnet:
+    external: false
