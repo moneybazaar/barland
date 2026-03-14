@@ -292,6 +292,7 @@ const RegisterInterest = () => {
     handleSubmit,
     control,
     watch,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<ApplicationFormData>({
     resolver: zodResolver(applicationSchema),
@@ -340,6 +341,13 @@ const RegisterInterest = () => {
       termsAccepted: false,
     },
   });
+
+  // Pre-fill email from invite
+  useEffect(() => {
+    if (inviteEmail) {
+      setValue('email', inviteEmail);
+    }
+  }, [inviteEmail, setValue]);
 
   const accountType = watch('accountType');
   const watchedFields = watch();
