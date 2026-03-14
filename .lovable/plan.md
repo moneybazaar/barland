@@ -1,39 +1,49 @@
 
 
-# Docker Container Deployment on `bonds.*` Subdomain
+## Five Changes
 
-The project currently deploys to GitHub Pages with a `/barland/` base path. Since it will live on a `bonds.` subdomain (e.g., `bonds.yourdomain.com`) inside a Docker container, the base path should be `/` (root) and we need a Dockerfile + nginx config for serving the SPA.
+### 1. Add Date/Time Picker to Contact Form (LeadFormSection)
 
-## Changes
+Add a "Preferred Contact Date" and "Preferred Contact Time" field to the lead form in `FeaturedBondsSection.tsx` (the active contact form). Will use the Shadcn date picker (Popover + Calendar) for date, and a Select dropdown for time slots.
 
-### 1. Fix Vite base path
-Change production `base` from `"/barland/"` to `"/"` since the app will be at the root of the `bonds.*` subdomain.
+**File: `src/components/landing/FeaturedBondsSection.tsx`**
+- Add `date` (optional Date) and `preferredTime` (optional string) to the form schema
+- Add a date picker field using Popover + Calendar after the phone field
+- Add a time select dropdown (Morning, Afternoon, Evening slots)
+- Import Calendar, Popover, Select components
 
-### 2. Create `Dockerfile`
-Multi-stage build:
-- **Stage 1 (build)**: Node 20, `npm ci`, `npm run build`
-- **Stage 2 (serve)**: Nginx Alpine, copy `dist/` into nginx, use custom config for SPA routing
+### 2. Replace All FDIC Logos with SVG + Add Motto
 
-### 3. Create `nginx.conf`
-- Serve static files from `/usr/share/nginx/html`
-- `try_files $uri $uri/ /index.html` for SPA client-side routing
-- Gzip compression enabled
-- Cache headers for static assets
-- Listen on port 80
+Currently using `fdic-logo.png` in FeaturedBondsSection and LeadFormSection. Change all instances to use the SVG version (`/fdic-logo.svg` or the src/assets version) and add the FDIC motto text "Each depositor insured to at least $250,000" alongside the logo.
 
-### 4. Create `.dockerignore`
-Exclude `node_modules`, `.git`, `dist`, etc. to keep build context small.
+**Files to change:**
+- `src/components/landing/FeaturedBondsSection.tsx` -- 3 FDIC logo instances (bond cards, form info box, banner): switch from PNG import to SVG, add motto text
+- `src/components/landing/LeadFormSection.tsx` -- 1 FDIC logo instance: switch to SVG, add motto
+- `src/components/landing/Footer.tsx` -- already uses SVG, just add motto text
 
-### 5. Update `.github/workflows/deploy.yml`
-Replace GitHub Pages deployment with Docker image build and push (to your container registry). Alternatively, keep it as-is if you build Docker images separately — I'll add a new workflow for Docker builds.
+### 3. Remove Second Hero Paragraph
 
-## File summary
+**File: `src/components/landing/HeroSection.tsx`**
+- Delete lines 42-49 (the "Successfully navigating..." paragraph)
 
-| File | Action |
-|------|--------|
-| `vite.config.ts` | Change base to `"/"` |
-| `Dockerfile` | Create (multi-stage Node + Nginx) |
-| `nginx.conf` | Create (SPA routing config) |
-| `.dockerignore` | Create |
-| `.github/workflows/deploy.yml` | Update or replace with Docker build workflow |
+### 4. Move Buy-Back Paragraph Below Bond Cards
+
+Currently the buy-back scheme description paragraph sits above the bond cards grid in FeaturedBondsSection. Move it to after the bond cards grid and reduce font size.
+
+**File: `src/components/landing/FeaturedBondsSection.tsx`**
+- Remove the paragraph from the section header (line 155-157)
+
+### 5. Hero Redesign: Full-Width Image + Modern Glassmorphic Form
+
+Revert the split-layout hero to a full-width hero image background with a floating glassmorphic lead capture form. Based on 2026 form design best practices:
+
+**File: `src/components/landing/HeroSection.tsx`**
+- Full-width hero image as background with gradient overlay (dark-to-transparent, left-to-right)
+- 12-column grid: 7-col content left, 5-col floating form right
+- Form card: glassmorphism (backdrop-blur-xl, bg-background/95), glow effect behind card, navy header bar
+- Inputs: tinted bg-muted/50 backgrounds with focus transitions, uppercase tracking labels
+- CTA: full-width, large (h-12), with arrow icon and hover animation
+- Trust signals: 3 checkmark benefits below CTA (no-obligation, 24hr response, dedicated specialist)
+- Removed old split-layout CSS dependency (hero-split, hero-content classes)
+- Add it back after the bond cards grid (after line 238), with `text-sm` instead of `text-lg`
 
