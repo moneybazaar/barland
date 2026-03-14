@@ -146,6 +146,9 @@ const AdminDashboard = () => {
           ))}
         </div>
 
+        {/* Invite Client Section */}
+        {user && <InviteClientSection adminUserId={user.id} />}
+
         {/* Filters Bar */}
         <div className="bg-card rounded-xl border border-border p-4 mb-6 flex flex-wrap items-center gap-3">
           <div className="relative flex-1 min-w-[200px]">

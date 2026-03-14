@@ -1,11 +1,11 @@
-import { useState, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { motion } from 'framer-motion';
-import { ArrowLeft, CheckCircle, Rocket, Loader2, CalendarIcon, Shield, Clock, Lock } from 'lucide-react';
+import { ArrowLeft, CheckCircle, Rocket, Loader2, CalendarIcon, Shield, Clock, Lock, ShieldAlert } from 'lucide-react';
 import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import RegistrationHeader from '@/components/registration/RegistrationHeader';
