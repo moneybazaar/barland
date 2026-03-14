@@ -1,49 +1,56 @@
 
 
-## Five Changes
+# Invite Link System for Admin Portal
 
-### 1. Add Date/Time Picker to Contact Form (LeadFormSection)
+## Overview
 
-Add a "Preferred Contact Date" and "Preferred Contact Time" field to the lead form in `FeaturedBondsSection.tsx` (the active contact form). Will use the Shadcn date picker (Popover + Calendar) for date, and a Select dropdown for time slots.
+Add an invite system where the admin can enter a client's email in the dashboard, generating a unique registration link with a randomized token. The token tracks who was invited and whether they signed up.
 
-**File: `src/components/landing/FeaturedBondsSection.tsx`**
-- Add `date` (optional Date) and `preferredTime` (optional string) to the form schema
-- Add a date picker field using Popover + Calendar after the phone field
-- Add a time select dropdown (Morning, Afternoon, Evening slots)
-- Import Calendar, Popover, Select components
+## Database
 
-### 2. Replace All FDIC Logos with SVG + Add Motto
+**New table: `invite_tokens`**
 
-Currently using `fdic-logo.png` in FeaturedBondsSection and LeadFormSection. Change all instances to use the SVG version (`/fdic-logo.svg` or the src/assets version) and add the FDIC motto text "Each depositor insured to at least $250,000" alongside the logo.
+| Column | Type | Notes |
+|--------|------|-------|
+| id | uuid | PK |
+| email | text | Invited email |
+| token | text | Random 32-char hex, unique |
+| created_at | timestamptz | Default now() |
+| expires_at | timestamptz | Default now() + 7 days |
+| used_at | timestamptz | Nullable, set on registration |
+| invited_by | uuid | Admin user ID |
 
-**Files to change:**
-- `src/components/landing/FeaturedBondsSection.tsx` -- 3 FDIC logo instances (bond cards, form info box, banner): switch from PNG import to SVG, add motto text
-- `src/components/landing/LeadFormSection.tsx` -- 1 FDIC logo instance: switch to SVG, add motto
-- `src/components/landing/Footer.tsx` -- already uses SVG, just add motto text
+RLS: Admins can SELECT/INSERT/UPDATE. Anon can SELECT (to validate token on registration page).
 
-### 3. Remove Second Hero Paragraph
+## Admin Dashboard Changes (`AdminDashboard.tsx`)
 
-**File: `src/components/landing/HeroSection.tsx`**
-- Delete lines 42-49 (the "Successfully navigating..." paragraph)
+Add an "Invite Client" section above the leads table:
+- Email input + "Send Invite Link" button
+- On submit: insert row into `invite_tokens` with a `crypto.randomUUID()`-based token
+- Display the generated link (e.g., `https://bonds.domain.com/register-interest?ref=<token>`) in a copyable field
+- Show a small table of recent invites with status (pending/used/expired)
 
-### 4. Move Buy-Back Paragraph Below Bond Cards
+## Registration Page Changes (`RegisterInterest.tsx`)
 
-Currently the buy-back scheme description paragraph sits above the bond cards grid in FeaturedBondsSection. Move it to after the bond cards grid and reduce font size.
+- Read `ref` query param from URL
+- On page load, validate token against `invite_tokens` (exists, not expired, not used)
+- If invalid/missing token: show access denied or redirect
+- Pre-fill the email field from the invite record (read-only)
+- On successful registration: update `invite_tokens` set `used_at = now()`
 
-**File: `src/components/landing/FeaturedBondsSection.tsx`**
-- Remove the paragraph from the section header (line 155-157)
+## File Summary
 
-### 5. Hero Redesign: Full-Width Image + Modern Glassmorphic Form
+| File | Action |
+|------|--------|
+| Migration SQL | Create `invite_tokens` table + RLS policies |
+| `src/pages/AdminDashboard.tsx` | Add invite section with email input and link generator |
+| `src/pages/RegisterInterest.tsx` | Read `ref` param, validate token, pre-fill email, mark used on submit |
 
-Revert the split-layout hero to a full-width hero image background with a floating glassmorphic lead capture form. Based on 2026 form design best practices:
+## Security
 
-**File: `src/components/landing/HeroSection.tsx`**
-- Full-width hero image as background with gradient overlay (dark-to-transparent, left-to-right)
-- 12-column grid: 7-col content left, 5-col floating form right
-- Form card: glassmorphism (backdrop-blur-xl, bg-background/95), glow effect behind card, navy header bar
-- Inputs: tinted bg-muted/50 backgrounds with focus transitions, uppercase tracking labels
-- CTA: full-width, large (h-12), with arrow icon and hover animation
-- Trust signals: 3 checkmark benefits below CTA (no-obligation, 24hr response, dedicated specialist)
-- Removed old split-layout CSS dependency (hero-split, hero-content classes)
-- Add it back after the bond cards grid (after line 238), with `text-sm` instead of `text-lg`
+- Tokens are 32-byte random hex (cryptographically strong)
+- 7-day expiry prevents stale links
+- Each token is single-use (marked on registration)
+- Only admin can create tokens (RLS + `has_role` check)
+- Registration is gated behind a valid invite token
 
