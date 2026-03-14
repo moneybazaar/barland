@@ -480,6 +480,14 @@ const RegisterInterest = () => {
         return;
       }
 
+      // Mark invite token as used
+      if (inviteToken) {
+        await supabase
+          .from('invite_tokens')
+          .update({ used_at: new Date().toISOString() })
+          .eq('token', inviteToken);
+      }
+
       // Clear localStorage draft
       localStorage.removeItem('registration-draft');
 
