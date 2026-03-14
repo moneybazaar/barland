@@ -821,7 +821,7 @@ const RegisterInterest = () => {
                 </div>
                 <div className="form-field">
                   <label className="form-label">Email Address <span className="text-destructive">*</span></label>
-                  <input type="email" {...register('email')} className="form-input" placeholder="john.smith@example.com" />
+                  <input type="email" {...register('email')} className={cn('form-input', inviteEmail && 'bg-muted cursor-not-allowed')} placeholder="john.smith@example.com" readOnly={!!inviteEmail} />
                   {errors.email && <p className="form-error">{errors.email.message}</p>}
                 </div>
               </div>
