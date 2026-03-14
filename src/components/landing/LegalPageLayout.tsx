@@ -68,10 +68,10 @@ const LegalPageLayout = ({ title, description, children }: LegalPageLayoutProps)
             <ArrowLeft className="w-4 h-4" />
             Back to Home
           </Link>
-          <h1 className="text-3xl md:text-4xl font-bold text-secondary dark:text-foreground mb-8">
+          <h1 className="text-3xl md:text-4xl font-bold text-secondary mb-8">
             {title}
           </h1>
-          <div className="prose prose-sm max-w-none text-muted-foreground dark:text-foreground/80 space-y-6">
+          <div className="prose prose-sm max-w-none text-muted-foreground space-y-6">
             {children}
           </div>
         </div>
