@@ -509,6 +509,54 @@ const RegisterInterest = () => {
     }
   };
 
+  // Loading state while validating token
+  if (tokenValid === null) {
+    return (
+      <div className="min-h-screen flex flex-col bg-background">
+        <RegistrationHeader />
+        <main className="flex-1 flex items-center justify-center">
+          <div className="flex flex-col items-center gap-3">
+            <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+            <p className="text-muted-foreground text-sm">Validating your invitation...</p>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  // Access denied
+  if (!tokenValid) {
+    return (
+      <div className="min-h-screen flex flex-col bg-background">
+        <RegistrationHeader />
+        <main className="flex-1 flex items-center justify-center px-4 pt-40 pb-16">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-center max-w-md"
+          >
+            <div className="w-20 h-20 bg-destructive/10 rounded-full flex items-center justify-center mx-auto mb-6">
+              <ShieldAlert className="w-10 h-10 text-destructive" />
+            </div>
+            <h1 className="text-3xl font-bold text-secondary dark:text-foreground mb-4">Access Restricted</h1>
+            <p className="text-muted-foreground mb-8">
+              This registration page requires a valid invitation link. If you believe this is an error, please contact your relationship manager.
+            </p>
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 text-primary hover:underline font-medium"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Return to Home
+            </Link>
+          </motion.div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   if (isSubmitted) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
