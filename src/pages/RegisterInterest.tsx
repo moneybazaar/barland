@@ -246,8 +246,46 @@ const RiskCard = ({
 
 const RegisterInterest = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [searchParams] = useSearchParams();
+  const [tokenValid, setTokenValid] = useState<boolean | null>(null);
+  const [inviteEmail, setInviteEmail] = useState<string>('');
+  const [inviteToken, setInviteToken] = useState<string>('');
   const { toast } = useToast();
   const navigate = useNavigate();
+
+  // Validate invite token on mount
+  useEffect(() => {
+    const ref = searchParams.get('ref');
+    if (!ref) {
+      setTokenValid(false);
+      return;
+    }
+    setInviteToken(ref);
+
+    const validateToken = async () => {
+      const { data, error } = await supabase
+        .from('invite_tokens')
+        .select('*')
+        .eq('token', ref)
+        .is('used_at', null)
+        .single();
+
+      if (error || !data) {
+        setTokenValid(false);
+        return;
+      }
+
+      if (new Date(data.expires_at) < new Date()) {
+        setTokenValid(false);
+        return;
+      }
+
+      setInviteEmail(data.email);
+      setTokenValid(true);
+    };
+
+    validateToken();
+  }, [searchParams]);
 
   const {
     register,
