@@ -12,6 +12,7 @@ import { LogOut, Users, CalendarDays, TrendingUp, Search, Download, ChevronDown,
 import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import barclaysLogo from '@/assets/barclays-logo-dark.svg';
+import InviteClientSection from '@/components/admin/InviteClientSection';
 
 const statusConfig: Record<string, { label: string; dot: string; bg: string }> = {
   new: { label: 'New', dot: 'bg-blue-500', bg: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950 dark:text-blue-300 dark:border-blue-800' },
@@ -144,6 +145,9 @@ const AdminDashboard = () => {
             </div>
           ))}
         </div>
+
+        {/* Invite Client Section */}
+        {user && <InviteClientSection adminUserId={user.id} />}
 
         {/* Filters Bar */}
         <div className="bg-card rounded-xl border border-border p-4 mb-6 flex flex-wrap items-center gap-3">

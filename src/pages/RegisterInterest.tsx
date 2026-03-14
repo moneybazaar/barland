@@ -1,11 +1,11 @@
-import { useState, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { motion } from 'framer-motion';
-import { ArrowLeft, CheckCircle, Rocket, Loader2, CalendarIcon, Shield, Clock, Lock } from 'lucide-react';
+import { ArrowLeft, CheckCircle, Rocket, Loader2, CalendarIcon, Shield, Clock, Lock, ShieldAlert } from 'lucide-react';
 import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import RegistrationHeader from '@/components/registration/RegistrationHeader';
@@ -246,14 +246,53 @@ const RiskCard = ({
 
 const RegisterInterest = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [searchParams] = useSearchParams();
+  const [tokenValid, setTokenValid] = useState<boolean | null>(null);
+  const [inviteEmail, setInviteEmail] = useState<string>('');
+  const [inviteToken, setInviteToken] = useState<string>('');
   const { toast } = useToast();
   const navigate = useNavigate();
+
+  // Validate invite token on mount
+  useEffect(() => {
+    const ref = searchParams.get('ref');
+    if (!ref) {
+      setTokenValid(false);
+      return;
+    }
+    setInviteToken(ref);
+
+    const validateToken = async () => {
+      const { data, error } = await supabase
+        .from('invite_tokens')
+        .select('*')
+        .eq('token', ref)
+        .is('used_at', null)
+        .single();
+
+      if (error || !data) {
+        setTokenValid(false);
+        return;
+      }
+
+      if (new Date(data.expires_at) < new Date()) {
+        setTokenValid(false);
+        return;
+      }
+
+      setInviteEmail(data.email);
+      setTokenValid(true);
+    };
+
+    validateToken();
+  }, [searchParams]);
 
   const {
     register,
     handleSubmit,
     control,
     watch,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<ApplicationFormData>({
     resolver: zodResolver(applicationSchema),
@@ -302,6 +341,13 @@ const RegisterInterest = () => {
       termsAccepted: false,
     },
   });
+
+  // Pre-fill email from invite
+  useEffect(() => {
+    if (inviteEmail) {
+      setValue('email', inviteEmail);
+    }
+  }, [inviteEmail, setValue]);
 
   const accountType = watch('accountType');
   const watchedFields = watch();
@@ -434,6 +480,14 @@ const RegisterInterest = () => {
         return;
       }
 
+      // Mark invite token as used
+      if (inviteToken) {
+        await supabase
+          .from('invite_tokens')
+          .update({ used_at: new Date().toISOString() })
+          .eq('token', inviteToken);
+      }
+
       // Clear localStorage draft
       localStorage.removeItem('registration-draft');
 
@@ -454,6 +508,54 @@ const RegisterInterest = () => {
       });
     }
   };
+
+  // Loading state while validating token
+  if (tokenValid === null) {
+    return (
+      <div className="min-h-screen flex flex-col bg-background">
+        <RegistrationHeader />
+        <main className="flex-1 flex items-center justify-center">
+          <div className="flex flex-col items-center gap-3">
+            <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+            <p className="text-muted-foreground text-sm">Validating your invitation...</p>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  // Access denied
+  if (!tokenValid) {
+    return (
+      <div className="min-h-screen flex flex-col bg-background">
+        <RegistrationHeader />
+        <main className="flex-1 flex items-center justify-center px-4 pt-40 pb-16">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-center max-w-md"
+          >
+            <div className="w-20 h-20 bg-destructive/10 rounded-full flex items-center justify-center mx-auto mb-6">
+              <ShieldAlert className="w-10 h-10 text-destructive" />
+            </div>
+            <h1 className="text-3xl font-bold text-secondary dark:text-foreground mb-4">Access Restricted</h1>
+            <p className="text-muted-foreground mb-8">
+              This registration page requires a valid invitation link. If you believe this is an error, please contact your relationship manager.
+            </p>
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 text-primary hover:underline font-medium"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Return to Home
+            </Link>
+          </motion.div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   if (isSubmitted) {
     return (
@@ -719,7 +821,7 @@ const RegisterInterest = () => {
                 </div>
                 <div className="form-field">
                   <label className="form-label">Email Address <span className="text-destructive">*</span></label>
-                  <input type="email" {...register('email')} className="form-input" placeholder="john.smith@example.com" />
+                  <input type="email" {...register('email')} className={cn('form-input', inviteEmail && 'bg-muted cursor-not-allowed')} placeholder="john.smith@example.com" readOnly={!!inviteEmail} />
                   {errors.email && <p className="form-error">{errors.email.message}</p>}
                 </div>
               </div>
