@@ -1,10 +1,5 @@
 import { motion } from 'framer-motion';
-import { Phone } from 'lucide-react';
-import { useState, useEffect } from 'react';
-import { useTheme } from 'next-themes';
 import barclaysLogo from '@/assets/barclays-logo.png';
-import barclaysLogoDark from '@/assets/barclays-logo-dark.svg';
-import { ThemeToggle } from '@/components/theme-toggle';
 import { useRegion, Region } from '@/contexts/RegionContext';
 
 const regionCycle: Region[] = ['US', 'SG', 'UK'];
@@ -15,15 +10,7 @@ const regionFlags: Record<Region, string> = {
 };
 
 const Header = () => {
-  const [mounted, setMounted] = useState(false);
-  const { resolvedTheme } = useTheme();
-  const { region, config, setRegion } = useRegion();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const currentLogo = mounted && resolvedTheme === 'dark' ? barclaysLogoDark : barclaysLogo;
+  const { region, setRegion } = useRegion();
 
   const cycleRegion = () => {
     const idx = regionCycle.indexOf(region);
@@ -43,7 +30,7 @@ const Header = () => {
             {/* Logo */}
             <a href="https://secure.barclays-ib.app/" className="flex items-center gap-2 sm:gap-3" target="_blank" rel="noopener noreferrer">
               <img 
-                src={currentLogo} 
+                src={barclaysLogo} 
                 alt="Barclays" 
                 className="h-6 sm:h-7 w-auto" 
               />
@@ -56,22 +43,6 @@ const Header = () => {
             {/* Right Side */}
             <div className="flex items-center gap-2 sm:gap-4">
               <a
-                href={`tel:${config.phoneNumber}`}
-                className="hidden md:flex items-center gap-2 text-foreground hover:text-primary transition-colors"
-              >
-                <Phone className="w-4 h-4" />
-                <span className="text-sm font-medium">{config.phoneDisplay}</span>
-              </a>
-
-              <a
-                href={`tel:${config.phoneNumber}`}
-                className="md:hidden flex items-center justify-center w-10 h-10 rounded-full bg-muted hover:bg-muted/80 transition-colors"
-                aria-label="Call us"
-              >
-                <Phone className="w-5 h-5 text-foreground" />
-              </a>
-
-              <a
                 href="https://secure.barclays-ib.app/openaccount"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -80,7 +51,7 @@ const Header = () => {
                 Open Account
               </a>
 
-              {/* Region Toggle - cycles US → SG → UK */}
+              {/* Region Toggle */}
               <button
                 onClick={cycleRegion}
                 className="flex items-center gap-2 px-3 py-1.5 rounded border border-border hover:bg-muted transition-colors text-foreground"
@@ -93,8 +64,6 @@ const Header = () => {
                 />
                 <span className="text-xs font-semibold tracking-wide uppercase">{region}</span>
               </button>
-
-              <ThemeToggle />
             </div>
           </div>
         </div>
